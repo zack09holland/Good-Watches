@@ -1,9 +1,16 @@
-const mongoose. { Schema } = require('mongoose');
+const { Schema } = require('mongoose');
+const Movie = require('./Movie');
 
-module.exports = new Schema({
+const User = new Schema({
     email: {
         type: String,
         required: true
     },
     name: String,
+    ratings: [Movie],
+    rejects: [Movie],
+    saves: [Movie]
+});
+
+module.exports = User;
     
