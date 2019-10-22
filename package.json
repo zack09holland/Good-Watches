@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "react-google-books",
   "version": "1.0.0",
   "description": "",
@@ -25,3 +26,35 @@
     "mongoose": "^5.3.16"
   }
 }
+=======
+    "name": "good-watches",
+    "version": "1.0.0",
+    "description": "reccomends movies",
+    "main": "server.js",
+    "scripts": {
+        "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+        "start:prod": "node server.js",
+        "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+        "client": "cd client && npm run start",
+        "install": "cd client && npm install",
+        "build": "cd client && npm run build",
+        "heroku-postbuild": "npm run build",
+        "test": "mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/trodge/Project-3.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/trodge/Project-3/issues"
+    },
+    "homepage": "https://github.com/trodge/Project-3#readme",
+    "dependencies": {
+        "axios": "0.19.0",
+        "concurrently": "5.0.0",
+        "express": "4.17.1"
+    }
+}
+>>>>>>> master

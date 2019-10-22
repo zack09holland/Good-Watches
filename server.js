@@ -1,31 +1,29 @@
-const express = require("express");
+const path = require('path');
+const express = require('express');
 
-const mongoose = require("mongoose");
-const routes = require("./routes");
+const { api } = require('./routes');
+
+const mongoose = require('mongoose');
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/googlebooks';
+
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+
+mongoose.connect(MONGODB_URI, (err) => {
+    if (err) throw err;
+});
+
 const app = express();
-const PORT = process.env.PORT || 3001;
 
-// Configure body parsing for AJAX requests
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-// Serve up static assets
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
+app.use('/api', api);
 
-// Add routes, both API and view
-app.use(routes);
+app.get('*', (req, res) => {
+    console.log(req.path);
+    res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
 
-// Connect to the Mongo DB
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://user1:password1@ds125871.mlab.com:25871/heroku_0xn0jnk7",
-  {
-    useCreateIndex: true,
-    useNewUrlParser: true
-  }
-);
+const PORT = process.env.PORT || 8080;
 
-// Start the API server
-app.listen(PORT, () =>
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`)
-);
+app.listen(PORT, () => console.log('Listening on ' + PORT));
