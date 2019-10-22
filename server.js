@@ -3,6 +3,18 @@ const express = require('express');
 
 const { api } = require('./routes');
 
+const mongoose = require('mongoose');
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/googlebooks';
+
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+
+mongoose.connect(MONGODB_URI, (err) => {
+    if (err) throw err;
+});
+
 const app = express();
 
 app.use('/api', api);
