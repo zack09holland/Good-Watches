@@ -9,9 +9,9 @@ const Movie = new Schema({
         type: Number,
         required: true
     },
-    rating: Number
+    serial: Boolean
 });
 
 Movie.index({title: 1, year: 1}, { unique: true});
 
-module.exports = model('User', User);
+module.exports = model('Movie', Movie);
