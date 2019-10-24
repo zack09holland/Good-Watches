@@ -1,27 +1,52 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, Movie } = require('../models');
 const { Types } = require('mongoose');
 
-router.get('/users/:id?', (req, res) => {
+// Get all users or a specific user by id.
+router.get('users', (req, res) => {
     console.log(req.path);
-    const id = req.params.id;
-    const promise = id ? User.findOne({ _id: Types.ObjectId(id) }) : User.find();
+    const id = req.body.id;
+    const promise = id ? User.findById(id) : User.find();
     promise.then(results => res.send(results)).catch(err => res.send(err));
 });
 
-router.delete('/user/:id', (req, res) => {
-    const id = req.params.id;
-    User.remove({ _id: Types.ObjectId(id) }).then(result => res.send(result)).catch(err => res.send(err));
+// Delete a user by id.
+router.delete('users', (req, res) => {
+    const id = req.body.id;
+    User.findByIdAndDelete(id).then(result => res.send(result)).catch(err => res.send(err));
 });
 
-router.post('/users', (req, res) => {
+// Create a new user.
+router.post('users', (req, res) => {
     User.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
 });
 
-router.post('/users/:id/:movie/:rating', (req, res) => {
+// Get all movies or a specific movie by id.
+router.get('movies', (req, res) => {
+    console.log(req.path);
+    const id = req.body.id;
+    const promise = id ? Movie.findById(id) : Movie.find();
+    promise.then(results => res.send(results)).catch(err => res.send(err));
+});
+
+// Delete a movie by id.
+router.delete('movies', (req, res) => {
+    const id = req.body.id;
+    movie.findByIdAndDelete(id).then(result => res.send(result)).catch(err => res.send(err));
+});
+
+// Create a new movie.
+router.post('movies', (req, res) => {
+    movie.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
+});
+
+// Add a rating to a user.
+router.put('rating', (req, res) => {
+    const id = req.body.id;
     User.updateOne({ _id: Types.ObjectId(id) }).then(user => {
-        user.ratings.push(
-    });
+        user.set(req.body.movie, req.body.rating);
+        res.sendStatus(200);
+    }).catch(err => res.send(err));
 });
 
 module.exports = router;

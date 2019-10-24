@@ -6,12 +6,12 @@ const User = new Schema({
         required: true
     },
     name: String,
-    ratings: [{
-        rating: Number,
-        movie: Schema.Types.ObjectId
-    }],
-    rejects: [Schema.Types.ObjectId],
-    saves: [Schema.Types.ObjectId]
+    ratings: {
+        type: Map,
+        of: Number
+    }, // keys are movie ids as strings
+    rejects: [Schema.Types.ObjectId], // movies the user does not want to see
+    saves: [Schema.Types.ObjectId] // movies the user wants to see
 });
 
 module.exports = model('User', User);

@@ -4,7 +4,7 @@ const express = require('express');
 const { api } = require('./routes');
 
 const mongoose = require('mongoose');
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/googlebooks';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/watches';
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -27,3 +27,5 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => console.log('Listening on ' + PORT));
+
+module.exports = app;
