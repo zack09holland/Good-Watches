@@ -1,5 +1,13 @@
 import axios from "axios";
 
+const BASEURL = "https://api.themoviedb.org/3/discover/movie?api_key="
+// "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
+const APIKEY = "d9761b9f704ad5a0f60b04f11dbf4503";
+
+
+
+
+
 export default {
   // Gets books from the Google API
   getBooks: function(q) {

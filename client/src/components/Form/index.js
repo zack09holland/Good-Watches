@@ -5,27 +5,27 @@ function Form({ q, handleInputChange, handleFormSubmit }) {
     <form>
       <div className="form-group">
         <label htmlFor="Query">
-          <strong>Book</strong>
+          {/* <strong>Movie</strong> */}
         </label>
         <input
           className="form-control"
           id="Title"
           type="text"
           value={q}
-          placeholder="Ready Player One"
+          placeholder="Search for movies and TV Shows"
           name="q"
           onChange={handleInputChange}
           required
         />
       </div>
       <div className="pull-right">
-        <button
+        {/* <button
           onClick={handleFormSubmit}
           type="submit"
           className="btn btn-lg btn-danger float-right"
         >
           Search
-        </button>
+        </button> */}
       </div>
     </form>
   );
