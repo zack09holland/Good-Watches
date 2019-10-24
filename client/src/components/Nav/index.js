@@ -32,10 +32,18 @@ class Nav extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <Link className="navbar-brand" to="/">
-          GoodWatches
+      
         </Link>
+
+        <img
+          src="https://fontmeme.com/permalink/191022/ea8e263e233874ad20ea13d3e7c074d0.png"
+          width="160"
+          height="60"
+          className="d-inline-block align-top"
+          alt="React Bootstrap logo"
+        />
         <button
           onClick={this.toggleNav}
           className="navbar-toggler"
@@ -61,8 +69,8 @@ class Nav extends Component {
             <li className="nav-item">
               <Link
                 onClick={this.toggleNav}
-                className={window.location.pathname === "/saved" ? "nav-link active" : "nav-link"}
-                to="/saved"
+                className={window.location.pathname === "/movieslist" ? "nav-link active" : "nav-link"}
+                to="/movieslist"
               >
                 Movies
               </Link>
@@ -70,8 +78,8 @@ class Nav extends Component {
             <li className="nav-item">
               <Link
                 onClick={this.toggleNav}
-                className={window.location.pathname === "/saved" ? "nav-link active" : "nav-link"}
-                to="/saved"
+                className={window.location.pathname === "/tvsearch" ? "nav-link active" : "nav-link"}
+                to="/tvsearch"
               >
                 TV Shows
               </Link>
