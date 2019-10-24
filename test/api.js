@@ -6,12 +6,11 @@ const { User, Movie } = require('../models');
 
 //Require the dev-dependencies
 const chai = require('chai');
-const chaiHttp = require('chai-http');
+const { expect } = chai;
 const server = require('../server');
-const should = chai.should();
 
+chai.use(require('chai-http'));
 
-chai.use(chaiHttp);
 describe('API', () => {
     before(() => {
         const MONGODB_URI = 'mongodb://localhost/test';
@@ -27,15 +26,13 @@ describe('API', () => {
       * Test the /GET route
       */
     describe('/GET user', () => {
-        it('it should GET all the users', (done) => {
+        it('should GET all the users', () =>
             chai.request(server)
                 .get('/api/users')
-                .end((err, res) => {
-                    res.body.should.be.a('array');
-                    res.body.length.should.be.eql(0);
-                    done();
-                });
-        });
+                .then(res => {
+                    expect(res.body).to.be.an('array');
+                })
+        );
     });
 
 });
