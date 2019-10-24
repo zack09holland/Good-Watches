@@ -8,7 +8,8 @@ const Movie = new Schema({
     year: {
         type: Number,
         required: true
-    }
+    },
+    serial: Boolean
 });
 
 Movie.index({title: 1, year: 1}, { unique: true});
