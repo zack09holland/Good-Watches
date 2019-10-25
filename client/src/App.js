@@ -5,23 +5,25 @@ import Saved from "./pages/Saved";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import MoviesList from "./pages/MoviesList";
-import TVSearch from "./pages/TVSearch";
+import TopRated from "./pages/TopRated";
+
 
 
 function App() {
-  return (
-    <Router>
-      <div>
-        <Nav />
-        <Switch> 
-          <Route exact path="/" component={Home} />
-          <Route exact path="/saved" component={Saved} />
-          <Route exact path="/movieslist" component={MoviesList} />
-          <Route exact path="/tvsearch" component={TVSearch} />
-          <Route component={NoMatch} />
-        </Switch>
-      </div>
-    </Router>
+  return (      
+        <Router>
+          <div>
+            <Nav />
+            <Switch> 
+              <Route exact path="/" component={Home} />
+              <Route exact path="/saved" component={Saved} />
+              <Route exact path="/movieslist" component={MoviesList} />
+              <Route exact path="/topratedmovies" component={TopRated} />
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
+        </Router>
+    
   );
 }
 

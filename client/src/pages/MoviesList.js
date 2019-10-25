@@ -3,26 +3,14 @@ import Form from "../components/Form";
 
 import { search } from "../utils/utils.js";
 import Movies from "../components/Movies/Movies";
-import Modal from "../components/Modal/Modal"
+
 class MoviesList extends Component {
   state = {
     movies: null,
     loading: false,
     value: "",
-    show: false
   };
 
- showModal = e => {
-    this.setState({
-      show: !this.state.show
-    });
-  };
-  onClose = e => {
-    this.setState({
-        show: false
-      });
-  };
-  
   search = async val => {
     this.setState({ loading: true });
     const results = await search(
@@ -56,16 +44,6 @@ class MoviesList extends Component {
             q={this.state.value}
         />
         {this.renderMovies}
-        
-        <h1>React Modal</h1>
-        <Modal onClose={this.showModal} show={this.state.show}>
-          This should work
-        </Modal>
-        
-        <button  onClick={e => {
-              this.showModal();
-         }}
-          > show Modal </button>
       </div>
     );
   }

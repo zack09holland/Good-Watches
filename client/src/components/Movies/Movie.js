@@ -14,7 +14,9 @@ const MovieCard = props => {
           poster_path && `url(http://image.tmdb.org/t/p/w185${poster_path})`
       }}
       
-      >
+      onClick={e => {
+        this.showModal();
+   }}>
       <div className={classes.VoteContainer}>
         <span className={classes.Vote}>{vote_average}</span>
       </div>

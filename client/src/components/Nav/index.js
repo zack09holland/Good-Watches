@@ -1,13 +1,27 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
-
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 class Nav extends Component {
+  
   state = {
     open: false,
     width: window.innerWidth
   };
+  constructor(props) {
+    super(props);
 
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false
+    };
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
   updateWidth = () => {
     const newState = { width: window.innerWidth };
 
@@ -32,11 +46,8 @@ class Nav extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-nav">
         <Link className="navbar-brand" to="/">
-      
-        </Link>
-
         <img
           src="https://fontmeme.com/permalink/191022/ea8e263e233874ad20ea13d3e7c074d0.png"
           width="160"
@@ -44,6 +55,9 @@ class Nav extends Component {
           className="d-inline-block align-top"
           alt="React Bootstrap logo"
         />
+        </Link>
+
+       
         <button
           onClick={this.toggleNav}
           className="navbar-toggler"
@@ -56,7 +70,7 @@ class Nav extends Component {
           <span className="navbar-toggler-icon" />
         </button>
         <div className={`${this.state.open ? "" : "collapse "}navbar-collapse`} id="navbarNav">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav ">
             <li className="nav-item">
               <Link
                 onClick={this.toggleNav}
@@ -66,24 +80,17 @@ class Nav extends Component {
                 Search
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                onClick={this.toggleNav}
-                className={window.location.pathname === "/movieslist" ? "nav-link active" : "nav-link"}
-                to="/movieslist"
-              >
+            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+              <DropdownToggle className={window.location.pathname === "/movieslist" ? "nav-link darkNav" : "nav-link darkNav"} caret>
                 Movies
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                onClick={this.toggleNav}
-                className={window.location.pathname === "/tvsearch" ? "nav-link active" : "nav-link"}
-                to="/tvsearch"
-              >
-                TV Shows
-              </Link>
-            </li>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem href="/topratedmovies" >Top Rated Movies</DropdownItem>
+                <DropdownItem disabled>Upcoming</DropdownItem>
+                <DropdownItem disabled>Now Playing</DropdownItem>
+                <DropdownItem disabled>Popular</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
             <li className="nav-item">
               <Link
                 onClick={this.toggleNav}
