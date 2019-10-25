@@ -10,6 +10,7 @@ const User = new Schema({
         type: String,
         required: true
     },
+    token: String,
     name: String,
     ratings: [{
         movie: MovieRef,
