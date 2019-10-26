@@ -75,10 +75,11 @@ router.put('/users', (req, res) => {
 router.get('/unseen', (req, res) => {
     if (!req.body) res.sendStatus(400);
     const { id, movies } = req.body;
+    movies = movies.map(movie => Types.ObjectId(movie));
     User.findById(Types.ObjectId(id)).then(user => {
         res.send(movies.filter(movie => {
             for (let item of ['ratings', 'rejects', 'saves'])
-                if (user[item].find(Types.ObjectId(movie)))
+                if (user[item].find(e => e === movie))
                     return false;
             return true;
         }));
