@@ -27,7 +27,8 @@
         "axios": "0.19.0",
         "bloodhound": "^1.0.0",
         "concurrently": "5.0.0",
-        "express": "4.17.1"
+        "express": "4.17.1",
+        "if-env": "^1.0.4"
     },
     "devDependencies": {
         "chai": "^3.5.0",
