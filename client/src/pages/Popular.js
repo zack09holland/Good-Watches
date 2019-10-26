@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import Form from "../components/Form";
-
-import { search } from "../utils/utils.js";
-import Movies from "../components/Movies/Movies";
 import { Jumbotron } from "react-bootstrap";
 import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'

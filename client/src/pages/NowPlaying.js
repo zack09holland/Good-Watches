@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Jumbotron } from "react-bootstrap";
 import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { Col, Row, Container } from "../components/Grid";
+import { Container } from "../components/Grid";
 
 class NowPlaying extends Component {
   state = {

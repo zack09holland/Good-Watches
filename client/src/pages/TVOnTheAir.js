@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Jumbotron } from "react-bootstrap";
-import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
+import MovieBrowser from '../components/TV/tv-browser/tv-browser.container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { Col, Row, Container } from "../components/Grid";
+import {Container } from "../components/Grid";
 
-class TopRated extends Component {
+class TVOnTheAir extends Component {
   state = {
     movies: null,
     loading: false,
@@ -17,8 +17,8 @@ class TopRated extends Component {
       <MuiThemeProvider>
         <Jumbotron>
           <Container>
-            <h1 className="text-center" id="title">Top Rated Movies</h1>
-            <p className="text-center" id="titleContext">Current top rated movies on TMDB</p>
+            <h1 className="text-center" id="title">TV Shows On the Air</h1>
+            <p className="text-center" id="titleContext">Current TV Shows you can watch on your TV right now!</p>
           </Container>
           </Jumbotron>
         <MovieBrowser location={this.props.location.pathname} />
@@ -27,4 +27,4 @@ class TopRated extends Component {
   }
 }
 
-export default TopRated;
+export default TVOnTheAir;

@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import { createReducer, createAsyncReducer } from '../common/redux.helpers';
-import { keys as movieActionKeys } from './movie-browser.actions';
-import movieModalReducer from './movie-modal/movie-modal.reducer';
+import { keys as movieActionKeys } from './tv-browser.actions';
+import movieModalReducer from './tv-modal/tv-modal.reducer';
 
 // This will create a new state with both the existing 
 // movies and new pages of movies

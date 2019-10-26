@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import Form from "../components/Form";
+import React, {Component} from "react";
 
 import { search } from "../utils/utils.js";
 import Movies from "../components/Movies/Movies";

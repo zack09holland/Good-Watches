@@ -1,5 +1,5 @@
 import {createAsyncActionCreator} from '../common/redux.helpers';
-import * as movieService from './movie-browser.service';
+import * as movieService from './tv-browser.service';
 
 export const keys = {
   'GET_TOP_MOVIES': 'GET_TOP_MOVIES',
@@ -45,11 +45,11 @@ export const getNowPlaying = (page) => createAsyncActionCreator(
   {page}
 );
 
-export const getRecommendations = (movieId) => createAsyncActionCreator(
-  keys.GET_MOVIE_DETAILS,
-  movieService.getMovieDetails, 
-  {movieId}
-);
+// export const getRecommendations = (movieId) => createAsyncActionCreator(
+//   keys.GET_MOVIE_DETAILS,
+//   movieService.getMovieDetails, 
+//   {movieId}
+// );
 
 export const searchMovies = (query, page) => createAsyncActionCreator(
   keys.SEARCH_MOVIES,
