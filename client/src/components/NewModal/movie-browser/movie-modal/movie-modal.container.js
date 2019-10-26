@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import { Dialog } from 'material-ui';
 import _ from 'lodash';
 import { closeMovieModal } from './movie-modal.actions';
-import { getMovieDetails } from '../movie-browser.actions';
+import { getMovieDetails, getMovieCredits } from '../movie-browser.actions';
 import * as movieHelpers from '../movie-browser.helpers';
 import Loader from '../../common/loader.component';
 import {Row, Col} from 'react-bootstrap';
@@ -11,12 +11,13 @@ import {Row, Col} from 'react-bootstrap';
 const styles = {
   // Can use functions to dynamically build our CSS
   dialogContent: (backgroundUrl) => ({
-    // backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${backgroundUrl})`,
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${backgroundUrl})`,
+    // backgroundPosition: 'fit',
     backgroundRepeat: 'no-repeat',
     backgroundSize: '100%',
     height: '100%',
-    minHeight: 400,
-    color: 'black',
+    minHeight: 100,
+    color: 'white',
     padding: 10
   })
 }
@@ -27,6 +28,7 @@ class MovieModalContainer extends React.Component {
     // If we will receive a new movieId
     if (nextProps.movieId && this.props.movieId !== nextProps.movieId) {
       nextProps.getMovieDetails(nextProps.movieId);
+      nextProps.getMovieCredits(nextProps.movieId);
     }
   }
 
@@ -34,8 +36,9 @@ class MovieModalContainer extends React.Component {
     const {isOpen, closeMovieModal, isLoading} = this.props;
     const loadingStatus = isLoading ? 'loading' : 'hide';
     const movie = movieHelpers.updateMoviePictureUrls(this.props.movie);
+    const movieCredits = movieHelpers.updateMoviePictureUrls(this.props.movieCredits);
     const genres = (movie && movie.genres) ? movie.genres.map(genre => genre.name).join(', ') : '';
-
+    console.log(movieCredits)
     return (
       <Dialog
         autoScrollBodyContent={true}
@@ -47,20 +50,24 @@ class MovieModalContainer extends React.Component {
         <button className="close" onClick={closeMovieModal}>X</button>
         <Loader isLoading={isLoading}>
         
-        <Row>
-        <Col lg={6}>
-          <div style={styles.dialogContent(movie.backdrop_path)}>
-            <h1>{movie.title}</h1>
-            <h5>{genres}</h5>
-            <p>{movie.overview}</p>
-            <p>Popularity: {movie.popularity}</p>
-            <p>Budget: ${movie.budget}</p>
-          </div>
-          </Col>
+        <div style={styles.dialogContent(movie.backdrop_path)}>
+          <Row>
           <Col lg={6}>
+            <div >
+              <h1>{movie.title}</h1>
+              <h5>{genres}</h5>
+              <p>{movie.overview}</p>
+              <p>Popularity: {movie.popularity}</p>
+              <p>Budget: ${movie.budget}</p>
+              {/* <p>{movieCredits.cast[0].character}</p> */}
+            </div>
+            </Col>
+            <Col lg={6}>
             <img  src={movie.poster_path} alt={movie.title} />
-          </Col>
-          </Row>
+            {/* <img  src={movieCredits.profile_path} alt={movieCredits.name} /> */}
+            </Col>
+            </Row>
+        </div>
           
         </Loader>
     </Dialog>
@@ -77,8 +84,9 @@ export default connect(
     isOpen: _.get(state, 'movieBrowser.movieModal.isOpen', false),
     movieId: _.get(state, 'movieBrowser.movieModal.movieId'),
     movie: _.get(state, 'movieBrowser.movieDetails.response', {}),
+    movieCredits: _.get(state, 'movieBrowser.movieCredits.response', {}),
     isLoading: _.get(state, 'movieBrowser.movieDetails.isLoading', false),
   }),
   // Map an action to a prop, ready to be dispatched
-  { closeMovieModal, getMovieDetails }
+  { closeMovieModal, getMovieDetails, getMovieCredits }
 )(MovieModalContainer);

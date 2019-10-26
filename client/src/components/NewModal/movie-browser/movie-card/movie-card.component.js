@@ -7,7 +7,8 @@ import classes from "../../../Movies/Movie.module.css";
 // You can pass styles as objects using this convention
 const styles = {
   cardTitle: {
-    backgroundColor: "black"
+    backgroundColor: "black",
+    overflow: 'auto'
   },
   cardMedia: {
     maxHeight: 394,

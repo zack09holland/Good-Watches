@@ -29,10 +29,20 @@ const movieBrowserReducer = combineReducers({
   topMovies: createAsyncReducer(movieActionKeys.GET_TOP_MOVIES, {
     [`${movieActionKeys.GET_TOP_MOVIES}_SUCCESS`]: moviesSuccessReducer
   }),
+  newMovies: createAsyncReducer(movieActionKeys.GET_NEW_RELEASES, {
+    [`${movieActionKeys.GET_NEW_RELEASES}_SUCCESS`]: moviesSuccessReducer
+  }),
+  popMovies: createAsyncReducer(movieActionKeys.GET_POPULAR, {
+    [`${movieActionKeys.GET_POPULAR}_SUCCESS`]: moviesSuccessReducer
+  }),
+  nowPlayingMovies: createAsyncReducer(movieActionKeys.GET_NOW_PLAYING, {
+    [`${movieActionKeys.GET_NOW_PLAYING}_SUCCESS`]: moviesSuccessReducer
+  }),
   movieSearch: createAsyncReducer(movieActionKeys.SEARCH_MOVIES, {
     [`${movieActionKeys.SEARCH_MOVIES}_SUCCESS`]: moviesSuccessReducer
   }),
   movieDetails: createAsyncReducer(movieActionKeys.GET_MOVIE_DETAILS),
+  movieCredits: createAsyncReducer(movieActionKeys.GET_MOVIE_CREDITS),
 });
 
 export default movieBrowserReducer;

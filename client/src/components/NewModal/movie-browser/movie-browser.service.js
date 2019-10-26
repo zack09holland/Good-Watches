@@ -27,6 +27,18 @@ export const getUpcoming = async ({page}) => {
   });
   return fetch(fullUrl);
 }
+export const getNowPlaying = async ({page}) => {
+  const fullUrl = createMovieDbUrl('/movie/now_playing', {
+    page
+  });
+  return fetch(fullUrl);
+}
+export const getPopular = async ({page}) => {
+  const fullUrl = createMovieDbUrl('/movie/popular', {
+    page
+  });
+  return fetch(fullUrl);
+}
 
 // https://api.themoviedb.org/3/movie/{movie_id}/recommendations?api_key=dbc0a6d62448554c27b6167ef7dabb1b&language=en-US&page=1
 export const getRecommendations = async ({movieId,page}) => {
@@ -45,5 +57,9 @@ export const searchMovies = async ({ page, query}) => {
 
 export const getMovieDetails = async ({movieId}) => {
   const fullUrl = createMovieDbUrl(`/movie/${movieId}`);
+  return fetch(fullUrl);
+}
+export const getMovieCredits = async ({movieId}) => {
+  const fullUrl = createMovieDbUrl(`/movie/${movieId}/credits`);
   return fetch(fullUrl);
 }

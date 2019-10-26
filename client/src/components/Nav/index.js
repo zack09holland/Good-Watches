@@ -86,9 +86,9 @@ class Nav extends Component {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem href="/topratedmovies" >Top Rated Movies</DropdownItem>
-                <DropdownItem disabled>Upcoming</DropdownItem>
-                <DropdownItem href="/newreleases">Now Playing</DropdownItem>
-                <DropdownItem disabled>Popular</DropdownItem>
+                <DropdownItem href="/upcoming">Upcoming</DropdownItem>
+                <DropdownItem href="/popular">Popular</DropdownItem>
+                <DropdownItem href="/nowplaying">Now Playing</DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <li className="nav-item">
