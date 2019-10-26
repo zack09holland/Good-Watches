@@ -7,18 +7,18 @@ router.get('/users', (req, res) => {
     console.log(req.path);
     const id = req.body ? req.body.id : null;
     const promise = id ? User.findById(Types.ObjectId(id)) : User.find();
-    promise.then(results => res.send(results)).catch(err => res.send(err));
+    promise.then(res.send).catch(res.send);
 });
 
 // Delete a user by id.
 router.delete('/users', (req, res) => {
     const id = req.body ? req.body.id : null;
-    User.findByIdAndDelete(Types.ObjectId(id)).then(result => res.send(result)).catch(err => res.send(err));
+    User.findByIdAndDelete(Types.ObjectId(id)).then(res.send).catch(res.send);
 });
 
 // Create a new user.
 router.post('/users', (req, res) => {
-    User.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
+    User.create(req.body).then(res.send).catch(res.send);
 });
 
 // Get all movies, a specific movie by id, or titles starting with given title string.
@@ -29,18 +29,18 @@ router.get('/movies', (req, res) => {
     const promise = id ? Movie.findById(Types.ObjectId(id)) :
         title ? Movie.find({ title: new RegEx('^' + title) }) :
             Movie.find();
-    promise.then(results => res.send(results)).catch(err => res.send(err));
+    promise.then(res.send).catch(res.send);
 });
 
 // Delete a movie by id.
 router.delete('/movies', (req, res) => {
     const id = req.body ? req.body.id : null;
-    movie.findByIdAndDelete(Types.ObjectId(id)).then(result => res.send(result)).catch(err => res.send(err));
+    movie.findByIdAndDelete(Types.ObjectId(id)).then(res.send).catch(res.send);
 });
 
 // Create a new movie.
 router.post('/movies', (req, res) => {
-    movie.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
+    movie.create(req.body).then(res.send).catch(res.send);
 });
 
 const deepCopy = (from, to) => {
