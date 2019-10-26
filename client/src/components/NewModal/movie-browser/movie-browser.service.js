@@ -20,12 +20,20 @@ export const getTopMovies = async ({page}) => {
   });
   return fetch(fullUrl);
 }
+// https://api.themoviedb.org/3/movie/upcoming?api_key=dbc0a6d62448554c27b6167ef7dabb1b&language=en-US&page=1
+export const getUpcoming = async ({page}) => {
+  const fullUrl = createMovieDbUrl('/movie/upcoming', {
+    page
+  });
+  return fetch(fullUrl);
+}
 
+// https://api.themoviedb.org/3/movie/{movie_id}/recommendations?api_key=dbc0a6d62448554c27b6167ef7dabb1b&language=en-US&page=1
 export const getRecommendations = async ({movieId,page}) => {
   const fullUrl = createMovieDbUrl(`/movie/${movieId}`);
   return fetch(fullUrl);
 }
-// https://api.themoviedb.org/3/movie/{movie_id}/recommendations?api_key=dbc0a6d62448554c27b6167ef7dabb1b&language=en-US&page=1
+
 
 export const searchMovies = async ({ page, query}) => {
   const fullUrl = createMovieDbUrl('/search/movie', {

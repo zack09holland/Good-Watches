@@ -3,6 +3,7 @@ import * as movieService from './movie-browser.service';
 
 export const keys = {
   'GET_TOP_MOVIES': 'GET_TOP_MOVIES',
+  'GET_NEW_RELEASES': 'GET_NEW_RELEASES',
   'SEARCH_MOVIES': 'SEARCH_MOVIES',
   'GET_MOVIE_DETAILS': 'GET_MOVIE_DETAILS',
 };
@@ -12,6 +13,14 @@ export const getTopMovies = (page) => createAsyncActionCreator(
   keys.GET_TOP_MOVIES,
   // requestFn
   movieService.getTopMovies, 
+  // requestParams
+  {page}
+);
+export const getUpcoming = (page) => createAsyncActionCreator(
+  // actionType
+  keys.GET_TOP_MOVIES,
+  // requestFn
+  movieService.getUpcoming, 
   // requestParams
   {page}
 );

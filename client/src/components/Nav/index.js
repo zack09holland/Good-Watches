@@ -87,7 +87,7 @@ class Nav extends Component {
               <DropdownMenu>
                 <DropdownItem href="/topratedmovies" >Top Rated Movies</DropdownItem>
                 <DropdownItem disabled>Upcoming</DropdownItem>
-                <DropdownItem disabled>Now Playing</DropdownItem>
+                <DropdownItem href="/newreleases">Now Playing</DropdownItem>
                 <DropdownItem disabled>Popular</DropdownItem>
               </DropdownMenu>
             </Dropdown>

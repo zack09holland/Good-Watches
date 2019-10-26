@@ -6,6 +6,7 @@ import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import MoviesList from "./pages/MoviesList";
 import TopRated from "./pages/TopRated";
+import NewReleases from "./pages/NewReleases";
 
 
 
@@ -19,6 +20,7 @@ function App() {
               <Route exact path="/saved" component={Saved} />
               <Route exact path="/movieslist" component={MoviesList} />
               <Route exact path="/topratedmovies" component={TopRated} />
+              <Route exact path="/newreleases" component={NewReleases} />
               <Route component={NoMatch} />
             </Switch>
           </div>

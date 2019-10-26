@@ -3,11 +3,11 @@ import Form from "../components/Form";
 
 import { search } from "../utils/utils.js";
 import Movies from "../components/Movies/Movies";
-
+import { Jumbotron } from "react-bootstrap";
 import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
-class TVSearch extends Component {
+import "../index.css"
+class TopRated extends Component {
   state = {
     movies: null,
     loading: false,
@@ -40,11 +40,13 @@ class TVSearch extends Component {
 
   render() {
     return (
+      
       <MuiThemeProvider>
+        <Jumbotron><h1 className="text-center" id="title">Top Rated Movies</h1></Jumbotron>
         <MovieBrowser />
       </MuiThemeProvider>
     );
   }
 }
 
-export default TVSearch;
+export default TopRated;

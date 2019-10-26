@@ -9,7 +9,7 @@ import MovieList from './movie-list/movie-list.component';
 import * as scrollHelpers from '../common/scroll.helpers';
 import MovieModal from './movie-modal/movie-modal.container';
 import "./movie-browser.css";
-import { Jumbotron } from "react-bootstrap";
+
 
 class MovieBrowser extends React.Component {
   constructor(props) {
@@ -20,12 +20,14 @@ class MovieBrowser extends React.Component {
     };
 
     this.handleScroll = this.handleScroll.bind(this);
+    
   }
 
 
   componentDidMount() {
     window.onscroll = this.handleScroll;
     this.props.getTopMovies(this.state.currentPage);
+    // this.props.getUpcoming(this.state.currentPage);
   }
 
   componentWillUnmount() {
@@ -33,12 +35,13 @@ class MovieBrowser extends React.Component {
   }
 
   handleScroll() {
-    const {topMovies} = this.props;
+    const {topMovies, upcomingMovies} = this.props;
     if (!topMovies.isLoading) {
       let percentageScrolled = scrollHelpers.getScrollDownPercentage(window);
       if (percentageScrolled > .8) {
         const nextPage = this.state.currentPage + 1;
         this.props.getTopMovies(nextPage);
+        this.props.getUpcoming(nextPage);
         this.setState({currentPage: nextPage});
       }
     }
@@ -46,20 +49,17 @@ class MovieBrowser extends React.Component {
 
   render() {
     const {topMovies} = this.props;
+    console.log(this.props)
     const movies = movieHelpers.getMoviesList(topMovies.response);
-
+    console.log(movies)
+    
     return (
       <div>
-          
-          <Jumbotron><h1 className="text-center headerTitle">Top Rated Movies</h1></Jumbotron>
         {/* <TextField onChange={e => console.log(e.currentTarget.value)} placeholder ="Search for a movie here" fullWidth="true"/> */}
         <Container>
           <Row>
-            
-            
-          </Row>
-          <Row>
             <MovieList movies={movies} isLoading={topMovies.isLoading} />
+            
           </Row>
         </Container>
         <MovieModal />
@@ -71,7 +71,8 @@ class MovieBrowser extends React.Component {
 export default connect(
   // Map nodes in our state to a properties of our component
   (state) => ({
-    topMovies: state.movieBrowser.topMovies
+    topMovies: state.movieBrowser.topMovies,
+    upcomingMovies: state.movieBrowser.upcomingMovies
   }),
   // Map action creators to properties of our component
   { ...movieActions }
