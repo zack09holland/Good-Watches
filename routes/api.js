@@ -43,42 +43,32 @@ router.post('/movies', (req, res) => {
     movie.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
 });
 
-// Add a rating to a user.
-router.put('/rating', (req, res) => {
-    const id = req.body ? req.body.id : null;
-    User.updateOne({ _id: Types.ObjectId(id) }).then(user => {
-        user.ratings.push({
-            movie: Types.ObjectId(req.body.movie),
-            rating: req.body.rating
-        });
-        res.sendStatus(200);
-    }).catch(err => res.send(err));
-});
+const objectId = (item, value) => {
+    if (item === 'id' || item === 'movie')
+        return Types.ObjectId(value);
+    return value;
+};
 
-function deepCopy(from, to) {
+const deepCopy = (from, to) => {
+    const copy = (value, item) => {
+        if (typeof value == 'object')
+            deepCopy(value, to[item]);
+        else
+            to[item] = objectId(value);
+    };
     if (Array.isArray(from))
-        to = to.concat(from)
+        from.forEach(copy);
     else
-        for (let item in from) {
-            const fromItem = from[item];
-            switch (typeof (fromItem)) {
-                case 'object':
-                    deepCopy(fromItem, to[item]);
-                    break;
-                case 'number':
-                    to[item] = fromItem;
-                    break;
-                case 'string':
-                    to[item] = Types.ObjectId(fromItem);
-                    break;
-            }
-        }
-}
+        for (let item in from)
+            copy(from[item], item);
+};
 
-// Modify a user with given id.
+// Modify a user with given id. All fields in body will be copied into given user.
 router.put('/users', (req, res) => {
     if (!req.body) res.sendStatus(400);
     const { id } = req.body;
+    if (!id) res.sendStatus(400);
+    // Delete id property of body so that it won't be copied.
     delete req.body.id;
     User.updateOne({ _id: Types.ObjectId(id) }).then(user => {
         deepCopy(req.body, user);
@@ -92,8 +82,12 @@ router.get('/unseen', (req, res) => {
     if (!req.body) res.sendStatus(400);
     const { id, movies } = req.body;
     User.findById(id).then(user => {
-        for (let movie of movies)
-            for (let item of []);
+        res.send(movies.filter(movie => {
+            for (let item of ['ratings', 'rejects', 'saves'])
+                if (user[item].find(movie))
+                    return false;
+            return true;
+        }));
     });
 });
 

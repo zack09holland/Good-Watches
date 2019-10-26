@@ -16,8 +16,12 @@ const User = new Schema({
         movie: MovieRef,
         rating: Number
     }],
-    rejects: [MovieRef],
-    saves: [MovieRef]
+    rejects: [{
+        movie: MovieRef
+    }],
+    saves: [{
+        movie: MovieRef
+    }]
 });
 
 module.exports = model('User', User);
