@@ -4,20 +4,15 @@ import Form from "../components/Form";
 import { search } from "../utils/utils.js";
 import Movies from "../components/Movies/Movies";
 
+import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
 class TVSearch extends Component {
   state = {
     movies: null,
     loading: false,
-    value: "",
+ 
   };
-
-  showModal = () => {
-    this.setState({ show: true });
-  }
-  
-  hideModal = () => {
-    this.setState({ show: false });
-  }
   
   search = async val => {
     this.setState({ loading: true });
@@ -45,15 +40,9 @@ class TVSearch extends Component {
 
   render() {
     return (
-      <div>
-        <Form 
-            handleInputChange={e => this.onChangeHandler(e)}
-            handleFormSubmit={this.handleFormSubmit}
-            q={this.state.value}
-        />
-        {this.renderMovies}
-        
-      </div>
+      <MuiThemeProvider>
+        <MovieBrowser />
+      </MuiThemeProvider>
     );
   }
 }

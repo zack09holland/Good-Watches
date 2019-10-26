@@ -1,3 +1,13 @@
 .navbar {
   border-radius: 0;
 }
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+.darkNav{
+  /* background-color: #343a40 ; */
+  border: 0px;
+  background-color: transparent !important ;
+}

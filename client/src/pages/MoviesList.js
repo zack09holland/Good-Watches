@@ -11,14 +11,6 @@ class MoviesList extends Component {
     value: "",
   };
 
-  showModal = () => {
-    this.setState({ show: true });
-  }
-  
-  hideModal = () => {
-    this.setState({ show: false });
-  }
-  
   search = async val => {
     this.setState({ loading: true });
     const results = await search(
@@ -52,7 +44,6 @@ class MoviesList extends Component {
             q={this.state.value}
         />
         {this.renderMovies}
-        
       </div>
     );
   }
