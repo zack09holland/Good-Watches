@@ -30,7 +30,7 @@ class MovieBrowser extends React.Component {
     }
     else if(this.props.location === "/latestshows"){
         console.log(this.props.location)
-        this.props.getUpcoming(this.state.currentPage);
+        this.props.getUpcoming();
     }
     else if(this.props.location === "/populartv"){
         console.log(this.props.location)
@@ -47,18 +47,21 @@ class MovieBrowser extends React.Component {
   }
 
   handleScroll() {
-    const {topMovies, upcomingMovies} = this.props;
+    const {topMovies} = this.props;
     if (!topMovies.isLoading) {
       let percentageScrolled = scrollHelpers.getScrollDownPercentage(window);
       if (percentageScrolled > .8) {
         const nextPage = this.state.currentPage + 1;
         if(this.props.location === '/topratedtv'){
             this.props.getTopMovies(nextPage);    
-        }else if(this.props.location === '/latestshows'){
+        }
+        else if(this.props.location === '/latestshows'){
             this.props.getUpcoming();
-        }else if(this.props.location === '/ontheair'){
+        }
+        else if(this.props.location === '/ontheair'){
             this.props.getNowPlaying(nextPage);
-        }else if(this.props.location === '/populartv'){
+        }
+        else if(this.props.location === '/populartv'){
             this.props.getPopular(nextPage);
         }
         
@@ -73,12 +76,15 @@ class MovieBrowser extends React.Component {
     
     if(this.props.location === "/topratedtv"){
         movies = movieHelpers.getMoviesList(topMovies.response);
-        console.log(movies)
-    }else if(this.props.location === "/latestshows"){
+    }
+    else if(this.props.location === "/latestshows"){
         movies = movieHelpers.getMoviesList(newMovies.response);
-    }else if(this.props.location === "/ontheair"){
+        console.log(movies)
+    }
+    else if(this.props.location === "/ontheair"){
         movies = movieHelpers.getMoviesList(nowPlayingMovies.response);
-    }else if(this.props.location === "/populartv"){
+    }
+    else if(this.props.location === "/populartv"){
         movies = movieHelpers.getMoviesList(popMovies.response);
     }
     

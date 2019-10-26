@@ -40,7 +40,7 @@ class MovieCardComponent extends React.Component {
     const {movie, openMovieModal} = this.props;
     // The CardTitle.subtitle won't render if it's null
     const subtitle = this.state.isMouseOver ? movie.overview : null;
-
+    console.log(movie)
     return (
       
       <Card
@@ -57,7 +57,7 @@ class MovieCardComponent extends React.Component {
           
           overlay={
             <CardTitle
-              title={movie.title} 
+              title={movie.original_name} 
               subtitle={subtitle}
               style={styles.cardTitle} 
             />

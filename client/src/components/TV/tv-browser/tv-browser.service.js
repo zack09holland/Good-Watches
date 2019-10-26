@@ -22,7 +22,7 @@ export const getTopMovies = async ({page}) => {
 }
 // https://api.themoviedb.org/3/movie/upcoming?api_key=dbc0a6d62448554c27b6167ef7dabb1b&language=en-US&page=1
 export const getUpcoming = async ({page}) => {
-  const fullUrl = createMovieDbUrl('/tv/latest', {
+  const fullUrl = createMovieDbUrl('/tv/airing_today', {
     page
   });
   return fetch(fullUrl);
@@ -56,10 +56,10 @@ export const searchMovies = async ({ page, query}) => {
 }
 
 export const getMovieDetails = async ({movieId}) => {
-  const fullUrl = createMovieDbUrl(`/movie/${movieId}`);
+  const fullUrl = createMovieDbUrl(`/tv/${movieId}`);
   return fetch(fullUrl);
 }
 export const getMovieCredits = async ({movieId}) => {
-  const fullUrl = createMovieDbUrl(`/movie/${movieId}/credits`);
+  const fullUrl = createMovieDbUrl(`/tv/${movieId}/credits`);
   return fetch(fullUrl);
 }
