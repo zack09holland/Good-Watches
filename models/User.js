@@ -10,13 +10,18 @@ const User = new Schema({
         type: String,
         required: true
     },
+    token: String,
     name: String,
     ratings: [{
         movie: MovieRef,
         rating: Number
     }],
-    rejects: [MovieRef],
-    saves: [MovieRef]
+    rejects: [{
+        movie: MovieRef
+    }],
+    saves: [{
+        movie: MovieRef
+    }]
 });
 
 module.exports = model('User', User);

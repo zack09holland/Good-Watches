@@ -9,7 +9,8 @@ const Movie = new Schema({
         type: Number,
         required: true
     },
-    serial: Boolean
+    serial: Boolean,
+    tmdId: String
 });
 
 Movie.index({title: 1, year: 1}, { unique: true});
