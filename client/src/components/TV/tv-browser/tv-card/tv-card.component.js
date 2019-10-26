@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Card, CardTitle, CardMedia} from 'material-ui';
-import {openMovieModal} from '../movie-modal/movie-modal.actions';
+import {openMovieModal} from '../tv-modal/tv-modal.actions';
 import classes from "../../../Movies/Movie.module.css";
 // These are inline styles
 // You can pass styles as objects using this convention

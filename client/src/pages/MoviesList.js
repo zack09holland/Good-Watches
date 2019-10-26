@@ -1,19 +1,21 @@
-import React, { Component } from "react";
-import Form from "../components/Form";
+import React, {Component} from "react";
 
 import { search } from "../utils/utils.js";
 import Movies from "../components/Movies/Movies";
 
-class MoviesList extends Component {
+import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
+class NewReleases extends Component {
   state = {
     movies: null,
     loading: false,
-    value: "",
+ 
   };
-
+  
   search = async val => {
     this.setState({ loading: true });
-    const results = await search(
+    const results = await search( 
       `https://api.themoviedb.org/3/search/movie?query=${val}&api_key=d9761b9f704ad5a0f60b04f11dbf4503`
     );
     const movies = results;
@@ -27,7 +29,7 @@ class MoviesList extends Component {
   };
 
   get renderMovies() {
-    let movies = <h1 className="text-center">Search for a movie to find information about it!</h1>;
+    let movies = <h1 className="text-center">Search for a tv show to find information about it!</h1>;
     if (this.state.movies) {
       movies = <Movies list={this.state.movies} />;
     }
@@ -37,16 +39,11 @@ class MoviesList extends Component {
 
   render() {
     return (
-      <div>
-        <Form 
-            handleInputChange={e => this.onChangeHandler(e)}
-            handleFormSubmit={this.handleFormSubmit}
-            q={this.state.value}
-        />
-        {this.renderMovies}
-      </div>
+      <MuiThemeProvider>
+        <MovieBrowser />
+      </MuiThemeProvider>
     );
   }
 }
 
-export default MoviesList;
+export default NewReleases;
