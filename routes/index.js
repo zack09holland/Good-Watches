@@ -17,10 +17,6 @@ function isUserAuthenticated(req, res, next) {
 router.use("/api", apiRoutes);
 router.use("/auth", authRoutes);
 
-router.get("/auth/test", (req,res) => 
-  res.send('Test')
-);
-
 // If no API routes are hit, send the React app
 router.use(function(req, res) {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
