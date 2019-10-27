@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-router.get("/test", 
+router.get("/", 
     (req,res) => res.send('Test API that is Killing me')
 );
 
