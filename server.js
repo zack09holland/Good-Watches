@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 //app.use(passport.initialize());
 //auth(passport);
 
-app.use('/',router);
+app.use(router);
 app.listen(PORT, () => console.log('Listening on ' + PORT));
 
 module.exports = app;
