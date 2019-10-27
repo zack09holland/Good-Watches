@@ -1,7 +1,6 @@
 const router = require("express").Router();
+const testController = require("../../controllers/testController");
 
-router.get("/", 
-    (req,res) => res.send('Test API that is Killing me')
-);
+router.get("/", testController.testMsg);
 
 module.exports = router;
