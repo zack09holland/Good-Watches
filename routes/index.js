@@ -14,6 +14,14 @@ function isUserAuthenticated(req, res, next) {
   }
 }
 
+var myLogger = function (req, res, next) {
+  console.log('Main Index');
+  next()
+};
+
+router.use(myLogger);
+
+
 // API Routes
 router.use("/api", apiRoutes);
 router.use("/auth", authRoutes);
