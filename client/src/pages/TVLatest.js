@@ -17,8 +17,8 @@ class TVLatest extends Component {
       <MuiThemeProvider>
         <Jumbotron>
           <Container>
-            <h1 className="text-center" id="title">Latest TV Shows</h1>
-            <p className="text-center" id="titleContext">Newly created TV Shows</p>
+            <h1 className="text-center" id="title">Airing Today</h1>
+            <p className="text-center" id="titleContext">TV shows that are airing today</p>
           </Container>
           </Jumbotron>
         <MovieBrowser location={this.props.location.pathname} />

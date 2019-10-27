@@ -105,7 +105,7 @@ class Nav extends Component {
                 TV
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem disabled href="/latestshows" >Latest TV Shows</DropdownItem>
+                <DropdownItem href="/latestshows" >TV Shows Airing Today</DropdownItem>
                 <DropdownItem href="/ontheair">TV Shows On The Air</DropdownItem>
                 <DropdownItem href="/populartv">Popular TV Shows</DropdownItem>
                 <DropdownItem href="/topratedtv">Top Rated TV Shows</DropdownItem>

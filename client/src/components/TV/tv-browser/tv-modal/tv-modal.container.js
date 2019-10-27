@@ -50,11 +50,11 @@ class MovieModalContainer extends React.Component {
         <button className="close" onClick={closeMovieModal}>X</button>
         <Loader isLoading={isLoading}>
         
-        <div style={styles.dialogContent(movie.backdrop_path)}>
+        {/* <div style={styles.dialogContent(movie.backdrop_path)}> */}
           <Row>
           <Col lg={6}>
             <div >
-              <h1>{movie.title}</h1>
+              <h1>{movie.original_name}</h1>
               <h5>{genres}</h5>
               <p>{movie.overview}</p>
               <p>Popularity: {movie.popularity}</p>
@@ -63,11 +63,11 @@ class MovieModalContainer extends React.Component {
             </div>
             </Col>
             <Col lg={6}>
-            <img  src={movie.poster_path} alt={movie.title} />
+            <img  src={movie.poster_path} alt={movie.original_name} />
             {/* <img  src={movieCredits.profile_path} alt={movieCredits.name} /> */}
             </Col>
             </Row>
-        </div>
+        {/* </div> */}
           
         </Loader>
     </Dialog>
