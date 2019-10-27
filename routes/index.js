@@ -24,7 +24,7 @@ router.get("/test",function(req,res){res.send('Stopped Everything')});
 
 // // API Routes
 // router.use("/api", apiRoutes);
-// router.use("/auth", authRoutes);
+router.use("/auth", authRoutes);
 router.use("/test", testRoutes);
 
 
