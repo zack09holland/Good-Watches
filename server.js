@@ -25,12 +25,13 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
 
-app.use(passport.initialize());
-auth(passport);
+//app.use(passport.initialize());
+//auth(passport);
 
 app.use('/',router);
 app.listen(PORT, () => console.log('Listening on ' + PORT));
