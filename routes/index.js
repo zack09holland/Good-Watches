@@ -20,17 +20,17 @@ var myLogger = function (req, res, next) {
 };
 
 router.use(myLogger);
+router.get("/test",function(req,res){res.send('Stopped Everything')});
+
+// // API Routes
+// router.use("/api", apiRoutes);
+// router.use("/auth", authRoutes);
+// router.use("/test", testRoutes);
 
 
-// API Routes
-router.use("/api", apiRoutes);
-router.use("/auth", authRoutes);
-router.use("/test", testRoutes);
-
-
-// If no API routes are hit, send the React app
-router.use("/Scream", function(req, res) {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
+// // If no API routes are hit, send the React app
+// router.get("/scream", function(req, res) {
+//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
+// });
 
 module.exports = router;
