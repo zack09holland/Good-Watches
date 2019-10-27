@@ -29,7 +29,7 @@ router.use("/test", testRoutes);
 
 
 // If no API routes are hit, send the React app
-router.use(function(req, res) {
+router.use("/Scream", function(req, res) {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
