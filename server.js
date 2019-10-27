@@ -1,5 +1,10 @@
+require("dotenv").config();
 const path = require('path');
 const express = require('express');
+
+const passport = require('passport');
+const auth = require('./config/passport-init');
+const cookieSession = require('cookie-session');
 
 const router = require('./routes');
 
@@ -22,6 +27,9 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
+
+auth(passport);
+app.use(passport.initialize());
 
 app.use('/', router);
 
