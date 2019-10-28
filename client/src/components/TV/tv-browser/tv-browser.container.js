@@ -3,12 +3,12 @@ import { Col, Row, Container } from "../../Grid";
 import React from 'react';
 import {connect} from 'react-redux';
 // import {AppBar, TextField, RaisedButton} from 'material-ui';
-import * as movieActions from './movie-browser.actions';
-import * as movieHelpers from './movie-browser.helpers';
-import MovieList from './movie-list/movie-list.component';
+import * as movieActions from './tv-browser.actions';
+import * as movieHelpers from './tv-browser.helpers';
+import MovieList from './tv-list/tv-list.component';
 import * as scrollHelpers from '../common/scroll.helpers';
-import MovieModal from './movie-modal/movie-modal.container';
-import "./movie-browser.css";
+import MovieModal from './tv-modal/tv-modal.container';
+import "./tv-browser.css";
 
 
 class MovieBrowser extends React.Component {
@@ -23,20 +23,20 @@ class MovieBrowser extends React.Component {
   
   componentDidMount() {
     window.onscroll = this.handleScroll;
-    if(this.props.location === "/topratedmovies"){
+    if(this.props.location === "/topratedtv"){
         console.log(this.props.location)
         
         this.props.getTopMovies(this.state.currentPage);    
     }
-    else if(this.props.location === "/upcoming"){
+    else if(this.props.location === "/latestshows"){
         console.log(this.props.location)
-        this.props.getUpcoming(this.state.currentPage);
+        this.props.getUpcoming();
     }
-    else if(this.props.location === "/popular"){
+    else if(this.props.location === "/populartv"){
         console.log(this.props.location)
         this.props.getPopular(this.state.currentPage);
     }
-    else if(this.props.location === "/nowplaying"){
+    else if(this.props.location === "/ontheair"){
         console.log(this.props.location)
         this.props.getNowPlaying(this.state.currentPage);
     }
@@ -47,18 +47,21 @@ class MovieBrowser extends React.Component {
   }
 
   handleScroll() {
-    const {topMovies, upcomingMovies} = this.props;
+    const {topMovies} = this.props;
     if (!topMovies.isLoading) {
       let percentageScrolled = scrollHelpers.getScrollDownPercentage(window);
       if (percentageScrolled > .8) {
         const nextPage = this.state.currentPage + 1;
-        if(this.props.location === '/topratedmovies'){
+        if(this.props.location === '/topratedtv'){
             this.props.getTopMovies(nextPage);    
-        }else if(this.props.location === '/upcoming'){
-            this.props.getUpcoming(nextPage);
-        }else if(this.props.location === '/nowplaying'){
+        }
+        else if(this.props.location === '/latestshows'){
+            this.props.getUpcoming();
+        }
+        else if(this.props.location === '/ontheair'){
             this.props.getNowPlaying(nextPage);
-        }else if(this.props.location === '/popular'){
+        }
+        else if(this.props.location === '/populartv'){
             this.props.getPopular(nextPage);
         }
         
@@ -71,14 +74,17 @@ class MovieBrowser extends React.Component {
     const {topMovies, newMovies, nowPlayingMovies, popMovies} = this.props;
     let movies = movieHelpers.getMoviesList(topMovies.response);
     
-    if(this.props.location === "/topratedmovies"){
+    if(this.props.location === "/topratedtv"){
         movies = movieHelpers.getMoviesList(topMovies.response);
-        console.log(movies)
-    }else if(this.props.location === "/upcoming"){
+    }
+    else if(this.props.location === "/latestshows"){
         movies = movieHelpers.getMoviesList(newMovies.response);
-    }else if(this.props.location === "/nowplaying"){
+        console.log(movies)
+    }
+    else if(this.props.location === "/ontheair"){
         movies = movieHelpers.getMoviesList(nowPlayingMovies.response);
-    }else if(this.props.location === "/popular"){
+    }
+    else if(this.props.location === "/populartv"){
         movies = movieHelpers.getMoviesList(popMovies.response);
     }
     

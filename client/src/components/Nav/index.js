@@ -11,15 +11,22 @@ class Nav extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
+    this.movietoggle = this.movietoggle.bind(this);
+    this.tvtoggle = this.tvtoggle.bind(this);
     this.state = {
-      dropdownOpen: false
+      moviedropdownOpen: false,
+      tvdropdownOpen: false,
     };
   }
 
-  toggle() {
+  movietoggle() {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      moviedropdownOpen: !this.state.moviedropdownOpen
+    });
+  }
+  tvtoggle() {
+    this.setState({
+      tvdropdownOpen: !this.state.tvdropdownOpen
     });
   }
   updateWidth = () => {
@@ -80,15 +87,28 @@ class Nav extends Component {
                 Search
               </Link>
             </li>
-            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-              <DropdownToggle className={window.location.pathname === "/movieslist" ? "nav-link darkNav" : "nav-link darkNav"} caret>
+            {/* Movies */}
+            <Dropdown isOpen={this.state.moviedropdownOpen} toggle={this.movietoggle}>
+              <DropdownToggle className={window.location.pathname === "/topratedmovies" ? "nav-link darkNav" : "nav-link darkNav"} caret>
                 Movies
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem href="/topratedmovies" >Top Rated Movies</DropdownItem>
-                <DropdownItem disabled>Upcoming</DropdownItem>
-                <DropdownItem disabled>Now Playing</DropdownItem>
-                <DropdownItem disabled>Popular</DropdownItem>
+                <DropdownItem href="/upcoming">Upcoming</DropdownItem>
+                <DropdownItem href="/popular">Popular</DropdownItem>
+                <DropdownItem href="/nowplaying">Now Playing</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            {/* TV Shows */}
+            <Dropdown isOpen={this.state.tvdropdownOpen} toggle={this.tvtoggle}>
+              <DropdownToggle className={window.location.pathname === "/movieslist" ? "nav-link darkNav" : "nav-link darkNav"} caret>
+                TV
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem href="/latestshows" >TV Shows Airing Today</DropdownItem>
+                <DropdownItem href="/ontheair">TV Shows On The Air</DropdownItem>
+                <DropdownItem href="/populartv">Popular TV Shows</DropdownItem>
+                <DropdownItem href="/topratedtv">Top Rated TV Shows</DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <li className="nav-item">

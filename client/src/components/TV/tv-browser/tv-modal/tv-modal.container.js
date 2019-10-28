@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { Dialog } from 'material-ui';
 import _ from 'lodash';
-import { closeMovieModal } from './movie-modal.actions';
-import { getMovieDetails, getMovieCredits } from '../movie-browser.actions';
-import * as movieHelpers from '../movie-browser.helpers';
+import { closeMovieModal } from './tv-modal.actions';
+import { getMovieDetails, getMovieCredits } from '../tv-browser.actions';
+import * as movieHelpers from '../tv-browser.helpers';
 import Loader from '../../common/loader.component';
 import {Row, Col} from 'react-bootstrap';
 
@@ -54,7 +54,7 @@ class MovieModalContainer extends React.Component {
           <Row>
           <Col lg={6}>
             <div >
-              <h1>{movie.title}</h1>
+              <h1>{movie.original_name}</h1>
               <h5>{genres}</h5>
               <p>{movie.overview}</p>
               <p>Popularity: {movie.popularity}</p>
@@ -63,7 +63,7 @@ class MovieModalContainer extends React.Component {
             </div>
             </Col>
             <Col lg={6}>
-            <img  src={movie.poster_path} alt={movie.title} />
+            <img  src={movie.poster_path} alt={movie.original_name} />
             {/* <img  src={movieCredits.profile_path} alt={movieCredits.name} /> */}
             </Col>
             </Row>
