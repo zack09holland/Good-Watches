@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import classes from "./Movie.module.css";
-import { truncStr } from "../../utils/utils";
+
+import {truncStr} from '../../utils/utils';
+
+import classes from './Movie.module.css';
 
 const MovieCard = props => {
   const { title, poster_path, vote_average } = props.item;
