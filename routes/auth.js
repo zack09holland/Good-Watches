@@ -24,7 +24,11 @@ router.get('/google/callback',
         failureRedirect: '/'
     }),
     (req, res) => {
-        res.send('Connected');
+        if(req.user){
+            res.json({'user': req.user});
+        } else {
+            res.send('No User');
+        }
     }
 );
 
