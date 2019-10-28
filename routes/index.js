@@ -10,23 +10,14 @@ function isUserAuthenticated(req, res, next) {
   if (req.user) {
       next();
   } else {
-      res.send('You must login!');
+      res.send('Path is only avaialable to Authenticated Users!');
   }
 }
 
-var myLogger = function (req, res, next) {
-  console.log('Main Index');
-  next()
-};
-
-router.use(myLogger);
-router.get("/test",function(req,res){res.send('Stopped Everything')});
-
 // // API Routes
-// router.use("/api", apiRoutes);
+router.use("/api", apiRoutes);
 router.use("/auth", authRoutes);
-router.use("/test", testRoutes);
-
+router.use("/test", isAuthenticated, testRoutes);
 
 // If no API routes are hit, send the React app
 router.get("/*", function(req, res) {
