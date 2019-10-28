@@ -6,6 +6,7 @@ const express = require('express');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 
 // npm passport configuration information
 const auth = require('./config/passport-init');
@@ -41,6 +42,20 @@ if (process.env.NODE_ENV === 'production') {
 // inititialze Passport into express app.use and set configuration
 app.use(passport.initialize());
 auth(passport);
+
+// gets CookieSession and Cookie Parser Loaded
+var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+app.use(session({
+  name: 'session',
+  keys: [process.env.sessionKey1, process.env.sessionKey1],
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    domain: 'good-watches.herokuapp.com',
+    expires: expiryDate
+  }
+}))
+app.use(cookieParser());
 
 // initialize routes into express app.use
 app.use(router);
