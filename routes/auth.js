@@ -14,7 +14,7 @@ router.get('/google/callback',
     }),
     (req, res) => {
         if(req.user){
-            res.json({'user': req.user});
+            res.redirect('/test/test');
         } else {
             res.send('No User');
         }
