@@ -2,13 +2,13 @@ const router = require('express').Router();
 const { User, Movie } = require('../models');
 const { Types } = require('mongoose');
 
-// Get all users or a specific user by id.
+// Get a specific user by id.
 router.get('/users', (req, res) => {
     console.log(req.path);
     if (!req.body) res.sendStatus(400);
     const { id } = req.body;
     const promise = id ? User.findById(Types.ObjectId(id)) : User.find();
-    promise.then(res.send).catch(res.send);
+    promise.then(result => res.send(result)).catch(err => res.send(err));
 });
 
 const deepDelete = (from, to) => {
@@ -32,16 +32,16 @@ router.delete('/users', (req, res) => {
         User.findByIdAndUpdate(Types.ObjectId(id)).then(user => {
             deepDelete(req.body, user);
             res.send(user);
-        }).catch(res.send);
+        }).catch(err => res.send(err));
     else
         // Delete the user.
-        User.findByIdAndDelete(Types.ObjectId(id)).then(res.send).catch(res.send);
+        User.findByIdAndDelete(Types.ObjectId(id)).then(res.send).catch(err => res.send(err));
 
 });
 
 // Create a new user.
 router.post('/users', (req, res) => {
-    User.create(req.body).then(res.send).catch(res.send);
+    User.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
 });
 
 // Get all movies, a specific movie by id, or titles starting with given title string.
@@ -49,22 +49,22 @@ router.get('/movies', (req, res) => {
     console.log(req.path);
     if (!req.body) res.sendStatus(400);
     const { id, title } = req.body;
+    if (!id && !title) res.sendStatus(400);
     const promise = id ? Movie.findById(Types.ObjectId(id)) :
-        title ? Movie.find({ title: new RegEx('^' + title) }) :
-            Movie.find();
-    promise.then(res.send).catch(res.send);
+        Movie.find({ title: new RegEx('^' + title) });
+    promise.then(result => res.send(result)).catch(err => res.send(err));
 });
 
 // Delete a movie by id.
 router.delete('/movies', (req, res) => {
     if (!req.body) res.sendStatus(400);
     const { id } = req.body;
-    movie.findByIdAndDelete(Types.ObjectId(id)).then(res.send).catch(res.send);
+    movie.findByIdAndDelete(Types.ObjectId(id)).then(result => res.send(result)).catch(err => res.send(err));
 });
 
 // Create a new movie.
 router.post('/movies', (req, res) => {
-    movie.create(req.body).then(res.send).catch(res.send);
+    movie.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
 });
 
 // Copy all members/elements in object from into object to, converting ids and movies into ObjectIds.
