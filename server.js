@@ -5,7 +5,7 @@ require("dotenv").config();
 const express = require('express');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const cookieSession = require('cookie-session');
+const session = require('cookie-session');
 const cookieParser = require('cookie-parser');
 
 // npm passport configuration information
@@ -45,7 +45,7 @@ auth(passport);
 
 // gets CookieSession and Cookie Parser Loaded
 var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-app.use(cookieSession({
+app.use(session({
   name: 'session',
   keys: [process.env.sessionKey1, process.env.sessionKey1],
   cookie: {
@@ -56,6 +56,7 @@ app.use(cookieSession({
   }
 }))
 app.use(cookieParser());
+app.use(passport.session());
 
 // initialize routes into express app.use
 app.use(router);
