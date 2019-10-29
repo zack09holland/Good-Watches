@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { User, Movie } = require('../models');
 const { Types } = require('mongoose');
 
-// Get a specific user by id.
+// Get a specific user by id or all users if none specified.
 router.get('/users', (req, res) => {
     console.log(req.path);
     if (!req.body) res.sendStatus(400);
