@@ -47,15 +47,17 @@ auth(passport);
 var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 app.use(cookieSession({
   name: 'session',
-  keys: [process.env.sessionKey1, process.env.sessionKey1],
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    domain: 'good-watches.herokuapp.com',
-    expires: expiryDate
-  }
-}))
+  keys: [process.env.sessionKey1, process.env.sessionKey1]
+  // ,
+  // cookie: {
+  //   secure: true,
+  //   httpOnly: true,
+  //   domain: 'good-watches.herokuapp.com',
+  //   expires: expiryDate
+  // }
+}));
 app.use(cookieParser());
+app.use(passport.session());
 
 // initialize routes into express app.use
 app.use(router);
