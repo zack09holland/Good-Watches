@@ -5,7 +5,7 @@ require("dotenv").config();
 const express = require('express');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const session = require('cookie-session');
+const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 
 // npm passport configuration information
@@ -45,16 +45,17 @@ auth(passport);
 
 // gets CookieSession and Cookie Parser Loaded
 var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-app.use(session({
+app.use(cookieSession({
   name: 'session',
-  keys: [process.env.sessionKey1, process.env.sessionKey1],
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    domain: 'good-watches.herokuapp.com',
-    expires: expiryDate
-  }
-}))
+  keys: [process.env.sessionKey1, process.env.sessionKey1]
+  // ,
+  // cookie: {
+  //   secure: true,
+  //   httpOnly: true,
+  //   domain: 'good-watches.herokuapp.com',
+  //   expires: expiryDate
+  // }
+}));
 app.use(cookieParser());
 app.use(passport.session());
 
