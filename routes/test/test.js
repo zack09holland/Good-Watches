@@ -10,7 +10,7 @@ function isUserAuthenticated(req, res, next) {
         res.send('Path is only avaialable to Authenticated Users!');
     }
 }
-
-router.get("/", isUserAuthenticated, testController.testMsg);
+router.get("/user", testController.testMsg);
+router.get("/*", isUserAuthenticated, testController.testMsg);
 
 module.exports = router;
