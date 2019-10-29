@@ -1,32 +1,65 @@
-const path = require('path');
-const express = require('express');
+// dotenv is used to keep variable Secret (even Locally)
+require("dotenv").config();
 
+// npm package loading
+const express = require('express');
+const passport = require('passport');
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
+
+// npm passport configuration information
+const auth = require('./config/passport-init');
+
+// express routes
 const router = require('./routes');
 
-const mongoose = require('mongoose');
+// loads the MongoDB URI; Sets Default Parms; Attempts connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/watches';
-
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-
 mongoose.connect(MONGODB_URI, (err) => {
     if (err) throw err;
 });
 
+// Port Value for Express Application
+const PORT = process.env.PORT || 8080;
+
+// loads express into app
 const app = express();
 
+// configures express app for urlEncoded and Json support
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// if the NODE_ENV is production (HEROKU Default) then static load the client/build path
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
 
-app.use('/', router);
+// inititialze Passport into express app.use and set configuration
+app.use(passport.initialize());
+auth(passport);
 
-const PORT = process.env.PORT || 8080;
+// gets CookieSession and Cookie Parser Loaded
+var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.sessionKey1, process.env.sessionKey1],
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    domain: 'good-watches.herokuapp.com',
+    expires: expiryDate
+  }
+}))
+app.use(cookieParser());
 
+// initialize routes into express app.use
+app.use(router);
+
+// start app listening on Port
 app.listen(PORT, () => console.log('Listening on ' + PORT));
-
 module.exports = app;
