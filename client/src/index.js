@@ -24,8 +24,5 @@ ReactDOM.render(
     </Provider>, 
     document.getElementById("root")
   );
-<<<<<<< HEAD
-=======
 
   
->>>>>>> devcwilkey/GooPass
