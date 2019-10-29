@@ -45,7 +45,7 @@ auth(passport);
 
 // gets CookieSession and Cookie Parser Loaded
 var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-app.use(session({
+app.use(cookieSession({
   name: 'session',
   keys: [process.env.sessionKey1, process.env.sessionKey1],
   cookie: {
