@@ -2,8 +2,4 @@ node_modules
 .DS_Store
 build
 seeds
-<<<<<<< HEAD
 .env
-=======
-.env
->>>>>>> devcwilkey/GooPass
