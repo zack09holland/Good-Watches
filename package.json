@@ -1,7 +1,7 @@
 {
     "name": "good-watches",
     "version": "1.0.0",
-    "description": "reccomends movies",
+    "description": "recommends movies",
     "main": "server.js",
     "scripts": {
         "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -22,29 +22,23 @@
     "bugs": {
         "url": "https://github.com/trodge/Project-3/issues"
     },
-    "homepage": "https://github.com/trodge/Project-3#readme",
+    "homepage": "http://localhost:8080",
     "dependencies": {
         "axios": "0.19.0",
-        "bloodhound": "^1.0.0",
-        "concurrently": "5.0.0",
+        "cookie-parser": "^1.4.4",
+        "cookie-session": "^1.3.3",
+        "dotenv": "^8.2.0",
         "express": "4.17.1",
         "if-env": "^1.0.4",
-        "lodash": "^4.17.15",
-        "material-ui": "^0.20.2",
         "mongodb": "^3.3.3",
         "mongoose": "^5.7.7",
-        "nodemon": "^1.19.4",
-        "react-bootstrap": "^1.0.0-beta.14",
-        "react-redux": "^7.1.1",
-        "reactstrap": "^8.1.1",
-        "redux": "^4.0.4",
-        "redux-logger": "^3.0.6",
-        "redux-thunk": "^2.3.0"
+        "passport": "^0.4.0",
+        "passport-google-oauth20": "^2.0.0"
     },
     "devDependencies": {
-        "focus-trap-react": "^6.0.0",
+        "concurrently": "^5.0.0",
         "mocha": "^6.2.2",
         "node-sass": "^4.12.0",
-        "typeahead": "^0.2.2"
+        "nodemon": "^1.19.4"
     }
 }

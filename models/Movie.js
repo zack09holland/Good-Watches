@@ -10,9 +10,10 @@ const Movie = new Schema({
         required: true
     },
     serial: Boolean,
-    tmdId: String
+    tmdId: String,
+    link: String
 });
 
-Movie.index({title: 1, year: 1}, { unique: true});
+Movie.index({ title: 1, year: 1 }, { unique: true });
 
 module.exports = model('Movie', Movie);

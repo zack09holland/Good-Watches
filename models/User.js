@@ -6,12 +6,7 @@ const MovieRef = {
 }
 
 const User = new Schema({
-    email: {
-        type: String,
-        required: true
-    },
     token: String,
-    name: String,
     ratings: [{
         movie: MovieRef,
         rating: Number
