@@ -7,7 +7,6 @@ import { Col, Container, Row } from '../components/Grid';
 import Jumbotron from '../components/Jumbotron';
 import { List } from '../components/List';
 import Movie from '../components/Movies/Movie.js';
-import API from '../utils/API';
 
 class Home extends Component {
   state = {
@@ -21,24 +20,16 @@ class Home extends Component {
     this.setState({ [name]: value });
   };
 
-  getMovies = () => {
-    API.getMovies(this.state.q)
-      .then(res => this.setState({ movies: res.data }))
-      .catch(err => this.setState({
-        movies: [],
-        message: err || 'No new movies found, try a different query.'
-      }));
-  };
+  refreshMovies = () => {}/*getMovies(this.state.q)
+    .then(res => this.setState({ movies: res.data }))
+    .catch(err => this.setState({
+      movies: [],
+      message: err || 'No new movies found, try a different query.'
+    }));*/
 
   handleFormSubmit = event => {
     event.preventDefault();
-    this.getMovies();
-  };
-
-  handleMovieSave = id => {
-    const movie = this.state.movies.find(movie => movie.id === id);
-
-    API.saveMovie(movie).then(this.getMovies);
+    this.refreshMovies();
   };
 
   render() {
@@ -76,7 +67,7 @@ class Home extends Component {
                       link={movie.link}
                       Button={() => (
                         <button
-                          onClick={() => this.handleMovieSave(movie.id)}
+                          onClick={() => {}}/*saveMovie(movie.id)}*/
                           className='btn btn-primary ml-2'
                         >
                           Save

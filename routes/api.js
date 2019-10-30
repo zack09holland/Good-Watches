@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const { User, Movie } = require('../models');
 const { Types } = require('mongoose');
+const axios = require('axios');
 
 // Get a specific user by id or all users if none specified.
-router.get('/users', (req, res) => {
+router.put('/users', (req, res) => {
     console.log(req.path);
     if (!req.body) res.sendStatus(400);
     const { id } = req.body;
@@ -44,15 +45,30 @@ router.post('/users', (req, res) => {
     User.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
 });
 
-// Get all movies, a specific movie by id, or titles starting with given title string.
-router.get('/movies', (req, res) => {
-    console.log(req.path);
+const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
+    let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
+    if (queryParams) {
+        Object.keys(queryParams)
+            .forEach(paramName => url += `&${paramName}=${queryParams[paramName]}`);
+    }
+    return url;
+};
+
+// Get all movies, a specific movie by id, titles starting with given string, or movies returned by given query to TMD.
+router.put('/movies', (req, res) => {
+    console.log(req.path, req.body);
     if (!req.body) res.sendStatus(400);
-    const { id, title } = req.body;
-    if (!id && !title) res.sendStatus(400);
+    const { id, title, query } = req.body;
     const promise = id ? Movie.findById(Types.ObjectId(id)) :
-        Movie.find({ title: new RegEx('^' + title) });
-    promise.then(result => res.send(result)).catch(err => res.send(err));
+        title ? Movie.find({ title: new RegEx('^' + title) }) :
+            query ? axios.get(createMovieDbUrl(query)) : null;
+    if (promise)
+        promise.then(result => {
+            console.log(result);
+            res.send(query ? result.data : result);
+        }).catch(err => res.send(err));
+    else
+        res.sendStatus(400);
 });
 
 // Delete a movie by id.
