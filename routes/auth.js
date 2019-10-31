@@ -13,9 +13,8 @@ router.get('/google/callback',
         failureRedirect: '/'
     }),
     (req, res) => {
-        if(req.user){
+        if(req.isAuthenticated()){
             //console.log('from /callback: ', req.user);
-            console.log(req.isAuthenticated());
             //res.json({'user': req.user});
             res.redirect('/test/test/user');
         } else {

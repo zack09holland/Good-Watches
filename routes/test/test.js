@@ -5,7 +5,7 @@ const testController = require("../../controllers/testController");
 
 
 function isUserAuthenticated(req, res, next) {
-    console.log(req)
+    console.log(req);
     if (req.isAuthenticated()) {
         next();
     } else {
