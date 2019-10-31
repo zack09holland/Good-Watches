@@ -51,6 +51,7 @@ const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
         Object.keys(queryParams)
             .forEach(paramName => url += `&${paramName}=${queryParams[paramName]}`);
     }
+    console.log(url);
     return url;
 };
 
@@ -62,13 +63,27 @@ router.put('/movies', (req, res) => {
     const promise = id ? Movie.findById(Types.ObjectId(id)) :
         title ? Movie.find({ title: new RegEx('^' + title) }) :
             query ? axios.get(createMovieDbUrl(query)) : null;
-    if (promise)
-        promise.then(result => {
-            console.log(result);
-            res.send(query ? result.data : result);
-        }).catch(err => res.send(err));
-    else
+    if (!promise) {
         res.sendStatus(400);
+        return;
+    }
+    promise.then(result => {
+        if (query) {
+            console.log(query);
+            const { data } = result;
+            const queries = data.results.map(movie =>
+                Movie.updateOne({
+                    title: movie.title,
+                    year: release_date.slice(0, 4),
+                    serial: false
+                }, { tmdId: movie.id }, { upsert: true }));
+            res.send(data);
+            Promise.all(queries).then((err, movies) => {
+                console.log(err, movies);
+            }).catch(errors => console.error(errors));
+        } else
+            res.send(result);
+    }).catch(err => res.send(err));
 });
 
 // Delete a movie by id.
@@ -109,7 +124,7 @@ router.put('/users', (req, res) => {
 
 /* Given an array of movie ids and a user id,
  * return movies the user hasn't saved, rated, or rejected. */
-router.get('/unseen', (req, res) => {
+router.put('/unseen', (req, res) => {
     if (!req.body) res.sendStatus(400);
     const { id, movies } = req.body;
     movies = movies.map(movie => Types.ObjectId(movie));
