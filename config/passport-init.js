@@ -3,13 +3,15 @@ const GoogleStrategy = require('passport-google-oauth20');
 
 module.exports = (passport) => {
     passport.serializeUser(function(user, cb) {
+        console.log("Serialize: ");
         console.log(user);
         cb(null, user);
     });
-      
-    passport.deserializeUser(function(obj, cb) {
-        console.log(obj);
-        cb(null, obj);
+
+    passport.deserializeUser(function(user, cb) {
+        console.log("De-Serialize: ");
+        console.log(user);
+        cb(null, user);
     });
 
     passport.use(new GoogleStrategy({
@@ -18,9 +20,11 @@ module.exports = (passport) => {
             callbackURL: process.env.googleOAuthCallbackURL
         },
         (token, refreshToken, profile, done) => {
+
+            console.log("Profile: ");
             console.log(profile);
-            done(null, {
-                profile: profile,
+            return done(null, {
+                user: profile.id,
                 token: token
             });
         }));

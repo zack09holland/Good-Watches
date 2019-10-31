@@ -10,12 +10,13 @@ router.get('/google',
 
 router.get('/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/'
+        failureRedirect: '/',
+
     }),
     (req, res) => {
         if(req.isAuthenticated()){
             //console.log('from /callback: ', req.user);
-            //res.json({'user': req.user});
+            //res.json({'user': });
             res.redirect('/test/test/user');
         } else {
             res.send('No User');

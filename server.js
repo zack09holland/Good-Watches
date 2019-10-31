@@ -56,7 +56,7 @@ app.use(cookieSession({
   //   expires: expiryDate
   // }
 }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.sessionKey1));
 app.use(passport.session());
 
 // initialize routes into express app.use
