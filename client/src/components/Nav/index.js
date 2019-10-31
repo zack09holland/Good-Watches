@@ -121,7 +121,9 @@ class Nav extends Component {
               </Link>
             </li>
           </ul>
+          
         </div>
+        <button type="button" class="btn btn-danger btn-lg"><a id="login" href="/auth/google">Log in</a></button>
       </nav>
     );
   }

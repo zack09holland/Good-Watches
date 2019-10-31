@@ -47,7 +47,7 @@ class MovieBrowser extends React.Component {
   }
 
   handleScroll() {
-    const {topMovies, upcomingMovies} = this.props;
+    const {topMovies} = this.props;
     if (!topMovies.isLoading) {
       let percentageScrolled = scrollHelpers.getScrollDownPercentage(window);
       if (percentageScrolled > .8) {
@@ -60,6 +60,8 @@ class MovieBrowser extends React.Component {
             this.props.getNowPlaying(nextPage);
         }else if(this.props.location === '/popular'){
             this.props.getPopular(nextPage);
+        }else if(this.props.location === '/recommendations'){
+            this.props.getRecommendations(nextPage);
         }
         
         this.setState({currentPage: nextPage});
@@ -68,7 +70,7 @@ class MovieBrowser extends React.Component {
   }
 
   render() {
-    const {topMovies, newMovies, nowPlayingMovies, popMovies} = this.props;
+    const {topMovies, newMovies, nowPlayingMovies, popMovies, recMovies} = this.props;
     let movies = movieHelpers.getMoviesList(topMovies.response);
     
     if(this.props.location === "/topratedmovies"){
@@ -80,6 +82,8 @@ class MovieBrowser extends React.Component {
         movies = movieHelpers.getMoviesList(nowPlayingMovies.response);
     }else if(this.props.location === "/popular"){
         movies = movieHelpers.getMoviesList(popMovies.response);
+    }else if(this.props.location === "/recommendations"){
+        movies = movieHelpers.getMoviesList(recMovies.response);
     }
     
     return (
@@ -102,7 +106,8 @@ export default connect(
     topMovies : state.movieBrowser.topMovies,
     newMovies : state.movieBrowser.newMovies,
     nowPlayingMovies : state.movieBrowser.nowPlayingMovies,
-    popMovies : state.movieBrowser.popMovies
+    popMovies : state.movieBrowser.popMovies,
+    recMovies : state.movieBrowser.recMovies
   }),
   // Map action creators to properties of our component
   { ...movieActions }

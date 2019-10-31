@@ -41,12 +41,13 @@ export const getPopular = async ({page}) => {
 }
 
 // https://api.themoviedb.org/3/movie/{movie_id}/recommendations?api_key=dbc0a6d62448554c27b6167ef7dabb1b&language=en-US&page=1
-export const getRecommendations = async ({movieId}) => {
-  const fullUrl = createMovieDbUrl(`/movie/${movieId}/recommendations`);
+export const getRecommendations = async ({page, movieId}) => {
+  const fullUrl = createMovieDbUrl(`/movie/${movieId}/recommendations`, {
+    page
+  });
   return fetch(fullUrl);
 }
-
-
+// Search for a movie --WORKS BUT NOT IMPLEMENTED IN OUR PAGE
 export const searchMovies = async ({ page, query}) => {
   const fullUrl = createMovieDbUrl('/search/movie', {
     page,
