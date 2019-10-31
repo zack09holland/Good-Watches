@@ -64,23 +64,30 @@ router.put('/movies', (req, res) => {
         title ? Movie.find({ title: new RegEx('^' + title) }) :
             query ? axios.get(createMovieDbUrl(query)) : null;
     if (!promise) {
+        console.log();
         res.sendStatus(400);
         return;
     }
+    console.log(promise);
     promise.then(result => {
         if (query) {
             console.log(query);
             const { data } = result;
+            console.log(data);
             const queries = data.results.map(movie =>
-                Movie.updateOne({
-                    title: movie.title,
-                    year: release_date.slice(0, 4),
-                    serial: false
-                }, { tmdId: movie.id }, { upsert: true }));
+                new Promise((resolve, reject) =>
+                    Movie.findOneAndUpdate({
+                        title: movie.original_title,
+                        year: parseInt(movie.release_date.slice(0, 4)),
+                        serial: false
+                    }, { tmdId: movie.id }, { upsert: true }).then(movie => {
+                        resolve(movie);
+                    }).catch(reject))
+            );
             res.send(data);
-            Promise.all(queries).then((err, movies) => {
-                console.log(err, movies);
-            }).catch(errors => console.error(errors));
+            console.log('response sent')
+            Promise.all(queries).then(movies => console.log(movies))
+                .catch(errors => console.error(errors));
         } else
             res.send(result);
     }).catch(err => res.send(err));
