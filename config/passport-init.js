@@ -2,11 +2,12 @@ require("dotenv").config();
 const GoogleStrategy = require('passport-google-oauth20');
 
 module.exports = (passport) => {
-    passport.serializeUser((user, done) => {
-        done(null, user);
+    passport.serializeUser(function(user, cb) {
+        cb(null, user);
     });
-    passport.deserializeUser((user, done) => {
-        done(null, user);
+      
+    passport.deserializeUser(function(obj, cb) {
+        cb(null, obj);
     });
     passport.use(new GoogleStrategy({
             clientID: process.env.googleOAuthClientID,
