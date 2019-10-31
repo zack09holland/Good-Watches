@@ -13,6 +13,6 @@ const Movie = new Schema({
     tmdId: Number
 });
 
-Movie.index({ title: 1, year: 1 }, { unique: true });
+Movie.index({ title: 1, year: -1 }, { unique: true });
 
 module.exports = model('Movie', Movie);

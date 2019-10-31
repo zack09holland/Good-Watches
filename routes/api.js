@@ -60,49 +60,59 @@ router.put('/movies', (req, res) => {
     console.log(req.path, req.body);
     if (!req.body) res.sendStatus(400);
     const { id, title, query } = req.body;
+    // Create a promise based on whether the request is by id, title, or TMD query.
     const promise = id ? Movie.findById(Types.ObjectId(id)) :
-        title ? Movie.find({ title: new RegEx('^' + title) }) :
+        title ? Movie.find({ title: new RegEx('^' + title, 'i') }) :
             query ? axios.get(createMovieDbUrl(query)) : null;
     if (!promise) {
-        console.log();
         res.sendStatus(400);
         return;
     }
-    console.log(promise);
     promise.then(result => {
         if (query) {
             console.log(query);
             const { data } = result;
-            console.log(data);
-            const queries = data.results.map(movie =>
-                new Promise((resolve, reject) =>
-                    Movie.findOneAndUpdate({
-                        title: movie.original_title,
-                        year: parseInt(movie.release_date.slice(0, 4)),
+            const queries = data.results.map(result =>
+                new Promise((resolve, reject) => {
+                    Movie.updateOne({
+                        // Find title case-insensitively.
+                        title: new RegExp(result.title, 'i'),
+                        year: parseInt(result.release_date.slice(0, 4)),
                         serial: false
-                    }, { tmdId: movie.id }, { upsert: true }).then(movie => {
-                        resolve(movie);
-                    }).catch(reject))
+                    }, {
+                        $set: {
+                            // Set title to match TMD.
+                            title: result.title,
+                            tmdId: result.id
+                        }
+                    }, {
+                        // Insert movie if not found.
+                        upsert: true
+                    }, (err, raw) => {
+                        if (err) reject(err);
+                        resolve(raw);
+                    });
+                })
             );
             res.send(data);
-            console.log('response sent')
-            Promise.all(queries).then(movies => console.log(movies))
-                .catch(errors => console.error(errors));
+            console.log('response sent');
+            Promise.all(queries).then(console.log)
+                .catch(console.error);
         } else
             res.send(result);
     }).catch(err => res.send(err));
 });
 
 // Delete a movie by id.
-router.delete('/movies', (req, res) => {
-    if (!req.body) res.sendStatus(400);
-    const { id } = req.body;
-    movie.findByIdAndDelete(Types.ObjectId(id)).then(result => res.send(result)).catch(err => res.send(err));
+router.delete('/movies/:id', (req, res) => {
+    const { id } = req.params.id;
+    if (!id) res.sendStatus(400);
+    Movie.findByIdAndDelete(Types.ObjectId(id)).then(result => res.send(result)).catch(err => res.send(err));
 });
 
 // Create a new movie.
 router.post('/movies', (req, res) => {
-    movie.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
+    Movie.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
 });
 
 // Copy all members/elements in object from into object to, converting ids and movies into ObjectIds.
@@ -129,21 +139,19 @@ router.put('/users', (req, res) => {
     });
 });
 
-/* Given an array of movie ids and a user id,
+/* Given an array of movie ids and a user id as strings,
  * return movies the user hasn't saved, rated, or rejected. */
-router.put('/unseen', (req, res) => {
-    if (!req.body) res.sendStatus(400);
-    const { id, movies } = req.body;
+const unseen = (id, movies) => {
     movies = movies.map(movie => Types.ObjectId(movie));
-    User.findById(Types.ObjectId(id)).then(user => {
-        res.send(movies.filter(movie => {
+    User.findById(Types.ObjectId(id), user => {
+        return movies.filter(movie => {
             for (let item of ['ratings', 'rejects', 'saves'])
                 if (user[item].find(e => e === movie))
                     return false;
             return true;
-        }));
+        });
     });
-});
+};
 
 
 module.exports = router;
