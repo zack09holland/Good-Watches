@@ -8,6 +8,8 @@ import Jumbotron from '../components/Jumbotron';
 import { List } from '../components/List';
 import Movie from '../components/Movies/Movie.js';
 import API from '../utils/API';
+import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class Home extends Component {
   state = {
