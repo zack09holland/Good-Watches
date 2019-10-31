@@ -22,7 +22,7 @@
     "bugs": {
         "url": "https://github.com/trodge/Project-3/issues"
     },
-    "homepage": "http://localhost:8080",
+    "homepage": "https://good-watches.herokuapp.com/",
     "dependencies": {
         "axios": "0.19.0",
         "cookie-parser": "^1.4.4",
