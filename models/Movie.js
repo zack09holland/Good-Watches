@@ -10,7 +10,7 @@ const Movie = new Schema({
         required: true
     },
     serial: Boolean,
-    tmdId: String,
+    tmdId: Number,
     link: String
 });
 
