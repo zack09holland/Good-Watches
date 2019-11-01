@@ -70,7 +70,6 @@ router.put('/movies', (req, res) => {
     }
     promise.then(result => {
         if (query) {
-            console.log(query);
             const { data } = result;
             const queries = data.results.map(result =>
                 new Promise((resolve, reject) => {
