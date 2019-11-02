@@ -2,17 +2,21 @@ const router = require("express").Router();
 const testController = require("../../controllers/testController");
 
 // Middleware to check if the user is authenticated
-
-
 function isUserAuthenticated(req, res, next) {
-    console.log(req)
     if (req.isAuthenticated()) {
         next();
     } else {
         res.send('Path is only avaialable to Authenticated Users!');
     }
 }
-router.get("/user", testController.testMsg);
-router.get("/*", isUserAuthenticated, testController.testMsg);
+
+// Middleware to log the current req.user
+function logData(req, res, next) {
+    console.log(req.user);
+    next();
+}
+
+router.get("/user", isUserAuthenticated, testController.testMsg);
+router.get("/*", logData, testController.testMsg);
 
 module.exports = router;
