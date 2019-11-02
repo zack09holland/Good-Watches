@@ -45,10 +45,10 @@ export const getNowPlaying = (page) => createAsyncActionCreator(
   {page}
 );
 
-export const getRecommendations = (page, movieId) => createAsyncActionCreator(
+export const getRecommendations = (movieId) => createAsyncActionCreator(
   keys.GET_RECOMMENDATIONS,
   movieService.getRecommendations, 
-  {page, movieId}
+  {movieId}
 );
 export const searchMovies = (query, page) => createAsyncActionCreator(
   keys.SEARCH_MOVIES,
