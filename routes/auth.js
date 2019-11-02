@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const passport = require('passport');
-const auth = require('../config/passport-init');
 
 // Express Route used to answer on /auth/google ---> Sends client to Google for Authentication
 router.get('/google',
