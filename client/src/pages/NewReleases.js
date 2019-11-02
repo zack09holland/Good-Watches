@@ -3,6 +3,7 @@ import { Jumbotron } from "react-bootstrap";
 import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Container } from "../components/Grid";
+import "../otherPages.css"
 
 class NewReleases extends Component {
   state = {

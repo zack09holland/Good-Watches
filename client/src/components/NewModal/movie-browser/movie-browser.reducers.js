@@ -41,7 +41,9 @@ const movieBrowserReducer = combineReducers({
   movieSearch: createAsyncReducer(movieActionKeys.SEARCH_MOVIES, {
     [`${movieActionKeys.SEARCH_MOVIES}_SUCCESS`]: moviesSuccessReducer
   }),
-  movieDetails: createAsyncReducer(movieActionKeys.GET_RECOMMENDATIONS),
+  recMovies: createAsyncReducer(movieActionKeys.GET_RECOMMENDATIONS, {
+    [`${movieActionKeys.GET_RECOMMENDATIONS}_SUCCESS`]: moviesSuccessReducer
+  }),
   movieDetails: createAsyncReducer(movieActionKeys.GET_MOVIE_DETAILS),
   movieCredits: createAsyncReducer(movieActionKeys.GET_MOVIE_CREDITS),
 });

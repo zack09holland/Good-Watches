@@ -89,7 +89,7 @@ class MovieBrowser extends React.Component {
     }
     
     return (
-      <div>
+      <div className="bgColor">
         {/* <TextField onChange={e => console.log(e.currentTarget.value)} placeholder ="Search for a movie here" fullWidth="true"/> */}
         <Container>
           <Row>
