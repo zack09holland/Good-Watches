@@ -3,12 +3,15 @@ const { User, Movie } = require('../models');
 const { Types } = require('mongoose');
 const axios = require('axios');
 
-// Get a specific user by id or all users if none specified.
-router.get('/user/:id', (req, res) => {
+// Get a specific user by _id or all users if none specified.
+router.get('/user/:_id?', (req, res) => {
     console.log(req.path);
-    if (!req.body) res.sendStatus(400);
-    const { id } = req.body;
-    const promise = id ? User.findById(Types.ObjectId(id)) : User.find();
+    const { _id } = req.params;
+    if (!_id) {
+        res.sendStatus(400);
+        return;
+    }
+    const promise = _id ? User.findById(Types.ObjectId(_id)) : User.find();
     promise.then(result => res.send(result)).catch(err => res.send(err));
 });
 
@@ -24,20 +27,24 @@ const deepDelete = (from, to) => {
     }
 };
 
-// Delete a user by id or delete fields from user as specified in body.
-router.delete('/users', (req, res) => {
-    if (!req.body) res.sendStatus(400);
-    const { id } = req.body;
-    if (!id) res.sendStatus(400);
-    if (req.body.keys)
+// Delete a user by _id or delete fields from user as specified in body.
+router.delete('/user', (req, res) => {
+    if (!req.user) {
+        res.sendStatus(530);
+        return;
+    }
+    const { _id } = req.user;
+    if (!_id) res.sendStatus(400);
+    const { fields } = req.body;
+    if (fields)
         // Delete fields from the user.
-        User.findByIdAndUpdate(Types.ObjectId(id)).then(user => {
-            deepDelete(req.body.keys, user);
+        User.findByIdAndUpdate(Types.ObjectId(_id)).then(user => {
+            deepDelete(fields, user);
             res.send(user);
         }).catch(err => res.send(err));
     else
         // Delete the user.
-        User.findByIdAndDelete(Types.ObjectId(id))
+        User.findByIdAndDelete(Types.ObjectId(_id))
             .then(res.send)
             .catch(err => res.send(err));
 
@@ -48,6 +55,8 @@ router.post('/users', (req, res) => {
     User.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
 });
 
+
+// Given a relative url and queryParams from the page, return the url for TMD.
 const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
     let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
     if (queryParams) {
@@ -58,14 +67,14 @@ const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
     return url;
 };
 
-// Get a specific movie by id, titles starting with given string (case insensitive),
+// Get a specific movie by _id, titles starting with given string (case insensitive),
 // or movies returned by given query to TMD.
 router.put('/movies', (req, res) => {
     console.log(req.path, req.body);
     if (!req.body) res.sendStatus(400);
-    const { id, title, query } = req.body;
-    // Create a promise based on whether the request is by id, title, or TMD query.
-    const promise = id ? Movie.findById(Types.ObjectId(id)) :
+    const { _id, title, query } = req.body;
+    // Create a promise based on whether the request is by _id, title, or TMD query.
+    const promise = _id ? Movie.findById(Types.ObjectId(_id)) :
         title ? Movie.find({ title: new RegEx('^' + title, 'i') }) :
             query ? axios.get(createMovieDbUrl(query)) : null;
     if (!promise) {
@@ -106,16 +115,13 @@ router.put('/movies', (req, res) => {
     }).catch(err => res.send(err));
 });
 
-// Delete a movie by id.
-router.delete('/movies/:id', (req, res) => {
-    const { id } = req.params.id;
-    if (!id) res.sendStatus(400);
-    Movie.findByIdAndDelete(Types.ObjectId(id)).then(result => res.send(result)).catch(err => res.send(err));
-});
-
-// Create a new movie.
-router.post('/movies', (req, res) => {
-    Movie.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
+// Delete a movie by _id.
+router.delete('/movies/:_id', (req, res) => {
+    const { _id } = req.params._id;
+    if (!_id) res.sendStatus(400);
+    Movie.findByIdAndDelete(Types.ObjectId(_id))
+        .then(result => res.send(result))
+        .catch(err => res.send(err));
 });
 
 // Copy all members/elements in object from into object to, converting ids and movies into ObjectIds.
@@ -125,28 +131,28 @@ const deepCopy = (from, to) => {
         if (typeof value === 'object')
             deepCopy(value, to[item]);
         else
-            to[item] = item === 'id' || item === 'movie' ? Types.ObjectId(value) : value;
+            to[item] = item === '_id' || item === 'movie' ? Types.ObjectId(value) : value;
     }
 };
 
-// Modify a user with given id. All fields in body will be copied into user.
-router.put('/users', (req, res) => {
-    if (!req.body) res.sendStatus(400);
-    const { id } = req.body;
-    if (!id) res.sendStatus(400);
-    // Delete id property of body so that it won't be copied.
-    delete req.body.id;
-    User.findByIdAndUpdate(Types.ObjectId(id)).then(user => {
+// Modify a user with given _id. All fields in body will be copied into user.
+router.put('/user', (req, res) => {
+    if (!req.user) res.sendStatus(530);
+    const { _id } = req.user;
+    if (!_id) res.sendStatus(400);
+    // Delete _id property of body so that it won't be copied.
+    delete req.body._id;
+    User.findByIdAndUpdate(Types.ObjectId(_id)).then(user => {
         deepCopy(req.body, user);
         res.sendStatus(200);
     });
 });
 
-/* Given an array of movie ids and a user id as strings,
+/* Given an array of movie ids and a user _id as strings,
  * return movies the user hasn't saved, rated, or rejected. */
-const unseen = (id, movies) => {
+const unseen = (_id, movies) => {
     movies = movies.map(movie => Types.ObjectId(movie));
-    User.findById(Types.ObjectId(id), user =>
+    User.findById(Types.ObjectId(_id), user =>
         movies.filter(movie => {
             for (let item of ['ratings', 'rejects', 'saves'])
                 if (user[item].find(e => e === movie))
