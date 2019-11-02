@@ -52,7 +52,7 @@ class Home extends Component {
               <h1 className='text-center'>
                 <strong>Having trouble finding something to watch?</strong>
               </h1>
-              <h2 className='text-center'>Try our movie-roulette to find something good to watch!.</h2>
+              <h2 className='text-center'>Try our movie-roulette to find something good to watch!</h2>
 
             </Col>
             <Row>
