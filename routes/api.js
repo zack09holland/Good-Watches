@@ -78,6 +78,7 @@ router.put('/movies', (req, res) => {
     }
     promise.then(result => {
         if (query) {
+            // Query contained data for TMD.
             const { data } = result;
             const queries = data.results.map(result =>
                 new Promise((resolve, reject) => {
@@ -105,6 +106,10 @@ router.put('/movies', (req, res) => {
             console.log('response sent');
             Promise.all(queries).then(console.log)
                 .catch(console.error);
+        } else if (title) {
+            // Searched database by title.
+            console.log(result);
+            res.send(result);
         } else
             res.send(result);
     }).catch(err => res.send(err));
@@ -155,6 +160,31 @@ const unseen = (_id, movies) => {
             return true;
         }));
 };
+
+router.get('/recommendations/:_id', (req, res) => {
+    if (!req.params._id) {
+        res.sendStatus(400);
+        return;
+    }
+    Movie.findById(Types.ObjectId(req.params._id), movie => {
+        axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/reccomendations` }))
+            .then(tmdMovies => {
+                // Pull tmdIds of recommended movies.
+                const tmdIds = tmdMovies.filter(tmdMovie => tmdMovie.id);
+                // Find movies in database.
+                Movie.find({ tmdId: { $in: tmdIds } }, (err, movies) => {
+                    // TODO: Put unfound movies in the database
+                    if (req.isAuthenticated()) {
+                        res.send(unseen(req.user._id, movies));
+                    } else {
+                        res.send(movies);
+                    }
+                });
+            });
+
+    }
+    
+});
 
 
 module.exports = router;
