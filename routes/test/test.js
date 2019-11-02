@@ -13,7 +13,6 @@ function isUserAuthenticated(req, res, next) {
 }
 
 function logData(req, res, next) {
-    console.log(req.session);
     console.log(req.user);
     next();
 }
