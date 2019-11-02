@@ -40,14 +40,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // inititialze Passport into express app.use and set configuration
-app.use(passport.initialize());
-auth(passport);
+
+//auth(passport);
 
 // gets CookieSession and Cookie Parser Loaded
 var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 app.use(cookieSession({
   name: 'session',
-  keys: [process.env.sessionKey1, process.env.sessionKey1]
+  keys: [process.env.sessionKey1, process.env.sessionKey1],
+  cookie: {expires: expiryDate}
   // ,
   // cookie: {
   //   secure: true,
@@ -57,6 +58,7 @@ app.use(cookieSession({
   // }
 }));
 app.use(cookieParser(process.env.sessionKey1));
+app.use(passport.initialize());
 app.use(passport.session());
 
 // initialize routes into express app.use

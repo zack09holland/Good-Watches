@@ -5,15 +5,20 @@ const testController = require("../../controllers/testController");
 
 
 function isUserAuthenticated(req, res, next) {
-    console.log(req);
-    console.log(req.user);
     if (req.isAuthenticated()) {
         next();
     } else {
         res.send('Path is only avaialable to Authenticated Users!');
     }
 }
-router.get("/user", testController.testMsg);
+
+function logData(req, res, next) {
+    console.log(req.session);
+    console.log(req.user);
+    next();
+}
+
+router.get("/user", logData, testController.testMsg);
 router.get("/*", isUserAuthenticated, testController.testMsg);
 
 module.exports = router;

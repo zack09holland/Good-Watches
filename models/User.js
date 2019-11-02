@@ -6,7 +6,7 @@ const MovieRef = {
 }
 
 const User = new Schema({
-    token: String,
+    authId: String,
     ratings: [{
         movie: MovieRef,
         rating: Number
