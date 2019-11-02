@@ -4,7 +4,7 @@ const { Types } = require('mongoose');
 const axios = require('axios');
 
 // Get a specific user by id or all users if none specified.
-router.put('/users', (req, res) => {
+router.get('/user/:id', (req, res) => {
     console.log(req.path);
     if (!req.body) res.sendStatus(400);
     const { id } = req.body;
@@ -12,6 +12,8 @@ router.put('/users', (req, res) => {
     promise.then(result => res.send(result)).catch(err => res.send(err));
 });
 
+
+// Delete all fields in object to that are in object from.
 const deepDelete = (from, to) => {
     for (let item in from) {
         const value = from[item];
@@ -25,18 +27,19 @@ const deepDelete = (from, to) => {
 // Delete a user by id or delete fields from user as specified in body.
 router.delete('/users', (req, res) => {
     if (!req.body) res.sendStatus(400);
-    const { id } = req.body.id;
+    const { id } = req.body;
     if (!id) res.sendStatus(400);
-    delete req.body.id;
     if (req.body.keys)
         // Delete fields from the user.
         User.findByIdAndUpdate(Types.ObjectId(id)).then(user => {
-            deepDelete(req.body, user);
+            deepDelete(req.body.keys, user);
             res.send(user);
         }).catch(err => res.send(err));
     else
         // Delete the user.
-        User.findByIdAndDelete(Types.ObjectId(id)).then(res.send).catch(err => res.send(err));
+        User.findByIdAndDelete(Types.ObjectId(id))
+            .then(res.send)
+            .catch(err => res.send(err));
 
 });
 
@@ -55,7 +58,8 @@ const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
     return url;
 };
 
-// Get all movies, a specific movie by id, titles starting with given string, or movies returned by given query to TMD.
+// Get a specific movie by id, titles starting with given string (case insensitive),
+// or movies returned by given query to TMD.
 router.put('/movies', (req, res) => {
     console.log(req.path, req.body);
     if (!req.body) res.sendStatus(400);
@@ -142,14 +146,13 @@ router.put('/users', (req, res) => {
  * return movies the user hasn't saved, rated, or rejected. */
 const unseen = (id, movies) => {
     movies = movies.map(movie => Types.ObjectId(movie));
-    User.findById(Types.ObjectId(id), user => {
-        return movies.filter(movie => {
+    User.findById(Types.ObjectId(id), user =>
+        movies.filter(movie => {
             for (let item of ['ratings', 'rejects', 'saves'])
                 if (user[item].find(e => e === movie))
                     return false;
             return true;
-        });
-    });
+        }));
 };
 
 
