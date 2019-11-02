@@ -39,24 +39,22 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
 
-// inititialze Passport into express app.use and set configuration
-app.use(passport.initialize());
-auth(passport);
-
-// gets CookieSession and Cookie Parser Loaded
-var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+// gets Cookie-Session and Cookie-Parser Loaded and configured
+var expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 Day
 app.use(cookieSession({
   name: 'session',
-  keys: [process.env.sessionKey1, process.env.sessionKey1]
-  // ,
-  // cookie: {
-  //   secure: true,
-  //   httpOnly: true,
-  //   domain: 'good-watches.herokuapp.com',
-  //   expires: expiryDate
-  // }
+  keys: [process.env.sessionKey1, process.env.sessionKey1],
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    domain: 'good-watches.herokuapp.com',
+    expires: expiryDate
+  }
 }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.sessionKey1));
+
+// inititialze Passport into express app.use and set configuration
+app.use(passport.initialize());
 app.use(passport.session());
 
 // initialize routes into express app.use
