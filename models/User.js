@@ -10,6 +10,10 @@ const User = new Schema({
         type: String,
         required: true
     },
+    authProvider: {
+        type: String,
+        required: true
+    },
     ratings: [{
         movie: MovieRef,
         rating: Number
