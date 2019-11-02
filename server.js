@@ -9,7 +9,7 @@ const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 
 // npm passport configuration information
-const auth = require('./config/passport-init');
+require('./config/passport-init');
 
 // express routes
 const router = require('./routes');
