@@ -50,11 +50,6 @@ router.delete('/user', (req, res) => {
 
 });
 
-// Create a new user.
-router.post('/users', (req, res) => {
-    User.create(req.body).then(result => res.send(result)).catch(err => res.send(err));
-});
-
 
 // Given a relative url and queryParams from the page, return the url for TMD.
 const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
