@@ -3,7 +3,7 @@ import { Jumbotron } from "react-bootstrap";
 import MovieBrowser from '../components/NewModal/movie-browser/movie-browser.container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Col, Row, Container } from "../components/Grid";
-
+import "../otherPages.css"
 class TopRated extends Component {
   state = {
     movies: null,
