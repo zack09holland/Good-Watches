@@ -61,5 +61,4 @@ app.use(passport.session());
 app.use(router);
 
 // start app listening on Port
-app.listen(PORT, () => console.log('Listening on ' + PORT));
-module.exports = app;
+module.exports = app.listen(PORT, () => console.log('Listening on ' + PORT));

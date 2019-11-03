@@ -70,7 +70,7 @@ router.put('/movies', (req, res) => {
     const { _id, title, query } = req.body;
     // Create a promise based on whether the request is by _id, title, or TMD query.
     const promise = _id ? Movie.findById(Types.ObjectId(_id)) :
-        title ? Movie.find({ title: new RegEx('^' + title, 'i') }) :
+        title ? Movie.find({ title: new RegExp('^' + title, 'i') }) :
             query ? axios.get(createMovieDbUrl(query)) : null;
     if (!promise) {
         res.sendStatus(400);
