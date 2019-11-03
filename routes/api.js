@@ -124,7 +124,7 @@ router.delete('/movies/:_id', (req, res) => {
         .catch(err => res.send(err));
 });
 
-// Copy all members/elements in object from into object to, converting ids and movies into ObjectIds.
+// Copy all members/elements in from into to, converting _ids and movies into ObjectIds.
 const deepCopy = (from, to) => {
     for (let item in from) {
         const value = from[item];
@@ -155,34 +155,54 @@ const unseen = (_id, movies) => {
     User.findById(Types.ObjectId(_id), user =>
         movies.filter(movie => {
             for (let item of ['ratings', 'rejects', 'saves'])
-                if (user[item].find(e => e === movie))
+                if (user[item].includes(movie))
                     return false;
             return true;
         }));
 };
 
+
+// Get recommendations on a given movie id.
 router.get('/recommendations/:_id', (req, res) => {
     if (!req.params._id) {
         res.sendStatus(400);
         return;
     }
+    // Find the movie in the database.
     Movie.findById(Types.ObjectId(req.params._id), movie => {
-        axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/reccomendations` }))
+        axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` }))
             .then(tmdMovies => {
-                // Pull tmdIds of recommended movies.
-                const tmdIds = tmdMovies.filter(tmdMovie => tmdMovie.id);
-                // Find movies in database.
-                Movie.find({ tmdId: { $in: tmdIds } }, (err, movies) => {
-                    // TODO: Put unfound movies in the database
-                    if (req.isAuthenticated()) {
-                        res.send(unseen(req.user._id, movies));
-                    } else {
-                        res.send(movies);
-                    }
-                });
+                // Find movies in database matching tmdIds of recommendations.
+                Movie.find({ tmdId: { $in: tmdMovies.map(tmdMovie => tmdMovie.id) } },
+                    (err, movies) => {
+                        if (err) {
+                            res.send(err);
+                            return;
+                        }
+                        if (req.isAuthenticated())
+                            // Send movies the user hasn't seen yet.
+                            res.send(unseen(req.user._id, movies));
+                        else
+                            // Send all the movies.
+                            res.send(movies);
+                        if (movies.length < tmdMovies.length) {
+                            // Find movies that are not in db.
+                            const missingMovies = tmdMovies.filter(tmdMovie => 
+                                !movies.find(e => e.tmdId === tmdMovie.id));
+                            // Insert those movies into the db with titles and years.
+                            Movie.insertMany(missingMovies.map(tmdMovie => ({
+                                title: tmdMovie.title,
+                                year: parseInt(result.release_date.slice(0, 4))
+                            })),
+                            (error, docs) => {
+                                if (error) console.log('Insert error:', error);
+                                else console.log('Movies inserted:', docs);
+                            });
+                        }
+                    });
             });
 
-    }
+    });
     
 });
 
