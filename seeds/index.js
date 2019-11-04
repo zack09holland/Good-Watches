@@ -11,15 +11,16 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect(MONGODB_URI, (err) => {
+mongoose.connect(MONGODB_URI, async (err) => {
     if (err) throw err;
     console.log('Connected: ', MONGODB_URI);
+    await Movie.syncIndexes();
     const rl = readline.createInterface({
         input: fs.createReadStream('./data.tsv'),
         console: false
     });
 
-    let fields, fieldCount, movies = [];
+    let fields, fieldCount;
 
     rl.on('line', line => {
         const cells = line.split('\t');
@@ -37,17 +38,12 @@ mongoose.connect(MONGODB_URI, (err) => {
         const year = parseInt(movie.startYear);
         // no movies without years, future releases, or silent films
         if (isNaN(year) || year < 2013 || year > 2013) return;
-        movies.push({
+        Movie.create({
             title: movie.primaryTitle,
-            year: year,
-            serial: movie.titleType === 'tvSeries'
-        });
+            year: year
+        }, () => { });
     });
     rl.on('close', () => {
-        Movie.insertMany(movies)
-            .then(results => {
-                console.log(results);
-                mongoose.connection.close();
-            }).catch(console.error);
+        mongoose.connection.close();
     });
 });
