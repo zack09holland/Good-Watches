@@ -13,9 +13,11 @@ const Movie = new Schema({
     tmdId: Number
 });
 
-// No duplicate movies.
+// No duplicate movies according to year and title.
 Movie.index({ title: 1, year: -1 }, { unique: true });
-
+// Faster title search.
 Movie.index({ title: 1 });
+// Faster tmdId search.
+Movie.index({ tmdId: 1 });
 
 module.exports = model('Movie', Movie);
