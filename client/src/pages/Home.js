@@ -7,7 +7,6 @@ import { Col, Container, Row } from '../components/Grid';
 import Jumbotron from '../components/Jumbotron';
 import { List } from '../components/List';
 import Movie from '../components/Movies/Movie.js';
-import API from '../utils/API';
 import "../homepage.css"
 class Home extends Component {
   state = {
