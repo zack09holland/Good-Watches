@@ -10,7 +10,10 @@ const Movie = new Schema({
         required: true
     },
     serial: Boolean,
-    tmdId: Number
+    tmdId: {
+        type: Number,
+        unique: false
+    }
 });
 
 // No duplicate movies according to year and title.
