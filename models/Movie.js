@@ -10,10 +10,7 @@ const Movie = new Schema({
         required: true
     },
     serial: Boolean,
-    tmdId: {
-        type: Number,
-        unique: true
-    }
+    tmdId: Number
 });
 
 // No duplicate movies.
