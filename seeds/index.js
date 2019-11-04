@@ -20,7 +20,7 @@ mongoose.connect(MONGODB_URI, async (err) => {
         console: false
     });
 
-    let fields, fieldCount;
+    let fields, fieldCount, progress = 0;
 
     rl.on('line', line => {
         const cells = line.split('\t');
@@ -40,8 +40,9 @@ mongoose.connect(MONGODB_URI, async (err) => {
         if (isNaN(year) || year < 1927 || year > 2020) return;
         Movie.create({
             title: movie.primaryTitle,
-            year: year
-        }, () => { });
+            year: year,
+            serial: movie.titleType === 'tvSeries'
+        }, () => { console.log(++progress); });
     });
     rl.on('close', () => {
         mongoose.connection.close();
