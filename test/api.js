@@ -6,7 +6,6 @@ const request = require('supertest'),
 
 describe('Title Search', function () {
     it('finds movies by title', function (done) {
-        this.timeout(5000);
         request(server)
             .put('/api/movies')
             .send({
