@@ -37,7 +37,7 @@ mongoose.connect(MONGODB_URI, async (err) => {
             return;
         const year = parseInt(movie.startYear);
         // no movies without years, future releases, or silent films
-        if (isNaN(year) || year < 2013 || year > 2013) return;
+        if (isNaN(year) || year < 1927 || year > 2020) return;
         Movie.create({
             title: movie.primaryTitle,
             year: year
