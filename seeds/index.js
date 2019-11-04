@@ -32,10 +32,11 @@ mongoose.connect(MONGODB_URI, (err) => {
         for (let i = 0; i < fieldCount; ++i)
             movie[fields[i]] = cells[i];
         if (!(movie.titleType === 'movie' || movie.titleType === 'tvSeries') || movie.isAdult === '1')
+            // non-adult movies and tv series only
             return;
         const year = parseInt(movie.startYear);
-        // No movies without years, future releases, or silent films.
-        if (isNaN(year) || year < 1927 || year > 2020) return;
+        // no movies without years, future releases, or silent films
+        if (isNaN(year) || year < 2013 || year > 2013) return;
         movies.push({
             title: movie.primaryTitle,
             year: year,
@@ -43,7 +44,10 @@ mongoose.connect(MONGODB_URI, (err) => {
         });
     });
     rl.on('close', () => {
-        Movie.insertMany(movies).then(console.log).catch(console.error);
-        mongoose.connection.close();
+        Movie.insertMany(movies)
+            .then(results => {
+                console.log(results);
+                mongoose.connection.close();
+            }).catch(console.error);
     });
 });
