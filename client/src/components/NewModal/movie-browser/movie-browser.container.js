@@ -24,8 +24,7 @@ class MovieBrowser extends React.Component {
   componentDidMount() {
     window.onscroll = this.handleScroll;
     if(this.props.location === "/topratedmovies"){
-        console.log(this.props.location)
-        
+        console.log(this.props.location)  
         this.props.getTopMovies(this.state.currentPage);    
     }
     else if(this.props.location === "/upcoming"){
@@ -37,6 +36,10 @@ class MovieBrowser extends React.Component {
         this.props.getPopular(this.state.currentPage);
     }
     else if(this.props.location === "/nowplaying"){
+        console.log(this.props.location)
+        this.props.getNowPlaying(this.state.currentPage);
+    }
+    else if(this.props.location === "/"){
         console.log(this.props.location)
         this.props.getNowPlaying(this.state.currentPage);
     }
@@ -87,7 +90,7 @@ class MovieBrowser extends React.Component {
     }
     
     return (
-      <div>
+      <div className="bgColor">
         {/* <TextField onChange={e => console.log(e.currentTarget.value)} placeholder ="Search for a movie here" fullWidth="true"/> */}
         <Container>
           <Row>

@@ -2,6 +2,12 @@ const router = require('express').Router();
 const passport = require('passport');
 require('../config/passport-init');
 
+// auth logout
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
+
 // Express Route used to answer on /auth/google ---> Sends client to Google for Authentication
 router.get('/google',
     passport.authenticate('google', {
@@ -14,6 +20,25 @@ router.get('/google/callback',
     passport.authenticate('google', {
         failureRedirect: '/',
 
+    }),
+    (req, res) => {
+        if(req.isAuthenticated()){
+            res.redirect('/');
+        } else {
+            res.send('No User');
+        }
+    }
+);
+
+// Express Route used to answer on /auth/twitter ---> Sends client to Twitter for Authentication
+router.get('/twitter',
+    passport.authenticate('twitter')
+);
+
+// Express Route used to recieve the Auth Twitter callback response
+router.get('/twitter/callback',
+    passport.authenticate('twitter', {
+        failureRedirect: '/',
     }),
     (req, res) => {
         if(req.isAuthenticated()){

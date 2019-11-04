@@ -3,7 +3,7 @@ import { Jumbotron } from "react-bootstrap";
 import MovieBrowser from '../components/TV/tv-browser/tv-browser.container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {Container } from "../components/Grid";
-
+import "../otherPages.css"
 class TVOnTheAir extends Component {
   state = {
     movies: null,
