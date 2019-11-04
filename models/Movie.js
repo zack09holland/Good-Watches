@@ -21,6 +21,6 @@ Movie.index({ title: 1, year: -1 }, { unique: true });
 // Faster title search.
 Movie.index({ title: 1 });
 // Faster tmdId search.
-Movie.index({ tmdId: 1 });
+Movie.index({ tmdId: 1 }, { unique: false });
 
 module.exports = model('Movie', Movie);
