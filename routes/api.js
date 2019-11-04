@@ -40,7 +40,7 @@ router.delete('/user', (req, res) => {
         // Delete fields from the user.
         User.findByIdAndUpdate(Types.ObjectId(_id)).then(user => {
             deepDelete(fields, user);
-            res.send(user);
+            res.sendStatus(200);
         }).catch(err => res.send(err));
     else
         // Delete the user.
