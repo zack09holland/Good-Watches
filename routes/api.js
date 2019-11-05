@@ -16,18 +16,7 @@ router.get('/user/:_id?', (req, res) => {
 });
 
 
-// Delete all fields in object to that are in object from.
-const deepDelete = (from, to) => {
-    for (let item in from) {
-        const value = from[item];
-        if (typeof value === 'object')
-            deepDelete(value, to[item]);
-        else
-            delete to[item];
-    }
-};
-
-// Delete a user by _id or delete fields from user as specified in body.
+// Delete a user by _id.
 router.delete('/user', (req, res) => {
     if (!req.user) {
         res.sendStatus(530);
@@ -35,18 +24,10 @@ router.delete('/user', (req, res) => {
     }
     const { _id } = req.user;
     if (!_id) res.sendStatus(400);
-    const { fields } = req.body;
-    if (fields)
-        // Delete fields from the user.
-        User.findByIdAndUpdate(Types.ObjectId(_id)).then(user => {
-            deepDelete(fields, user);
-            res.sendStatus(200);
-        }).catch(err => res.send(err));
-    else
-        // Delete the user.
-        User.findByIdAndDelete(Types.ObjectId(_id))
-            .then(res.send)
-            .catch(err => res.send(err));
+    // Delete the user.
+    User.findByIdAndDelete(Types.ObjectId(_id))
+        .then(res.send)
+        .catch(err => res.send(err));
 
 });
 
@@ -131,28 +112,19 @@ router.delete('/movies/:_id', (req, res) => {
         .catch(err => res.send(err));
 });
 
-// Copy all members/elements in from into to, converting _ids and movies into ObjectIds.
-const deepCopy = (from, to) => {
-    for (let item in from) {
-        const value = from[item];
-        if (typeof value === 'object')
-            deepCopy(value, to[item]);
-        else
-            to[item] = item === '_id' || item === 'movie' ? Types.ObjectId(value) : value;
-    }
-};
-
-// Modify a user with given _id. All fields in body will be copied into user.
-router.put('/user', (req, res) => {
-    if (!req.user) res.sendStatus(530);
-    const { _id } = req.user;
-    if (!_id) res.sendStatus(400);
-    // Delete _id property of body so that it won't be copied.
-    delete req.body._id;
-    User.findByIdAndUpdate(Types.ObjectId(_id)).then(user => {
-        deepCopy(req.body, user);
-        res.sendStatus(200);
-    });
+// Favorite a movie.
+router.put('/user/favorite', (req, res) => {
+    /*if (!req.isAuthenticated()) {
+        res.sendStatus(530);
+        return;
+    }*/
+    console.log(req.path, req.body);
+    Movie.findOne({ tmdId: req.body.tmdId }, movie =>
+        User.update({ _id: Types.ObjectId("5db1045d93a6990eb88201b9") },
+            { $push: { saves: movie } }, user => {
+                console.log('user:', user);
+                res.sendStatus(200);
+            }));
 });
 
 /* Given an array of movie ids and a user _id as strings,
