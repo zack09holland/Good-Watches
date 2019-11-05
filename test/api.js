@@ -4,13 +4,16 @@ const request = require('supertest'),
     server = require('../server'),
     assert = require('assert');
 
+const mongoose = require('mongoose');
 
+before()
+mongoose.connect('mongodb://localhost/test');
 
 describe('Save movie', function () {
     it('Favorites some movie', function (done) {
         request(server)
             .put('/api/user/favorite')
-            .send({ tmdId: null })
+            .send({ tmdId:  })
             .expect(200)
             .then(done());
     })
