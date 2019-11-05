@@ -38,9 +38,10 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
+app.use(express.static('expressclient'));
 
 // gets Cookie-Session and Cookie-Parser Loaded and configured
-var expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 Day
+var expiryDate = new Date(Date.now() + 30 * 1000); // 1 Day
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.sessionKey1, process.env.sessionKey1],
@@ -49,7 +50,8 @@ app.use(cookieSession({
     httpOnly: true,
     domain: 'good-watches.herokuapp.com',
     expires: expiryDate
-  }
+  },
+  maxAge: 30 * 1000
 }));
 app.use(cookieParser(process.env.sessionKey1));
 

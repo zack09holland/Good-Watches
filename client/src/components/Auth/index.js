@@ -1,0 +1,97 @@
+import React, { Component } from "react";
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap-social';
+import { Col, Row} from '../Grid';
+import "./style.css";
+
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+class Auth extends Component {
+  
+  state = {
+    user: {
+        name: '',
+        authenticated: ''
+    },
+    open: false,
+    width: window.innerWidth,
+    show: false
+  };
+  constructor(props) {
+    super(props);
+
+
+  }
+  showModal = e => {
+    this.setState({
+      show: true
+    });
+  };
+
+  closeModal = e => {
+    this.setState({
+      show: false
+    });
+  };
+
+  
+  updateWidth = () => {
+    const newState = { width: window.innerWidth };
+
+    if (this.state.open && newState.width > 991) {
+      newState.open = false;
+    }
+
+    this.setState(newState);
+  };
+
+  toggleNav = () => {
+    this.setState({ open: !this.state.open });
+  };
+
+  componentDidMount() {
+    window.addEventListener("resize", this.updateWidth);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWidth);
+  }
+
+  render() {
+    return (
+        <div>
+        <button type="button" class="btn btn-danger btn-lg" onClick={e => {
+              this.showModal();
+         }}>
+          Log In
+        </button>
+        <Modal centered="True" show={this.state.show} >
+        <Modal.Header >
+          <Modal.Title>Sign up to access more!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <Row>
+              <Col size="md-6">
+                <a id="google-button" class="btn btn-block btn-social btn-google" href="/auth/google">
+                  <i class="fa fa-google"></i> Sign in with Google
+                </a>
+            </Col>
+                <Col size="md-6">
+                <a id="twitter-button" class="btn btn-block btn-social btn-twitter" href="/auth/twitter">
+                  <i class="fa fa-twitter"></i> Sign in with Twitter
+                </a>
+              </Col>
+            </Row>
+          </Modal.Body>
+        <Modal.Footer>
+          <button  onClick={e => {
+                this.closeModal();
+          }}
+            > Close </button>
+        </Modal.Footer>
+        </Modal>
+        </div>
+    );
+  }
+}
+
+export default Auth;
