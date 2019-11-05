@@ -50,6 +50,19 @@ router.delete('/user', (req, res) => {
 
 });
 
+// Get titles starting with given search string (case insensitive)
+router.get('/movies/search/:title', (req, res) => {
+    console.log(req.path, 'Start:', new Date().getMilliseconds());
+    const regex = new RegExp('^' + req.params.title, 'i');
+    console.log(regex);
+    Movie.findOne({ title: regex },
+        (err, result) => {
+            console.error(err);
+            console.log('result:', result);
+            res.send(result);
+        });
+    console.log(req.path, 'End:', new Date().getMilliseconds());
+});
 
 // Given a relative url and queryParams from the page, return the url for TMD.
 const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
@@ -62,21 +75,13 @@ const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
     return url;
 };
 
-// Get a specific movie by _id, titles starting with given string (case insensitive),
-// or movies returned by given query to TMD.
+// Get movies returned by given query to TMD.
 router.put('/movies', (req, res) => {
     console.log(req.path, req.body);
     if (!req.body) res.sendStatus(400);
-    const { _id, title, query } = req.body;
+    const { query } = req.body;
     // Create a promise based on whether the request is by _id, title, or TMD query.
-    const promise = _id ? Movie.findById(Types.ObjectId(_id)) :
-        title ? Movie.find({ title: new RegExp('^' + title, 'i') }) :
-            query ? axios.get(createMovieDbUrl(query)) : null;
-    if (!promise) {
-        res.sendStatus(400);
-        return;
-    }
-    promise.then(result => {
+    axios.get(createMovieDbUrl(query)).then(result => {
         if (query) {
             // Query contained data for TMD.
             const { data } = result;
@@ -114,6 +119,8 @@ router.put('/movies', (req, res) => {
             res.send(result);
     }).catch(err => res.send(err));
 });
+
+
 
 // Delete a movie by _id.
 router.delete('/movies/:_id', (req, res) => {
@@ -187,23 +194,23 @@ router.get('/recommendations/:_id', (req, res) => {
                             res.send(movies);
                         if (movies.length < tmdMovies.length) {
                             // Find movies that are not in db.
-                            const missingMovies = tmdMovies.filter(tmdMovie => 
+                            const missingMovies = tmdMovies.filter(tmdMovie =>
                                 !movies.find(e => e.tmdId === tmdMovie.id));
                             // Insert those movies into the db with titles and years.
                             Movie.insertMany(missingMovies.map(tmdMovie => ({
                                 title: tmdMovie.title,
                                 year: parseInt(result.release_date.slice(0, 4))
                             })),
-                            (error, docs) => {
-                                if (error) console.log('Insert error:', error);
-                                else console.log('Movies inserted:', docs);
-                            });
+                                (error, docs) => {
+                                    if (error) console.log('Insert error:', error);
+                                    else console.log('Movies inserted:', docs);
+                                });
                         }
                     });
             });
 
     });
-    
+
 });
 
 
