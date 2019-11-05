@@ -36,7 +36,7 @@ router.get('/movies/search/:title', (req, res) => {
     console.log(req.path, 'Start:', new Date().getMilliseconds());
     const regex = new RegExp('^' + req.params.title, 'i');
     console.log(regex);
-    Movie.findOne({ title: regex },
+    Movie.find({ title: regex },
         (err, result) => {
             console.error(err);
             console.log('result:', result);
