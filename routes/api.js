@@ -103,7 +103,7 @@ router.put('/movies', (req, res) => {
                 })
             );
             res.send(data);
-            console.log('response sent');
+            console.log('Response sent, processing queries...');
             Promise.all(queries).then(console.log)
                 .catch(console.error);
         } else if (title) {
