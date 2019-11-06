@@ -36,9 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // if the NODE_ENV is production (HEROKU Default) then static load the client/build path
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
+app.use(express.static('client/build'));
 
 // gets Cookie-Session and Cookie-Parser Loaded and configured
 var expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 Day

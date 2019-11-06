@@ -120,7 +120,7 @@ router.put('/user/favorite', (req, res) => {
     }*/
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId("5db1045d93a6990eb88201b9") },
+        User.update({ _id: Types.ObjectId('5db1045d93a6990eb88201b9') },
             { $push: { saves: movie } }, user => {
                 console.log('user:', user);
                 res.sendStatus(200);
@@ -135,7 +135,7 @@ router.put('/user/reject', (req, res) => {
     }*/
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId("5db1045d93a6990eb88201b9") },
+        User.update({ _id: Types.ObjectId('5db1045d93a6990eb88201b9') },
             { $push: { rejects: movie } }, user => {
                 console.log('user:', user);
                 res.sendStatus(200);
@@ -150,7 +150,7 @@ router.put('/user/watched', (req, res) => {
     }*/
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId("5db1045d93a6990eb88201b9") },
+        User.update({ _id: Types.ObjectId('5db1045d93a6990eb88201b9') },
             { $push: { rejects: movie } }, user => {
                 console.log('user:', user);
                 res.sendStatus(200);
