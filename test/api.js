@@ -13,7 +13,7 @@ describe('Save movie', function () {
     it('Favorites some movie', function (done) {
         request(server)
             .put('/api/user/favorite')
-            .send({ tmdId:  })
+            .send({ tmdId: /*TODO: FIND TMDID*/ null })
             .expect(200)
             .then(done());
     })
