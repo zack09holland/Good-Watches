@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const MovieRef = {
     type: Schema.Types.ObjectId,
     ref: 'Movie'
-}
+};
 
 const User = new Schema({
     authId: {

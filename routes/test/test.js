@@ -12,7 +12,7 @@ function isUserAuthenticated(req, res, next) {
 
 // Middleware to log the current req.user
 function logData(req, res, next) {
-    console.log(req.user);
+    console.log('req.user:', req.user);
     next();
 }
 

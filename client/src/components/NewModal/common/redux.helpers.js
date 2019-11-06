@@ -20,16 +20,15 @@ const createAction = (type, actionProps) => {
 // wanted to capture the requestParams as part of the start action for logging transparency
 export const createAsyncActionCreator = (actionType, asyncRequestFn, requestParams) => {
   return (dispatch) => {
-    dispatch(createAction(`${actionType}_START`, {request: requestParams}));
+    dispatch(createAction(`${actionType}_START`, { request: requestParams }));
     // NOTE: asyncRequestFn must accept single object parameter
     // in order to resolve param values
     return asyncRequestFn(requestParams)
       .then(response => {
-        response.json()
-          .then(json => dispatch(createAction(`${actionType}_SUCCESS`, { response: json })))
-          .catch(error => dispatch(createAction(`${actionType}_ERROR`, { error })));
-      });
-      
+        console.log(response);
+        dispatch(createAction(`${actionType}_SUCCESS`, { response: response.data }));
+      }).catch(error => dispatch(createAction(`${actionType}_ERROR`, { error })))
+
   };
 }
 
@@ -39,21 +38,21 @@ const initialAsyncState = { isLoading: false, response: null, request: null };
 // Generic way of handling state changes for an async request
 // Can override {action_type}_START, {action_type}_SUCCESS, {action_type}_ERROR
 export const createAsyncReducer = (actionType, actionHandlerKeyFuncs = {}, initialState = initialAsyncState) => {
-   const startReducerFn = (state, action) => ({
-      ...state,
-      isLoading: true,
-      request: action.request
+  const startReducerFn = (state, action) => ({
+    ...state,
+    isLoading: true,
+    request: action.request
   });
 
   const successReducerFn = (state, action) => ({
-      ...state,
-      isLoading: false,
-      response: action.response
+    ...state,
+    isLoading: false,
+    response: action.response
   });
   const errorReducerFn = (state, action) => ({
-      ...state,
-      isLoading: false,
-      error: action.error
+    ...state,
+    isLoading: false,
+    error: action.error
   });
 
   return createReducer(

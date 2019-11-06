@@ -20,9 +20,10 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect(MONGODB_URI, (err) => {
+mongoose.connect(MONGODB_URI, err => {
     if (err) throw err;
 });
+console.log('Mongoose connected');
 
 // Port Value for Express Application
 const PORT = process.env.PORT || 8080;
@@ -35,21 +36,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // if the NODE_ENV is production (HEROKU Default) then static load the client/build path
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
+app.use(express.static('client/build'));
 
 // gets Cookie-Session and Cookie-Parser Loaded and configured
 var expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 Day
 app.use(cookieSession({
-  name: 'session',
-  keys: [process.env.sessionKey1, process.env.sessionKey1],
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    domain: 'good-watches.herokuapp.com',
-    expires: expiryDate
-  }
+    name: 'session',
+    keys: [process.env.sessionKey1, process.env.sessionKey1],
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        domain: 'good-watches.herokuapp.com',
+        expires: expiryDate
+    }
 }));
 app.use(cookieParser(process.env.sessionKey1));
 
@@ -61,5 +60,9 @@ app.use(passport.session());
 app.use(router);
 
 // start app listening on Port
-app.listen(PORT, () => console.log('Listening on ' + PORT));
-module.exports = app;
+const server = app.listen(PORT, () => console.log('Listening on ' + PORT));
+
+module.exports = {
+    server: server,
+    app: app
+};

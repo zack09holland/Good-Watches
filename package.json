@@ -4,14 +4,14 @@
     "description": "recommends movies",
     "main": "server.js",
     "scripts": {
-        "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+        "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:prod",
         "start:prod": "node server.js",
         "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
         "client": "cd client && npm run start",
         "install": "cd client && npm install",
         "build": "cd client && npm run build",
         "heroku-postbuild": "npm run build",
-        "test": "mocha --timeout 10000"
+        "test": "mocha"
     },
     "repository": {
         "type": "git",
@@ -22,7 +22,7 @@
     "bugs": {
         "url": "https://github.com/trodge/Project-3/issues"
     },
-    "homepage": "http://localhost:8080",
+    "homepage": "https://good-watches.herokuapp.com/",
     "dependencies": {
         "axios": "0.19.0",
         "cookie-parser": "^1.4.4",
@@ -38,8 +38,8 @@
     },
     "devDependencies": {
         "concurrently": "^5.0.0",
-        "mocha": "^6.2.2",
         "node-sass": "^4.12.0",
-        "nodemon": "^1.19.4"
+        "nodemon": "^1.19.4",
+        "supertest": "^4.0.2"
     }
 }

@@ -1,5 +1,5 @@
 node_modules
 .DS_Store
 build
-seeds
+seeds/data.tsv
 .env
