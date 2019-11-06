@@ -64,6 +64,7 @@ router.put('/movies', (req, res) => {
     axios.get(createMovieDbUrl(req.body.query)).then(result => {
         if (query) {
             // Query contained data for TMD.
+            console.log('Execute result 66:', result);
             const { data } = result;
             const queries = data.results.map(result =>
                 new Promise((resolve, reject) => {
