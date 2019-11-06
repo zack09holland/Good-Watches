@@ -54,17 +54,17 @@ export const getRecommendations = (movieId) => createAsyncActionCreator(
 export const searchMovies = (query, page) => createAsyncActionCreator(
   keys.SEARCH_MOVIES,
   movieService.searchMovies, 
-  {query, page}
+  {query:query, page:page}
 );
 
 export const getMovieDetails = (movieId) => createAsyncActionCreator(
   keys.GET_MOVIE_DETAILS,
   movieService.getMovieDetails, 
-  {movieId}
+  {movieId:movieId}
 );
 
 export const getMovieCredits = (movieId) => createAsyncActionCreator(
   keys.GET_MOVIE_CREDITS,
   movieService.getMovieCredits, 
-  {movieId}
+  {movieId:movieId}
 );
