@@ -143,7 +143,7 @@ router.put('/user/reject/:_id', (req, res) => {
 });
 
 // Mark a movie as watched.
-router.put('/user/watched/_id', (req, res) => {
+router.put('/user/watched/:_id', (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
