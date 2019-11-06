@@ -60,8 +60,9 @@ const createMovieDbUrl = ({ relativeUrl, params }) => {
 router.put('/movies', (req, res) => {
     console.log(req.path, req.body);
     if (!req.body) res.sendStatus(400);
+    const { query } = req.body;
     // Create a promise out of the req.body.
-    axios.get(createMovieDbUrl(req.body.query)).then(result => {
+    axios.get(createMovieDbUrl(query)).then(result => {
         if (query) {
             // Query contained data for TMD.
             console.log('Execute result 66:', result);
