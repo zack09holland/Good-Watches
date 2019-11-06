@@ -52,7 +52,7 @@ const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
         Object.keys(queryParams)
             .forEach(paramName => url += `&${paramName}=${queryParams[paramName]}`);
     }
-    console.log(url);
+    console.log(relativeUrl, queryParams, url);
     return url;
 };
 
