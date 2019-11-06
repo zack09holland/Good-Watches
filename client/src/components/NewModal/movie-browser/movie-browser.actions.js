@@ -18,7 +18,7 @@ export const getTopMovies = (page) => createAsyncActionCreator(
   // requestFn
   movieService.getTopMovies, 
   // requestParams
-  {page}
+  {page:page}
 );
 export const getUpcoming = (page) => createAsyncActionCreator(
   // actionType
@@ -26,7 +26,7 @@ export const getUpcoming = (page) => createAsyncActionCreator(
   // requestFn
   movieService.getUpcoming, 
   // requestParams
-  {page}
+  {page:page}
 );
 export const getPopular = (page) => createAsyncActionCreator(
   // actionType
@@ -34,7 +34,7 @@ export const getPopular = (page) => createAsyncActionCreator(
   // requestFn
   movieService.getPopular, 
   // requestParams
-  {page}
+  {page:page}
 );
 export const getNowPlaying = (page) => createAsyncActionCreator(
   // actionType
@@ -42,14 +42,15 @@ export const getNowPlaying = (page) => createAsyncActionCreator(
   // requestFn
   movieService.getNowPlaying, 
   // requestParams
-  {page}
+  {page:page}
 );
 
 export const getRecommendations = (movieId) => createAsyncActionCreator(
   keys.GET_RECOMMENDATIONS,
   movieService.getRecommendations, 
-  {movieId}
+  {movieId:movieId}
 );
+
 export const searchMovies = (query, page) => createAsyncActionCreator(
   keys.SEARCH_MOVIES,
   movieService.searchMovies, 
