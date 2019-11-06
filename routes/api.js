@@ -52,7 +52,7 @@ const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
         // Cleaner ?
         url += `&${paramName}=${queryParams[item]}`);
     }
-    console.log(relativeUrl, queryParams, url);
+    console.log('createMovieDbUrl:', relativeUrl, queryParams, url);
     return url;
 };
 
