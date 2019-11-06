@@ -114,10 +114,10 @@ router.delete('/movies/:_id', (req, res) => {
 
 // Favorite a movie.
 router.put('/user/favorite', (req, res) => {
-    /*if (!req.isAuthenticated()) {
+    if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
-    }*/
+    }
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
         User.update({ _id: Types.ObjectId('5db1045d93a6990eb88201b9') },
@@ -129,10 +129,10 @@ router.put('/user/favorite', (req, res) => {
 
 // Reject a movie.
 router.put('/user/reject', (req, res) => {
-    /*if (!req.isAuthenticated()) {
+    if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
-    }*/
+    }
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
         User.update({ _id: Types.ObjectId('5db1045d93a6990eb88201b9') },
@@ -144,10 +144,10 @@ router.put('/user/reject', (req, res) => {
 
 // Mark a movie as watched.
 router.put('/user/watched', (req, res) => {
-    /*if (!req.isAuthenticated()) {
+    if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
-    }*/
+    }
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
         User.update({ _id: Types.ObjectId('5db1045d93a6990eb88201b9') },
