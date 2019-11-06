@@ -26,7 +26,7 @@ router.delete('/user', (req, res) => {
     if (!_id) res.sendStatus(400);
     // Delete the user.
     User.findByIdAndDelete(Types.ObjectId(_id))
-        .then(res.send)
+        .then(result => res.send(result))
         .catch(err => res.send(err));
 
 });
@@ -49,7 +49,7 @@ router.get('/movies/search/:title', (req, res) => {
 const createMovieDbUrl = ({ relativeUrl, params }) => {
     let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
     for (let item in params) {
-        // Cleaner ?
+        // Concatenate params' values to url.
         url += `&${item}=${params[item]}`;
     }
     console.log('createMovieDbUrl:', relativeUrl, params, url);
@@ -119,10 +119,10 @@ router.put('/user/favorite/:_id', (req, res) => {
         return;
     }
     console.log(req.path, req.body);
-    Movie.findOne({ tmdId: req.body.tmdId }, movie =>
+    Movie.findOne({ tmdId: req.body.tmdId }, dbMovie =>
         User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { saves: movie } }, user => {
-                console.log('user:', user);
+            { $push: { saves: dbMovie } }, dbUser => {
+                console.log('dbUser:', dbUser);
                 res.sendStatus(200);
             }));
 });
@@ -136,8 +136,8 @@ router.put('/user/reject/:_id', (req, res) => {
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
         User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { rejects: movie } }, user => {
-                console.log('user:', user);
+            { $push: { rejects: movie } }, dbUser => {
+                console.log('dbUser:', dbUser);
                 res.sendStatus(200);
             }));
 });
@@ -151,8 +151,8 @@ router.put('/user/watched/:_id', (req, res) => {
     console.log(req.path, req.body);
     Movie.findOne({ tmdId: req.body.tmdId }, movie =>
         User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { rejects: movie } }, user => {
-                console.log('user:', user);
+            { $push: { rejects: movie } }, dbUser => {
+                console.log('dbUser:', dbUser);
                 res.sendStatus(200);
             }));
 });
