@@ -128,7 +128,7 @@ class Nav extends Component {
                 className={window.location.pathname === "/saved" ? "nav-link active" : "nav-link"}
                 to="/saved"
               >
-                Favorites
+                User Data
               </Link>
             </li>
           </ul>

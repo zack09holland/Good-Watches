@@ -23,4 +23,28 @@
   .close:after {
     transform: rotate(-45deg);
   }
+  #favIcon{
+    top:10px;
+    background-color: purple;
+    left: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+  }
+  #seenIcon{
+    top:10px;
+
+    left: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+  }
+  #rejectIcon{
+    top:10px;
+
+    left: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+  }
   
