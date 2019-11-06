@@ -48,9 +48,9 @@ router.get('/movies/search/:title', (req, res) => {
 // Given a relative url and queryParams from the page, return the url for TMD.
 const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
     let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
-    if (queryParams) {
-        Object.keys(queryParams)
-            .forEach(paramName => url += `&${paramName}=${queryParams[paramName]}`);
+    for (let item in queryParams) {
+        // Cleaner ?
+        url += `&${paramName}=${queryParams[item]}`);
     }
     console.log(relativeUrl, queryParams, url);
     return url;
