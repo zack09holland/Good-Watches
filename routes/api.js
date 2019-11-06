@@ -45,14 +45,14 @@ router.get('/movies/search/:title', (req, res) => {
     console.log(req.path, 'End:', new Date().getMilliseconds());
 });
 
-// Given a relative url and queryParams from the page, return the url for TMD.
-const createMovieDbUrl = ({ relativeUrl, queryParams }) => {
+// Given a relative url and params from the page, return the url for TMD.
+const createMovieDbUrl = ({ relativeUrl, params }) => {
     let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
-    for (let item in queryParams) {
+    for (let item in params) {
         // Cleaner ?
-        url += `&${paramName}=${queryParams[item]}`;
+        url += `&${paramName}=${params[item]}`;
     }
-    console.log('createMovieDbUrl:', relativeUrl, queryParams, url);
+    console.log('createMovieDbUrl:', relativeUrl, params, url);
     return url;
 };
 
