@@ -50,7 +50,7 @@ const createMovieDbUrl = ({ relativeUrl, params }) => {
     let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
     for (let item in params) {
         // Cleaner ?
-        url += `&${paramName}=${params[item]}`;
+        url += `&${item}=${params[item]}`;
     }
     console.log('createMovieDbUrl:', relativeUrl, params, url);
     return url;
