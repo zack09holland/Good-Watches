@@ -10,9 +10,6 @@ class Saved extends Component {
 
   };
 
-  componentDidMount() {
-
-  }
 
   render() {
     return (
@@ -20,11 +17,28 @@ class Saved extends Component {
         <Row>
           <Col size="md-12">
             <Jumbotron>
+              <h1 className="text-center">
+                <strong>User Data</strong>
+              </h1>
+              <h2 className="text-center">See what you have favorited and watched.</h2>
             </Jumbotron>
           </Col>
         </Row>
         <Row>
           <Col size="md-12">
+            <Card title="Favorites">
+             
+            </Card>
+          </Col>
+          <Col size="md-12">
+            <Card title="Watched">
+             
+            </Card>
+          </Col>
+          <Col size="md-12">
+            <Card title="No watch list">
+             
+            </Card>
           </Col>
         </Row>
         <Footer />
