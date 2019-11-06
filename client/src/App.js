@@ -14,6 +14,7 @@ import TVLatest from "./pages/TVLatest";
 import TVOnTheAir from "./pages/TVOnTheAir";
 import TVPopular from "./pages/TVPopular";
 import TVTopRated from "./pages/TVTopRated";
+import NotAuthorized from "./pages/NotAuthorized";
 
 
 
@@ -36,7 +37,8 @@ function App() {
               <Route exact path="/ontheair" component={TVOnTheAir} />
               <Route exact path="/populartv" component={TVPopular} />
               <Route exact path="/topratedtv" component={TVTopRated} />
-              <Route component={NoMatch} />
+              {/* <Route component={NoMatch} /> */}
+              <Route exact path="/notauser" component={NotAuthorized} />
             </Switch>
           </div>
         </Router>

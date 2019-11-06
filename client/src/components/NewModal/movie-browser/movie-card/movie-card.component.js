@@ -40,7 +40,7 @@ class MovieCardComponent extends React.Component {
     const {movie, openMovieModal} = this.props;
     // The CardTitle.subtitle won't render if it's null
     const subtitle = this.state.isMouseOver ? movie.overview : null;
-
+    
     return (
       
       <Card
@@ -50,8 +50,12 @@ class MovieCardComponent extends React.Component {
         onClick= {() => openMovieModal(movie.id)}
       >
         <div className={classes.VoteContainer}>
-        <span className={classes.Vote}>{movie.vote_average}</span>
-      </div>
+          <span className={classes.Vote}>{movie.vote_average}</span>
+        </div>
+        <div className={classes.FavContainer}>
+          {/* <span className={classes.Vote}>{movie.vote_average}</span> */}
+          {/* <button><i class="fa fa-heart"></i></button> */}
+        </div>
         <CardMedia
           style={styles.cardMedia}
           
