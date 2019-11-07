@@ -178,7 +178,7 @@ router.get('/recommendations/:_id', (req, res) => {
         return;
     }
     // Find the movie in the database.
-    Movie.findById(Types.ObjectId(req.params._id), movie => {
+    Movie.findById(Types.ObjectId(req.params._id)).then(movie =>
         axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` }))
             .then(tmdMovies => {
                 // Find movies in database matching tmdIds of recommendations.
@@ -209,9 +209,7 @@ router.get('/recommendations/:_id', (req, res) => {
                                 });
                         }
                     });
-            });
-
-    });
+            }));
 
 });
 
