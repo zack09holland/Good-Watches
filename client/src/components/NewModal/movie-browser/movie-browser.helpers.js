@@ -2,6 +2,7 @@ const TMDB_IMAGE_BASE_URL = (width = 300) => `https://image.tmdb.org/t/p/w${widt
 
 export const updateMoviePictureUrls = (movieResult, width = 300) => {
   if (movieResult) {
+    console.log(movieResult);
     return {
       ...movieResult,
       backdrop_path: `${TMDB_IMAGE_BASE_URL(width)}${movieResult.backdrop_path}`,
