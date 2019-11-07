@@ -128,7 +128,7 @@ class Dropdown extends Component {
       </Downshift>
       
       <Row>
-      <Movies list={this.state.movies} />
+      <Movies list={this.state.recommendations} />
       </Row>
     </Container>
     );
