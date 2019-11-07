@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Modal from 'react-bootstrap/Modal'
 import { Col, Row} from '../Grid';
 import "./style.css";
+import Auth from '../Auth/index';
 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 class Nav extends Component {
@@ -22,26 +22,19 @@ class Nav extends Component {
       tvdropdownOpen: false,
     };
   }
-  showModal = e => {
-    this.setState({
-      show: true
-    });
-  };
-  closeModal = e => {
-    this.setState({
-      show: false
-    });
-  };
+
   movietoggle() {
     this.setState({
       moviedropdownOpen: !this.state.moviedropdownOpen
     });
   }
+
   tvtoggle() {
     this.setState({
       tvdropdownOpen: !this.state.tvdropdownOpen
     });
   }
+  
   updateWidth = () => {
     const newState = { width: window.innerWidth };
 
@@ -132,48 +125,8 @@ class Nav extends Component {
               </Link>
             </li>
           </ul>
-          {/*<a id="login" href="/auth/google">Log in</a>  */}
         </div>
-        <button type="button" class="btn btn-danger btn-lg" onClick={e => {
-              this.showModal();
-         }}>
-          Log In
-        </button>
-        <Modal centered="True" show={this.state.show} >
-        <Modal.Header >
-          <Modal.Title>Sign up to access more!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <Row>
-              <Col size="md-6">
-                <a href="/auth/google">
-                  <button href="/auth/google"class="btn btn-danger btn-lg">
-                      <div class="left">
-                        <i color="blue" width="20px" class="fa fa-2x fa-google"></i> 
-                      </div>
-                    Sign in with Google
-                  </button>
-                </a>
-                </Col>
-                <Col size="md-6">
-                <a href="/auth/twitter">
-                  <button class="btn btn-danger btn-lg">
-                      <div class="left">
-                        <i color="blue" width="20px" class="fa fa-2x fa-twitter-square"></i> 
-                      </div>
-                      Sign in with Twitter
-                  </button>
-                </a>
-              </Col>
-            </Row>
-          </Modal.Body>
-        <Modal.Footer>
-          <button  onClick={e => {
-                this.closeModal();
-          }}
-            > Close </button>
-        </Modal.Footer>
-        </Modal>
+        < Auth />
       </nav>
     );
   }

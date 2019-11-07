@@ -5,7 +5,16 @@ require('../config/passport-init');
 // auth logout
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.send(true);
+});
+
+// auth logout
+router.get('/authenticated', (req, res) => {
+    if(req.isAuthenticated()){
+        res.send(true);
+    } else {
+        res.send(false);
+    }
 });
 
 // Express Route used to answer on /auth/google ---> Sends client to Google for Authentication
