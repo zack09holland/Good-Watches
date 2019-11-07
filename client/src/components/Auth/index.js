@@ -4,7 +4,6 @@ import 'bootstrap-social';
 import { Col, Row} from '../Grid';
 import "./style.css";
 import AUTH from "../../utils/AUTH";
-export default withRouter(connect(mapStateToProps, matchDispatchToProps)(ChildView));
 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 class Auth extends Component {
