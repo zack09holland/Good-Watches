@@ -10,6 +10,7 @@ class Auth extends Component {
   
   state = {
     authenticated: "",
+    buttonLabel: "",
     open: false,
     width: window.innerWidth,
     show: false
@@ -23,10 +24,16 @@ class Auth extends Component {
     AUTH.isAuthenticated()
       .then(
         res => {
-          console.log(res);
+          console.log("AuthStatement: " + res);
           this.setState({authenticated: res.data})
-        }
-      )
+        })
+    .catch(err => console.log("AuthStatement: " + err))
+  }
+  
+  logoff = () => {
+    AUTH.logoff()
+      .then(res => console.log('Logoff'))
+      .catch(err => console.log(err));
   }
 
   showModal = e => {
@@ -58,7 +65,9 @@ class Auth extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.updateWidth);
-    this.authenticated();
+    if(this.authenticated()){
+      console.log("Authenticated")
+    }
     
   }
 
@@ -69,11 +78,12 @@ class Auth extends Component {
   render() {
     return (
         <div>
-        <button type="button" className="btn btn-danger btn-lg" onClick={e => {
-              this.showModal();
-         }}>
-          Log In
-        </button>
+        {this.state.authenticated ? (<button type="button" className="btn btn-danger btn-lg" onClick={() => {this.logoff()}}>
+          Log off
+          </button>) : (<button type="button" className="btn btn-danger btn-lg" onClick={() => {this.showModal()}}>
+        Log In
+        </button>)
+        }
         <Modal centered="True" show={this.state.show} >
         <Modal.Header >
           <Modal.Title>Sign up to access more!</Modal.Title>
