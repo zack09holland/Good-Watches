@@ -1,38 +1,38 @@
-//During the test the env variable is set to test
-process.env.NODE_ENV = 'test';
+const { Movie } = require('../models');
 
-const mongoose = require("mongoose");
-const { User, Movie } = require('../models');
+const request = require('supertest'),
+    server = require('../server'),
+    assert = require('assert');
 
-//Require the dev-dependencies
-const chai = require('chai');
-const { expect } = chai;
-const server = require('../server');
+const mongoose = require('mongoose');
 
-chai.use(require('chai-http'));
+before(function () {
+    mongoose.connect('mongodb://localhost/test');
+});
 
-describe('API', () => {
-    before(() => {
-        const MONGODB_URI = 'mongodb://localhost/test';
-        mongoose.set('useNewUrlParser', true);
-        mongoose.set('useFindAndModify', false);
-        mongoose.set('useCreateIndex', true);
-        mongoose.set('useUnifiedTopology', true);
-        mongoose.connect(MONGODB_URI, (err) => {
-            if (err) throw err;
-        });
+describe('Title Search', function () {
+    it('finds movies by title', function (done) {
+        request(server)
+            .get('/api/movies/search/47')
+            .then(function (err, res) {
+                console.error(err);
+                console.log('response body:', res.body);
+                assert(Array.isArray(res.body));
+                done();
+            });
     });
-    /*
-      * Test the /GET route
-      */
-    describe('/GET user', () => {
-        it('should GET all the users', () =>
-            chai.request(server)
-                .get('/api/users')
-                .then(res => {
-                    expect(res.body).to.be.an('array');
-                })
-        );
-    });
+    after(function () {
+        server.close();
+        process.exit();
+    })
+});
 
+describe('Save movie', function () {
+    it('Favorites some movie', function (done) {
+        request(server)
+            .put('/api/user/favorite')
+            .send({ tmdId: /*TODO: FIND TMDID*/ null })
+            .expect(200)
+            .then(done());
+    })
 });

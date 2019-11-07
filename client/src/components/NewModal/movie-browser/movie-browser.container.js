@@ -66,8 +66,8 @@ class MovieBrowser extends React.Component {
         }else if(this.props.location === '/recommendations'){
             this.props.getRecommendations(nextPage);
         }
-        
-        this.setState({currentPage: nextPage});
+        if (nextPage < 20)
+          this.setState({currentPage: nextPage});
       }
     }
   }
