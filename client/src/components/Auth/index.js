@@ -3,15 +3,13 @@ import Modal from 'react-bootstrap/Modal';
 import 'bootstrap-social';
 import { Col, Row} from '../Grid';
 import "./style.css";
+import AUTH from "../../utils/AUTH";
 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 class Auth extends Component {
   
   state = {
-    user: {
-        name: '',
-        authenticated: ''
-    },
+    authenticated: "",
     open: false,
     width: window.innerWidth,
     show: false
@@ -21,6 +19,11 @@ class Auth extends Component {
 
 
   }
+  authenticated = () => {
+    AUTH.isAuthenticated()
+      .then(res => this.setState({authenticated: res.data}))
+  }
+
   showModal = e => {
     this.setState({
       show: true
