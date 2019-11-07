@@ -58,6 +58,8 @@ class Auth extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.updateWidth);
+    this.authenticated();
+    
   }
 
   componentWillUnmount() {
