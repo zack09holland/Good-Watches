@@ -5,7 +5,7 @@ const auth = require('../config/passport-init');
 // auth logout
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.send(true);
 });
 
 // auth logout

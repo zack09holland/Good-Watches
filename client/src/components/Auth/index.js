@@ -32,7 +32,10 @@ class Auth extends Component {
   
   logoff = () => {
     AUTH.logoff()
-      .then(res => console.log('Logoff'))
+      .then(res => {
+        this.authenticated();
+        res.location('/')
+      })
       .catch(err => console.log(err));
   }
 
