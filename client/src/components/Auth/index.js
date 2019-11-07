@@ -34,7 +34,7 @@ class Auth extends Component {
     AUTH.logoff()
       .then(res => {
         this.authenticated();
-        res.location('/')
+        this.winodw.location('/');
       })
       .catch(err => console.log(err));
   }
