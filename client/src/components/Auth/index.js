@@ -21,7 +21,12 @@ class Auth extends Component {
   }
   authenticated = () => {
     AUTH.isAuthenticated()
-      .then(res => this.setState({authenticated: res.data}))
+      .then(
+        res => {
+          console.log(res);
+          this.setState({authenticated: res.data})
+        }
+      )
   }
 
   showModal = e => {
@@ -62,7 +67,7 @@ class Auth extends Component {
   render() {
     return (
         <div>
-        <button type="button" class="btn btn-danger btn-lg" onClick={e => {
+        <button type="button" className="btn btn-danger btn-lg" onClick={e => {
               this.showModal();
          }}>
           Log In
