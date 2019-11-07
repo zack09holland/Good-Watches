@@ -59,6 +59,9 @@ class MovieModalContainer extends React.Component {
               <p>{movie.overview}</p>
               <p>Popularity: {movie.popularity}</p>
               <p>Budget: ${movie.budget}</p>
+              <button className="fa fa-heart"id="favIcon" onClick={closeMovieModal}> Favorite</button>
+              <button className="fa fa-eye"id="seenIcon" onClick={closeMovieModal}> Seen it!</button>
+              <button className="fa fa-trash"id="rejectIcon" onClick={closeMovieModal}> Reject</button>
               {/* <p>{movieCredits.cast[0].character}</p> */}
             </div>
             </Col>
