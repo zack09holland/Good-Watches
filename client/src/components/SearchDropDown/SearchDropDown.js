@@ -8,6 +8,7 @@ import * as movieService from './recommendation-service.js';
 import * as movieActions from './recommendation.actions.js';
 import * as movieHelpers from './movie-browser.helpers';
 import MovieList from './movie-list/movie-list.component';
+import Movies from "./Movies";
 import "./styles.css";
 
 class Dropdown extends Component {
@@ -39,7 +40,7 @@ class Dropdown extends Component {
       return;
     }
     this.fetchRecommendations(selectedMovie.id);
-    
+
     // const movieURL = movieService.getRecommendations(selectedMovie.id); 
     // console.log(movieURL)
     // this.fetchRecommendations();
@@ -127,7 +128,7 @@ class Dropdown extends Component {
       </Downshift>
       
       <Row>
-        <MovieList movies={movies} />
+      <Movies list={this.state.movies} />
       </Row>
     </Container>
     );
