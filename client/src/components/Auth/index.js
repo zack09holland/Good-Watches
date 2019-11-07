@@ -34,7 +34,7 @@ class Auth extends Component {
     AUTH.logoff()
       .then(res => {
         this.authenticated();
-        props.history.push('/');
+        this.props.history.push('/');
       })
       .catch(err => console.log(err));
   }
