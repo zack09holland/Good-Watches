@@ -80,6 +80,7 @@ class MovieBrowser extends React.Component {
     else if(this.props.location === "/latestshows"){
         movies = movieHelpers.getMoviesList(newMovies.response);
         console.log(movies)
+        console.log(newMovies.response)
     }
     else if(this.props.location === "/ontheair"){
         movies = movieHelpers.getMoviesList(nowPlayingMovies.response);

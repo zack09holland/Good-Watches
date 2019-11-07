@@ -7,6 +7,8 @@ import { Col, Container, Row } from '../components/Grid';
 import Jumbotron from '../components/Jumbotron';
 import { List } from '../components/List';
 import Movie from '../components/Movies/Movie.js';
+import Dropdown from "../components/SearchDropDown/SearchDropDown"
+
 import "../homepage.css"
 class Home extends Component {
   state = {
@@ -41,27 +43,29 @@ class Home extends Component {
             <Col size='md-12'>
               
               <h1 className='text-center'>
-                <strong>Having trouble finding something to watch?</strong>
+                <strong>Find something good to watch</strong>
               </h1>
-              <h2 className='text-center'>Try our movie-roulette to find something good to watch!</h2>
+              <br/>
+              <h5 className='text-center'>Your one place shop to find recommendations and information on movies and tv shows.</h5>
 
             </Col>
             <Row>
               
               <Col size='md-12'>
-                <Card title='Movie Recommendation' icon='far fa-movie'>
-                  <Form
+                <Card title='Having trouble finding something to watch?' icon='far fa-movie'>
+                  {/* <Form
                     handleInputChange={this.handleInputChange} handleFormSubmit=
                     {this.handleFormSubmit} q=
                     {
                       this.state.q
-                    } />
+                    } /> */}
+                    <Dropdown />
                 </Card >
               </Col>
             </Row>
             
             <Row>
-              <Col size='md-12'>
+              {/* <Col size='md-12'>
                 <Card title='Results'> {
                   this.state.movies.length ?
                     (<List>{this.state.movies.map((movie, i) => (
@@ -84,7 +88,10 @@ class Home extends Component {
                       <h2 className="text-center">{this.state.message}</h2>
                     )}
                 </Card>
-              </Col>
+              </Col> */}
+            </Row>
+            <Row>
+              
             </Row>
             </Jumbotron>
             <Footer />
