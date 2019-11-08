@@ -208,13 +208,9 @@ const unseen = (_id, movies) => {
 
 
 // Get recommendations on a given movie id.
-router.get('/recommendations/:_id', (req, res) => {
-    if (!req.params._id) {
-        res.sendStatus(400);
-        return;
-    }
+router.get('/recommendations/:_tmdId', (req, res) => {
     // Find the movie in the database.
-    Movie.findById(Types.ObjectId(req.params._id)).then(movie =>
+    Movie.findOne({ tmdId: req.params.tmdId }).then(movie =>
         axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` }))
             .then(tmdMovies => {
                 // Find movies in database matching tmdIds of recommendations.
