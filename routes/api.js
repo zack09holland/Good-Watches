@@ -65,8 +65,8 @@ router.put('/movies', (req, res) => {
         if (query) {
             // Query contained data for TMD.
             const { data } = result;
-            if (!query.params) {
-                // Query is for a single movie.
+            if (!(data.results && Array.isArray(data.results))) {
+                // Query did not find an array of movies.
                 console.log('Not storing this data... yet', data);
                 res.send(data);
                 return;
