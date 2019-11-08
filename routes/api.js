@@ -113,48 +113,48 @@ router.delete('/movies/:_id', (req, res) => {
 });
 
 // Favorite a movie.
-router.put('/user/favorite/:_id', (req, res) => {
+router.put('/user/favorite', async (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
     }
     console.log(req.path, req.body);
-    Movie.findOne({ tmdId: req.body.tmdId }, dbMovie =>
-        User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { saves: dbMovie } }, dbUser => {
-                console.log('dbUser:', dbUser);
-                res.sendStatus(200);
-            }));
+    const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
+    User.updateOne({ _id: req.user._id }).then(
+        { $push: { saves: dbMovie } }, dbUser => {
+            console.log('dbUser:', dbUser);
+            res.sendStatus(200);
+        });
 });
 
-// Reject a movie.
-router.put('/user/reject/:_id', (req, res) => {
+// Favorite a movie.
+router.put('/user/favorite', async (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
     }
     console.log(req.path, req.body);
-    Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { rejects: movie } }, dbUser => {
-                console.log('dbUser:', dbUser);
-                res.sendStatus(200);
-            }));
+    const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
+    User.updateOne({ _id: req.user._id }).then(
+        { $push: { saves: dbMovie } }, dbUser => {
+            console.log('dbUser:', dbUser);
+            res.sendStatus(200);
+        });
 });
 
-// Mark a movie as watched.
-router.put('/user/watched/:_id', (req, res) => {
+// Favorite a movie.
+router.put('/user/favorite', async (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
     }
     console.log(req.path, req.body);
-    Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { rejects: movie } }, dbUser => {
-                console.log('dbUser:', dbUser);
-                res.sendStatus(200);
-            }));
+    const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
+    User.updateOne({ _id: req.user._id }).then(
+        { $push: { saves: dbMovie } }, dbUser => {
+            console.log('dbUser:', dbUser);
+            res.sendStatus(200);
+        });
 });
 
 /* Given an array of movie ids and a user _id as strings,
