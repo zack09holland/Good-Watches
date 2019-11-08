@@ -31,10 +31,10 @@ router.delete('/user', (req, res) => {
 
 });
 
-// Get titles starting with given search string (case insensitive)
+// Get titles starting with given search string (case sensitive)
 router.get('/movies/search/:title', (req, res) => {
     console.log(req.path, 'Start:', new Date().getMilliseconds());
-    const regex = new RegExp('^' + req.params.title, 'i');
+    const regex = new RegExp('^' + req.params.title);
     console.log(regex);
     Movie.find({ title: regex },
         (err, result) => {
