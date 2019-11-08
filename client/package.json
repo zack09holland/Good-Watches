@@ -2,6 +2,7 @@
   "name": "mern",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080/",
   "dependencies": {
     "bootstrap-social": "^5.1.1",
     "lodash": "^4.17.15",
@@ -16,7 +17,8 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "typeahead": "^0.2.2"
+    "typeahead": "^0.2.2",
+    "typescript": "^3.7.2"
   },
   "devDependencies": {
     "focus-trap-react": "^6.0.0"

@@ -26,15 +26,15 @@ router.delete('/user', (req, res) => {
     if (!_id) res.sendStatus(400);
     // Delete the user.
     User.findByIdAndDelete(Types.ObjectId(_id))
-        .then(res.send)
+        .then(result => res.send(result))
         .catch(err => res.send(err));
 
 });
 
-// Get titles starting with given search string (case insensitive)
+// Get titles starting with given search string (case sensitive)
 router.get('/movies/search/:title', (req, res) => {
     console.log(req.path, 'Start:', new Date().getMilliseconds());
-    const regex = new RegExp('^' + req.params.title, 'i');
+    const regex = new RegExp('^' + req.params.title);
     console.log(regex);
     Movie.find({ title: regex },
         (err, result) => {
@@ -48,10 +48,10 @@ router.get('/movies/search/:title', (req, res) => {
 // Given a relative url and params from the page, return the url for TMD.
 const createMovieDbUrl = ({ relativeUrl, params }) => {
     let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
-    for (let item in params) {
-        // Cleaner ?
-        url += `&${item}=${params[item]}`;
-    }
+    if (params)
+        for (let item in params)
+            // Concatenate params' values to url.
+            url += `&${item}=${params[item]}`;
     console.log('createMovieDbUrl:', relativeUrl, params, url);
     return url;
 };
@@ -59,13 +59,18 @@ const createMovieDbUrl = ({ relativeUrl, params }) => {
 // Get movies returned by given query to TMD.
 router.put('/movies', (req, res) => {
     console.log(req.path, req.body);
-    if (!req.body) res.sendStatus(400);
     const { query } = req.body;
     // Create a promise out of the req.body.
     axios.get(createMovieDbUrl(query)).then(result => {
         if (query) {
             // Query contained data for TMD.
             const { data } = result;
+            if (!query.params) {
+                // Query is for a single movie.
+                console.log('Not storing this data... yet', data);
+                res.send(data);
+                return;
+            }
             const queries = data.results.map(result =>
                 new Promise((resolve, reject) => {
                     Movie.updateOne({
@@ -92,69 +97,100 @@ router.put('/movies', (req, res) => {
             console.log('Response sent, processing queries...');
             Promise.all(queries).then(console.log)
                 .catch(console.error);
-        } else if (title) {
-            // Searched database by title.
-            console.log(result);
-            res.send(result);
-        } else
-            res.send(result);
+        }
+    }).catch(err => res.send(err));
+});
+
+// same as above, but for TV
+router.put('/tv', (req, res) => {
+    console.log(req.path, req.body);
+    const { query } = req.body;
+    // Create a promise out of the req.body.
+    axios.get(createMovieDbUrl(query)).then(result => {
+        if (query) {
+            // Query contained data for TMD.
+            const { data } = result;
+            if (!query.params) {
+                // Query is for a single tv show.
+                console.log('Not storing this data... yet', data);
+                res.send(data);
+                return;
+            }
+            const queries = data.results.map(result =>
+                new Promise((resolve, reject) => {
+                    Movie.updateOne({
+                        // Find title case-insensitively.
+                        title: new RegExp(result.title, 'i'),
+                        year: parseInt(result.first_air_date.slice(0, 4)),
+                        serial: true
+                    }, {
+                        $set: {
+                            // Set title to match TMD.
+                            title: result.title,
+                            tmdId: result.id
+                        }
+                    }, {
+                        // Insert tv if not found.
+                        upsert: true
+                    }, (err, raw) => {
+                        if (err) reject(err);
+                        resolve(raw);
+                    });
+                })
+            );
+            res.send(data);
+            console.log('Response sent, processing queries...');
+            Promise.all(queries).then(console.log)
+                .catch(console.error);
+        }
     }).catch(err => res.send(err));
 });
 
 
 
-// Delete a movie by _id.
-router.delete('/movies/:_id', (req, res) => {
-    const { _id } = req.params._id;
-    if (!_id) res.sendStatus(400);
-    Movie.findByIdAndDelete(Types.ObjectId(_id))
-        .then(result => res.send(result))
-        .catch(err => res.send(err));
+// Favorite a movie.
+router.put('/user/favorite', async (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.sendStatus(530);
+        return;
+    }
+    console.log(req.path, req.body);
+    const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
+    User.updateOne({ _id: req.user._id }).then(
+        { $push: { saves: dbMovie } }, dbUser => {
+            console.log('dbUser:', dbUser);
+            res.sendStatus(200);
+        });
 });
 
 // Favorite a movie.
-router.put('/user/favorite/:_id', (req, res) => {
+router.put('/user/favorite', async (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
     }
     console.log(req.path, req.body);
-    Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { saves: movie } }, user => {
-                console.log('user:', user);
-                res.sendStatus(200);
-            }));
+    const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
+    User.updateOne({ _id: req.user._id }).then(
+        { $push: { saves: dbMovie } }, dbUser => {
+            console.log('dbUser:', dbUser);
+            res.sendStatus(200);
+        });
 });
 
-// Reject a movie.
-router.put('/user/reject/:_id', (req, res) => {
+// Favorite a movie.
+router.put('/user/favorite', async (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
     }
     console.log(req.path, req.body);
-    Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { rejects: movie } }, user => {
-                console.log('user:', user);
-                res.sendStatus(200);
-            }));
-});
-
-// Mark a movie as watched.
-router.put('/user/watched/_id', (req, res) => {
-    if (!req.isAuthenticated()) {
-        res.sendStatus(530);
-        return;
-    }
-    console.log(req.path, req.body);
-    Movie.findOne({ tmdId: req.body.tmdId }, movie =>
-        User.update({ _id: Types.ObjectId(req.params._id) },
-            { $push: { rejects: movie } }, user => {
-                console.log('user:', user);
-                res.sendStatus(200);
-            }));
+    const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
+    User.updateOne({ _id: req.user._id }).then(
+        { $push: { saves: dbMovie } }, dbUser => {
+            console.log('dbUser:', dbUser);
+            res.sendStatus(200);
+        });
 });
 
 /* Given an array of movie ids and a user _id as strings,
@@ -178,7 +214,7 @@ router.get('/recommendations/:_id', (req, res) => {
         return;
     }
     // Find the movie in the database.
-    Movie.findById(Types.ObjectId(req.params._id), movie => {
+    Movie.findById(Types.ObjectId(req.params._id)).then(movie =>
         axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` }))
             .then(tmdMovies => {
                 // Find movies in database matching tmdIds of recommendations.
@@ -209,9 +245,7 @@ router.get('/recommendations/:_id', (req, res) => {
                                 });
                         }
                     });
-            });
-
-    });
+            }));
 
 });
 
