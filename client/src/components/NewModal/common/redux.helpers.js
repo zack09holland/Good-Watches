@@ -25,7 +25,6 @@ export const createAsyncActionCreator = (actionType, asyncRequestFn, requestPara
     // in order to resolve param values
     return asyncRequestFn(requestParams)
       .then(response => {
-        console.log(response);
         dispatch(createAction(`${actionType}_SUCCESS`, { response: response.data }));
       }).catch(error => dispatch(createAction(`${actionType}_ERROR`, { error })))
 

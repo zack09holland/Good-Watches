@@ -48,10 +48,10 @@ router.get('/movies/search/:title', (req, res) => {
 // Given a relative url and params from the page, return the url for TMD.
 const createMovieDbUrl = ({ relativeUrl, params }) => {
     let url = `https://api.themoviedb.org/3${relativeUrl}?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US`;
-    for (let item in params) {
-        // Concatenate params' values to url.
-        url += `&${item}=${params[item]}`;
-    }
+    if (params)
+        for (let item in params)
+            // Concatenate params' values to url.
+            url += `&${item}=${params[item]}`;
     console.log('createMovieDbUrl:', relativeUrl, params, url);
     return url;
 };
@@ -59,13 +59,18 @@ const createMovieDbUrl = ({ relativeUrl, params }) => {
 // Get movies returned by given query to TMD.
 router.put('/movies', (req, res) => {
     console.log(req.path, req.body);
-    if (!req.body) res.sendStatus(400);
     const { query } = req.body;
     // Create a promise out of the req.body.
     axios.get(createMovieDbUrl(query)).then(result => {
         if (query) {
             // Query contained data for TMD.
             const { data } = result;
+            if (!query.params) {
+                // Query is for a single movie.
+                console.log('Not storing this data... yet', data);
+                res.send(data);
+                return;
+            }
             const queries = data.results.map(result =>
                 new Promise((resolve, reject) => {
                     Movie.updateOne({
@@ -96,16 +101,52 @@ router.put('/movies', (req, res) => {
     }).catch(err => res.send(err));
 });
 
-
-
-// Delete a movie by _id.
-router.delete('/movies/:_id', (req, res) => {
-    const { _id } = req.params._id;
-    if (!_id) res.sendStatus(400);
-    Movie.findByIdAndDelete(Types.ObjectId(_id))
-        .then(result => res.send(result))
-        .catch(err => res.send(err));
+// same as above, but for TV
+router.put('/tv', (req, res) => {
+    console.log(req.path, req.body);
+    const { query } = req.body;
+    // Create a promise out of the req.body.
+    axios.get(createMovieDbUrl(query)).then(result => {
+        if (query) {
+            // Query contained data for TMD.
+            const { data } = result;
+            if (!query.params) {
+                // Query is for a single tv show.
+                console.log('Not storing this data... yet', data);
+                res.send(data);
+                return;
+            }
+            const queries = data.results.map(result =>
+                new Promise((resolve, reject) => {
+                    Movie.updateOne({
+                        // Find title case-insensitively.
+                        title: new RegExp(result.title, 'i'),
+                        year: parseInt(result.first_air_date.slice(0, 4)),
+                        serial: true
+                    }, {
+                        $set: {
+                            // Set title to match TMD.
+                            title: result.title,
+                            tmdId: result.id
+                        }
+                    }, {
+                        // Insert tv if not found.
+                        upsert: true
+                    }, (err, raw) => {
+                        if (err) reject(err);
+                        resolve(raw);
+                    });
+                })
+            );
+            res.send(data);
+            console.log('Response sent, processing queries...');
+            Promise.all(queries).then(console.log)
+                .catch(console.error);
+        }
+    }).catch(err => res.send(err));
 });
+
+
 
 // Favorite a movie.
 router.put('/user/favorite', async (req, res) => {

@@ -1,7 +1,3 @@
-// const BASEURL = "https://api.themoviedb.org/3/discover/movie?api_key="
-// "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
-
-// WARNING: Don't check your actual API key into GitHub
 
 import axios from 'axios';
 
@@ -69,18 +65,17 @@ export const searchMovies = async ({ page, query }) => {
   });
 };
 
-export const getMovieDetails = async ({ movieId }) => {
+export const getMovieDetails = async ({movieId}) => {
   return axios.put('/api/movies', {
     query: {
       relativeUrl: `/movie/${movieId}`
     }
   });
-};
-
-export const getMovieCredits = async ({ movieId }) => {
+}
+export const getMovieCredits = async ({movieId}) => {
   return axios.put('/api/movies', {
     query: {
       relativeUrl: `/movie/${movieId}/credits`
     }
   });
-};
+}
