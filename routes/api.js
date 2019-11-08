@@ -92,12 +92,7 @@ router.put('/movies', (req, res) => {
             console.log('Response sent, processing queries...');
             Promise.all(queries).then(console.log)
                 .catch(console.error);
-        } else if (title) {
-            // Searched database by title.
-            console.log(result);
-            res.send(result);
-        } else
-            res.send(result);
+        }
     }).catch(err => res.send(err));
 });
 
