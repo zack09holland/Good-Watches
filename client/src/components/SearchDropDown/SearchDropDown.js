@@ -48,7 +48,6 @@ class Dropdown extends Component {
 
   fetchRecommendations(movieId) {
     // movieService.getRecommendations(movieId); 
-    // https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=<<api_key>>&language=en-US&page=1
 
     const moviesURL = `https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=1b5adf76a72a13bad99b8fc0c68cb085&language=en-US`;
     axios.get(moviesURL).then(response => {

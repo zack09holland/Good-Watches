@@ -13,7 +13,6 @@ export const getTopMovies = async ({ page }) => {
 };
 
 
-// https://api.themoviedb.org/3/movie/{movie_id}/recommendations?api_key=dbc0a6d62448554c27b6167ef7dabb1b&language=en-US&page=1
 export const getRecommendations = async (movieId) => {
   console.log(movieId)
   return Axios.put('/api/movies', {
