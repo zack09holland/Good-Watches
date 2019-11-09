@@ -39,7 +39,6 @@ router.get('/movies/search/:title', (req, res) => {
     Movie.find({ title: { $regex: regex } },
         (err, results) => {
             if (err) throw err;
-            console.log('results:', results);
             res.send(results);
         });
     console.log(req.path, 'End:', new Date().getMilliseconds());
@@ -201,15 +200,15 @@ router.put('/user/favorite', async (req, res) => {
 
 /* Given an array of movie ids and a user _id as strings,
  * return movies the user hasn't saved, rated, or rejected. */
-const unseen = (_id, movies) => {
+const unseen = async (_id, movies) => {
     movies = movies.map(movie => Types.ObjectId(movie._id));
-    User.findById(Types.ObjectId(_id), user =>
-        movies.filter(movie => {
-            for (let item of ['ratings', 'rejects', 'saves'])
-                if (user[item].includes(movie))
-                    return false;
-            return true;
-        }));
+    const user = await User.findById(Types.ObjectId(_id));
+    return movies.filter(movie => {
+        for (let item of ['ratings', 'rejects', 'saves'])
+            if (user[item].includes(movie))
+                return false;
+        return true;
+    });
 };
 
 
@@ -221,33 +220,29 @@ router.put('/recommend/:_id', (req, res) => {
         axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` }))
             .then(response => {
                 const tmdMovies = response.data.results;
-                console.log('tmdMovies', tmdMovies);
                 // Find movies in database matching tmdIds of recommendations.
                 Movie.find({ tmdId: { $in: tmdMovies.map(tmdMovie => tmdMovie.id) } },
                     (err, movies) => {
-                        if (err) {
-                            res.send(err);
-                            return;
-                        }
-                        console.log('recommends:', movies);
-                        if (req.isAuthenticated())
-                            // Send movies the user hasn't seen yet.
-                            res.send(unseen(req.user._id, movies));
-                        else
-                            // Send all the movies.
-                            res.send(movies);
+                        if (err) throw err;
                         if (movies.length < tmdMovies.length) {
                             // Find movies that are not in db.
                             const missingMovies = tmdMovies.filter(tmdMovie =>
                                 !movies.find(e => e.tmdId === tmdMovie.id));
-                            // Insert those movies into the db with titles and years.
+                            // Insert those movies into the db.
                             Movie.insertMany(missingMovies.map(tmdMovie => {
                                 tmdMovie.year = parseInt(tmdMovie.release_date.slice(0, 4));
+                                tmdMovie.tmdId = tmdMovie.id;
                                 return tmdMovie;
                             }),
                                 (error, docs) => {
-                                    if (error) console.log('Insert error:', error);
+                                    if (error) console.error('Insert error:', error);
                                     else console.log('Movies inserted:', docs);
+                                    if (req.isAuthenticated())
+                                        // Send movies the user hasn't seen yet.
+                                        res.send(unseen(req.user._id, docs));
+                                    else
+                                        // Send all the movies.
+                                        res.send(docs);
                                 });
                         }
                     });

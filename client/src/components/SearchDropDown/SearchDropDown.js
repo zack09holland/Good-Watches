@@ -46,7 +46,7 @@ class Dropdown extends Component {
 
     fetchRecommendations(movieId) {
         movieService.getRecommendations(movieId).then(response => {
-            this.setState({ recommendations: response.data.results });
+            this.setState({ recommendations: response.data });
         });
     }
 
