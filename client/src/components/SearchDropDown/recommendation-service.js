@@ -14,8 +14,8 @@ export const getTopMovies = async ({ page }) => {
 
 
 export const getRecommendations = async (movieId) => {
-  console.log('get recs:', movieId)
-  return axios.post(`/api/movies/recommendations/${movieId}`);
+  console.log('get recs:', movieId);
+  return axios.put(`/api/recommend/${movieId}`);
 }
 
 

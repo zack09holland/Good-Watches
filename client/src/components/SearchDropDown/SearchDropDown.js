@@ -49,6 +49,7 @@ class Dropdown extends Component {
             this.setState({ recommendations: response.data.results });
         });
     }
+
     fetchMovies(query) {
         movieService.searchMovies(query).then(response => {
             console.log(response.data);

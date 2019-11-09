@@ -38,7 +38,7 @@ router.get('/movies/search/:title', (req, res) => {
     console.log(regex);
     Movie.find({ title: { $regex: regex } },
         (err, results) => {
-            console.error(err);
+            if (err) throw err;
             console.log('results:', results);
             res.send(results);
         });
@@ -82,7 +82,10 @@ router.put('/movies', (req, res) => {
                         $set: {
                             // Set title to match TMD.
                             title: result.title,
-                            tmdId: result.id
+                            tmdId: result.id,
+                            overview: result.overview,
+                            poster_path: result.poster_path,
+                            popularity: result.popularity
                         }
                     }, {
                         // Insert movie if not found.
@@ -127,7 +130,10 @@ router.put('/tv', (req, res) => {
                         $set: {
                             // Set title to match TMD.
                             title: result.title,
-                            tmdId: result.id
+                            tmdId: result.id,
+                            overview: result.overview,
+                            poster_path: result.poster_path,
+                            popularity: result.popularity
                         }
                     }, {
                         // Insert tv if not found.
@@ -196,7 +202,7 @@ router.put('/user/favorite', async (req, res) => {
 /* Given an array of movie ids and a user _id as strings,
  * return movies the user hasn't saved, rated, or rejected. */
 const unseen = (_id, movies) => {
-    movies = movies.map(movie => Types.ObjectId(movie));
+    movies = movies.map(movie => Types.ObjectId(movie._id));
     User.findById(Types.ObjectId(_id), user =>
         movies.filter(movie => {
             for (let item of ['ratings', 'rejects', 'saves'])
@@ -208,11 +214,14 @@ const unseen = (_id, movies) => {
 
 
 // Get recommendations on a given movie id. Save recommended movies in database if not already present.
-router.post('/recommendations/:_id', (req, res) => {
+router.put('/recommend/:_id', (req, res) => {
+    console.log(req.path, req.body);
     // Find the movie in the database.
-    Movie.findOne({ tmdId: req.params._id}).then(movie =>
+    Movie.findById(req.params._id).then(movie =>
         axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` }))
-            .then(tmdMovies => {
+            .then(response => {
+                const tmdMovies = response.data.results;
+                console.log('tmdMovies', tmdMovies);
                 // Find movies in database matching tmdIds of recommendations.
                 Movie.find({ tmdId: { $in: tmdMovies.map(tmdMovie => tmdMovie.id) } },
                     (err, movies) => {
@@ -220,6 +229,7 @@ router.post('/recommendations/:_id', (req, res) => {
                             res.send(err);
                             return;
                         }
+                        console.log('recommends:', movies);
                         if (req.isAuthenticated())
                             // Send movies the user hasn't seen yet.
                             res.send(unseen(req.user._id, movies));
@@ -231,10 +241,10 @@ router.post('/recommendations/:_id', (req, res) => {
                             const missingMovies = tmdMovies.filter(tmdMovie =>
                                 !movies.find(e => e.tmdId === tmdMovie.id));
                             // Insert those movies into the db with titles and years.
-                            Movie.insertMany(missingMovies.map(tmdMovie => ({
-                                title: tmdMovie.title,
-                                year: parseInt(result.release_date.slice(0, 4))
-                            })),
+                            Movie.insertMany(missingMovies.map(tmdMovie => {
+                                tmdMovie.year = parseInt(tmdMovie.release_date.slice(0, 4));
+                                return tmdMovie;
+                            }),
                                 (error, docs) => {
                                     if (error) console.log('Insert error:', error);
                                     else console.log('Movies inserted:', docs);
