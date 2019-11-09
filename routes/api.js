@@ -37,10 +37,10 @@ router.get('/movies/search/:title', (req, res) => {
     const regex = new RegExp('^' + req.params.title, 'i');
     console.log(regex);
     Movie.find({ title: { $regex: regex } },
-        (err, result) => {
+        (err, results) => {
             console.error(err);
-            console.log('result:', result);
-            res.send(result);
+            console.log('results:', results);
+            res.send(results);
         });
     console.log(req.path, 'End:', new Date().getMilliseconds());
 });

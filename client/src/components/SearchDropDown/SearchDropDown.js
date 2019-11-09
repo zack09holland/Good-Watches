@@ -33,13 +33,11 @@ class Dropdown extends Component {
     }
 
     downshiftOnChange(selectedMovie) {
-        // alert(`your favourite movie is ${selectedMovie.title}`);
         console.log(selectedMovie)
-        console.log(selectedMovie.id)
         if (!selectedMovie) {
             return;
         }
-        this.fetchRecommendations(selectedMovie.id);
+        this.fetchRecommendations(selectedMovie._id);
 
         // const movieURL = movieService.getRecommendations(selectedMovie.id); 
         // console.log(movieURL)
@@ -52,13 +50,15 @@ class Dropdown extends Component {
         });
     }
     fetchMovies(query) {
-        movieService.searchMovies(query);
+        movieService.searchMovies(query).then(response => {
+            console.log(response.data);
+            this.setState({ movies: response.data });
+        });
     }
 
     render() {
         const { recMovies } = this.props;
-        let movies = movieHelpers.getMoviesList(recMovies.response);
-        console.log(this.state.recommendations)
+        console.log('recommendations:', this.state.recommendations)
         return (
             <Container>
                 <Downshift
@@ -90,7 +90,7 @@ class Dropdown extends Component {
                                 />
                                 {isOpen ? (
                                     <div className="downshift-dropdown">
-                                        {this.state.movies
+                                        {Array.isArray(this.state.movies) && this.state.movies
                                             .filter(
                                                 item =>
                                                     !inputValue ||
