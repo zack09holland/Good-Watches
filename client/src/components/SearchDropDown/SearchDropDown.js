@@ -80,7 +80,7 @@ class Dropdown extends Component {
                                     {...getLabelProps()}
                                 >
                                     Search for a movie you like and we will give you movie recommendations
-            </label>{" "}
+                                </label>{" "}
                                 <br />
                                 <input
                                     {...getInputProps({
