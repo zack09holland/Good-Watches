@@ -47,25 +47,12 @@ class Dropdown extends Component {
     }
 
     fetchRecommendations(movieId) {
-        // movieService.getRecommendations(movieId); 
-
-        const moviesURL = `https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=REDACTED&language=en-US`;
-        axios.get(`/api/recommendations/${movieId}`).then(response => {
+        movieService.getRecommendations(movieId).then(response => {
             this.setState({ recommendations: response.data.results });
         });
     }
-    fetchMovies(movie) {
-        // createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` })
-        axios.put('/api/movies', {
-            query: {
-                relativeUrl: '/search/movie',
-                params: {
-                    query: movie
-                }
-            }
-        }).then(response => {
-            this.setState({ movies: response.data.results });
-        });
+    fetchMovies(query) {
+        movieService.searchMovies(query);
     }
 
     render() {

@@ -1,8 +1,8 @@
-import Axios from "axios";
+import axios from "axios";
 
 
 export const getTopMovies = async ({ page }) => {
-  return Axios.put('/api/movies', {
+  return axios.put('/api/movies', {
     query: {
       relativeUrl: '/movie/top_rated',
       params: {
@@ -14,15 +14,13 @@ export const getTopMovies = async ({ page }) => {
 
 
 export const getRecommendations = async (movieId) => {
-  console.log(movieId)
-  return Axios.put('/api/movies', {
-    relativeUrl: `/movie/${movieId}/recommendations`
-  });
+  console.log('get recs:', movieId)
+  return axios.post(`/api/movies/recommendations/${movieId}`);
 }
 
 
-export const searchMovies = async ({ page, query }) => {
-  return Axios.get('/api/movies/search' + query);
+export const searchMovies = async (query) => {
+  return axios.get(`/api/movies/search/${query}`);
 }
 
 export const getMovieDetails = async ({ movieId }) => {

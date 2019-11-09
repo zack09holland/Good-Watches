@@ -31,12 +31,12 @@ router.delete('/user', (req, res) => {
 
 });
 
-// Get titles starting with given search string (case sensitive)
+// Get titles starting with given search string (case insensitive)
 router.get('/movies/search/:title', (req, res) => {
     console.log(req.path, 'Start:', new Date().getMilliseconds());
-    const regex = new RegExp('^' + req.params.title);
+    const regex = new RegExp('^' + req.params.title, 'i');
     console.log(regex);
-    Movie.find({ title: regex },
+    Movie.find({ title: { $regex: regex } },
         (err, result) => {
             console.error(err);
             console.log('result:', result);
@@ -207,10 +207,10 @@ const unseen = (_id, movies) => {
 };
 
 
-// Get recommendations on a given movie id.
-router.get('/recommendations/:_tmdId', (req, res) => {
+// Get recommendations on a given movie id. Save recommended movies in database if not already present.
+router.post('/recommendations/:_id', (req, res) => {
     // Find the movie in the database.
-    Movie.findOne({ tmdId: req.params.tmdId }).then(movie =>
+    Movie.findOne({ tmdId: req.params._id}).then(movie =>
         axios.get(createMovieDbUrl({ relativeUrl: `/movie/${movie.tmdId}/recommendations` }))
             .then(tmdMovies => {
                 // Find movies in database matching tmdIds of recommendations.
@@ -241,8 +241,7 @@ router.get('/recommendations/:_tmdId', (req, res) => {
                                 });
                         }
                     });
-            }));
-
+            })).catch(err => res.send(err));
 });
 
 

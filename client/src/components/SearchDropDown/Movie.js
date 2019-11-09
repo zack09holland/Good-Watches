@@ -5,7 +5,7 @@ import {truncStr} from '../../utils/utils';
 
 import classes from './Movie.module.css';
 
-const MovieCard = props => {
+function Movie(props) {
   const { title, poster_path, vote_average } = props.item;
   
   return (
@@ -29,4 +29,4 @@ const MovieCard = props => {
   );
 };
 
-export default MovieCard;
+export default Movie;
