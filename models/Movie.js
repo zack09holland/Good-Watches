@@ -18,7 +18,9 @@ const Movie = new Schema({
 });
 
 // Faster title search.
-Movie.index({ title: 1 });
+Movie.index({ title: 1 }, { collation: { locale: 'en_US', strength: 1 } });
+// Even faster search when year provided.
+Movie.index({ title: 1, year: -1 }, { collation: { locale: 'en_US', strength: 1 } });
 // Faster tmdId search.
 Movie.index({ tmdId: 1 }, { unique: false });
 
