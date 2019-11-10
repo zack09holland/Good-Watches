@@ -33,7 +33,6 @@ router.delete('/user', (req, res) => {
 
 // Get titles starting with given search string (case insensitive)
 router.get('/movies/search/:title', (req, res) => {
-    console.log(req.path, 'Start:', new Date().getMilliseconds());
     const regex = new RegExp('^' + req.params.title, 'i');
     console.log(regex);
     Movie.find({ title: { $regex: regex } },
@@ -41,7 +40,6 @@ router.get('/movies/search/:title', (req, res) => {
             if (err) throw err;
             res.send(results);
         });
-    console.log(req.path, 'End:', new Date().getMilliseconds());
 });
 
 // Given a relative url and params from the page, return the url for TMD.
