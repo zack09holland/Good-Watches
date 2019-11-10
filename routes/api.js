@@ -64,7 +64,6 @@ router.put('/movies', (req, res) => {
             const { data } = result;
             if (!(data.results && Array.isArray(data.results))) {
                 // Query did not find an array of movies.
-                console.log('Not storing this data... yet', data);
                 res.send(data);
                 return;
             }
@@ -113,7 +112,6 @@ router.put('/tv', (req, res) => {
             const { data } = result;
             if (!query.params) {
                 // Query is for a single tv show.
-                console.log('Not storing this data... yet', data);
                 res.send(data);
                 return;
             }
