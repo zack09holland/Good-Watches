@@ -84,7 +84,8 @@ router.put('/movies', (req, res) => {
                             tmdId: result.id,
                             overview: result.overview,
                             poster_path: result.poster_path,
-                            popularity: result.popularity
+                            popularity: result.popularity,
+                            budget: result.budget
                         }
                     }, {
                         // Insert movie if not found.

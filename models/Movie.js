@@ -13,7 +13,8 @@ const Movie = new Schema({
     tmdId: Number,
     overview: String,
     poster_path: String,
-    popularity: Number
+    popularity: Number,
+    budget: Number
 });
 
 // Faster title search.
