@@ -60,15 +60,15 @@ class MovieModalContainer extends React.Component {
               <p>{movie.overview}</p>
               <p>Popularity: {movie.popularity}</p>
               <p>Budget: ${movie.budget}</p>
-              <button className="fa fa-heart"id="favIcon" onClick={() => {
+              <button className="fa fa-heart" id="favIcon" onClick={() => {
                   axios.put('/api/user/favorite', { body: { tmdId: movie.id }}).then(() =>
                     closeMovieModal()).catch(reason => console.log('reason:', reason));
                   }}> Favorite</button>
-              <button className="fa fa-eye"id="seenIcon" onClick={() => {
+              <button className="fa fa-eye" id="seenIcon" onClick={() => {
                   axios.put('/api/user/seen', { body: { tmdId: movie.id }}).then(() =>
                     closeMovieModal()).catch(reason => console.log('reason:', reason));
                   }}> Seen it!</button>
-              <button className="fa fa-trash"id="rejectIcon" onClick={() => {
+              <button className="fa fa-trash" id="rejectIcon" onClick={() => {
                   axios.put('/api/user/reject', { body: { tmdId: movie.id }}).then(() =>
                     closeMovieModal()).catch(reason => console.log('reason:', reason));
                   }}> Reject</button>
