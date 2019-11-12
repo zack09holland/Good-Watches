@@ -61,16 +61,32 @@ class MovieModalContainer extends React.Component {
               <p>Popularity: {movie.popularity}</p>
               <p>Budget: ${movie.budget}</p>
               <button className="fa fa-heart" id="favIcon" onClick={() => {
+                  console.log('tmdId:', movie.id);
                   axios.put('/api/user/favorite', { body: { tmdId: movie.id }}).then(() =>
-                    closeMovieModal()).catch(reason => console.log('reason:', reason));
+                    closeMovieModal()).catch(reason => {
+                        if (reason.toString().search('530') !== -1) {
+                            // TODO: Show this to the user in a better way
+                            console.log('Please log in to use this feature');
+                        }
+                    });
                   }}> Favorite</button>
               <button className="fa fa-eye" id="seenIcon" onClick={() => {
                   axios.put('/api/user/seen', { body: { tmdId: movie.id }}).then(() =>
-                    closeMovieModal()).catch(reason => console.log('reason:', reason));
+                    closeMovieModal()).catch(reason => {
+                        if (reason.toString().search('530') !== -1) {
+                            // TODO: Show this to the user in a better way
+                            console.log('Please log in to use this feature');
+                        }
+                    });
                   }}> Seen it!</button>
               <button className="fa fa-trash" id="rejectIcon" onClick={() => {
                   axios.put('/api/user/reject', { body: { tmdId: movie.id }}).then(() =>
-                    closeMovieModal()).catch(reason => console.log('reason:', reason));
+                    closeMovieModal()).catch(reason => {
+                        if (reason.toString().search('530') !== -1) {
+                            // TODO: Show this to the user in a better way
+                            console.log('Please log in to use this feature');
+                        }
+                    });
                   }}> Reject</button>
               {/* <p>{movieCredits.cast[0].character}</p> */}
             </div>
