@@ -12,6 +12,7 @@ const Movie = new Schema({
     serial: Boolean,
     tmdId: {
         type: Number,
+        required: true,
         unique: true
     }
 });
