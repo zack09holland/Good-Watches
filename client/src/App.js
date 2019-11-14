@@ -18,32 +18,34 @@ import NotAuthorized from "./pages/NotAuthorized";
 
 
 
-function App() {
-  return (      
-        <Router>
-          <div>
-            <Nav />
-            <Switch> 
-              <Route exact path="/" component={Home} />
-              <Route exact path="/saved" component={Saved} />
-              <Route exact path="/movieslist" component={MoviesList} />
-              {/* Movie Routes */}
-              <Route exact path="/topratedmovies" component={TopRated} />
-              <Route exact path="/upcoming" component={NewReleases} />
-              <Route exact path="/popular" component={Popular} />
-              <Route exact path="/nowplaying" component={NowPlaying} />
-              {/* TV Routes */}
-              <Route exact path="/latestshows" component={TVLatest} />
-              <Route exact path="/ontheair" component={TVOnTheAir} />
-              <Route exact path="/populartv" component={TVPopular} />
-              <Route exact path="/topratedtv" component={TVTopRated} />
-              {/* <Route component={NoMatch} /> */}
-              <Route exact path="/notauser" component={NotAuthorized} />
-            </Switch>
-          </div>
-        </Router>
-    
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/saved" component={Saved} />
+            <Route exact path="/movieslist" component={MoviesList} />
+            {/* Movie Routes */}
+            <Route exact path="/topratedmovies" component={TopRated} />
+            <Route exact path="/upcoming" component={NewReleases} />
+            <Route exact path="/popular" component={Popular} />
+            <Route exact path="/nowplaying" component={NowPlaying} />
+            {/* TV Routes */}
+            <Route exact path="/latestshows" component={TVLatest} />
+            <Route exact path="/ontheair" component={TVOnTheAir} />
+            <Route exact path="/populartv" component={TVPopular} />
+            <Route exact path="/topratedtv" component={TVTopRated} />
+            {/* <Route component={NoMatch} /> */}
+            <Route exact path="/notauser" component={NotAuthorized} />
+          </Switch>
+        </div>
+      </Router>
+
+    );
+  }
 }
 
 export default App;
