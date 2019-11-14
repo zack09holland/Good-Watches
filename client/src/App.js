@@ -19,6 +19,9 @@ import NotAuthorized from "./pages/NotAuthorized";
 
 
 class App extends React.Component {
+  componentDidMount() {
+    document.title = "Good Watches";
+  }
   render() {
     return (
       <Router>
