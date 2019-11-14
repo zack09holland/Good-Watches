@@ -156,39 +156,39 @@ router.put('/user/favorite', async (req, res) => {
     }
     console.log(req.path, req.body);
     const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
-    User.updateOne({ _id: req.user._id }).then(
-        { $push: { saves: dbMovie } }, dbUser => {
-            console.log('dbUser:', dbUser);
+    User.updateOne({ _id: req.user._id },
+        { $push: { saves: dbMovie } }, (err, result) => {
+            console.log('(err, result):', err, result);
             res.sendStatus(200);
         });
 });
 
-// Favorite a movie.
-router.put('/user/favorite', async (req, res) => {
+// Mark a movie seen.
+router.put('/user/seen', async (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
     }
     console.log(req.path, req.body);
     const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
-    User.updateOne({ _id: req.user._id }).then(
-        { $push: { saves: dbMovie } }, dbUser => {
-            console.log('dbUser:', dbUser);
+    User.updateOne({ _id: req.user._id },
+        { $push: { ratings: { movie: dbMovie } } }, (err, result) => {
+            console.log('(err, result):', err, result);
             res.sendStatus(200);
         });
 });
 
-// Favorite a movie.
-router.put('/user/favorite', async (req, res) => {
+// Reject a movie.
+router.put('/user/reject', async (req, res) => {
     if (!req.isAuthenticated()) {
         res.sendStatus(530);
         return;
     }
     console.log(req.path, req.body);
     const dbMovie = await Movie.findOne({ tmdId: req.body.tmdId });
-    User.updateOne({ _id: req.user._id }).then(
-        { $push: { saves: dbMovie } }, dbUser => {
-            console.log('dbUser:', dbUser);
+    User.updateOne({ _id: req.user._id },
+        { $push: { rejects: dbMovie } }, (err, result) => {
+            console.log('(err, result):', err, result);
             res.sendStatus(200);
         });
 });
@@ -237,7 +237,8 @@ router.get('/recommendations/:_id', (req, res) => {
                             // Insert those movies into the db with titles and years.
                             Movie.insertMany(missingMovies.map(tmdMovie => ({
                                 title: tmdMovie.title,
-                                year: parseInt(result.release_date.slice(0, 4))
+                                year: parseInt(tmdMovie.release_date.slice(0, 4)),
+                                tmdId: tmdMovie.id
                             })),
                                 (error, docs) => {
                                     if (error) console.log('Insert error:', error);
