@@ -59,9 +59,18 @@ class MovieModalContainer extends React.Component {
               <p>{movie.overview}</p>
               <p>Popularity: {movie.popularity}</p>
               <p>Budget: ${movie.budget}</p>
-              <button type="button" className="fa fa-heart btn btn-danger btn-sm" id="favIcon" onClick={async () => await favoriteMovie(movie.id)}> Favorite</button>
-              <button type="button" className="fa fa-eye btn btn-danger btn-sm m-1" id="seenIcon" onClick={async () => await seenMovie(movie.id)}> Seen it!</button>
-              <button type="button" className="fa fa-trash btn btn-danger btn-sm" id="rejectIcon" onClick={async () => await rejectMovie(movie.id)}> Reject</button>
+              <button type="button" className="fa fa-heart btn btn-danger btn-sm" id="favIcon" onClick={async () => {
+                await favoriteMovie(movie.id);
+                console.log('click', movie.title);
+                }}> Favorite</button>
+              <button type="button" className="fa fa-eye btn btn-danger btn-sm m-1" id="seenIcon" onClick={async () => {
+                await seenMovie(movie.id);
+                console.log('click', movie.title);
+                }}> Seen it!</button>
+              <button type="button" className="fa fa-trash btn btn-danger btn-sm" id="rejectIcon" onClick={async () => {
+                await rejectMovie(movie.id);
+                console.log('click', movie.title);
+                }}> Reject</button>
               {/* <p>{movieCredits.cast[0].character}</p> */}
             </div>
             </Col>
