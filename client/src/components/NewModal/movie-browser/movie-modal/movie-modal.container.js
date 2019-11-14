@@ -60,16 +60,19 @@ class MovieModalContainer extends React.Component {
               <p>Popularity: {movie.popularity}</p>
               <p>Budget: ${movie.budget}</p>
               <button type="button" className="fa fa-heart btn btn-danger btn-sm" id="favIcon" onClick={async () => {
-                await favoriteMovie(movie.id);
                 console.log('click', movie.title);
+                const close = await favoriteMovie(movie.id);
+                return close;
                 }}> Favorite</button>
               <button type="button" className="fa fa-eye btn btn-danger btn-sm m-1" id="seenIcon" onClick={async () => {
-                await seenMovie(movie.id);
                 console.log('click', movie.title);
+                const close = await seenMovie(movie.id);
+                return close;
                 }}> Seen it!</button>
               <button type="button" className="fa fa-trash btn btn-danger btn-sm" id="rejectIcon" onClick={async () => {
-                await rejectMovie(movie.id);
                 console.log('click', movie.title);
+                const close = await rejectMovie(movie.id);
+                return close;
                 }}> Reject</button>
               {/* <p>{movieCredits.cast[0].character}</p> */}
             </div>
