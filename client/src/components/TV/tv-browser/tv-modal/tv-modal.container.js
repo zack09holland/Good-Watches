@@ -61,16 +61,32 @@ class MovieModalContainer extends React.Component {
               <p>Popularity: {movie.popularity}</p>
               <p>Budget: ${movie.budget}</p>
               <button type="button" className="fa fa-heart btn btn-danger btn-sm" id="favIcon" onClick={() => {
-                axios.put('/api/user/favorite', { body: { tmdId: movie.id }}).then(() =>
-                  closeMovieModal()).catch(reason => console.log('reason:', reason));
-                }}> Favorite</button>
+                  console.log('tmdId:', movie.id);
+                  axios.put('/api/user/favorite', { body: { tmdId: movie.id }}).then(() =>
+                    closeMovieModal()).catch(reason => {
+                        if (reason.toString().search('530') !== -1) {
+                            // TODO: Show this to the user in a better way
+                            console.log('Please log in to use this feature');
+                        }
+                    });
+                  }}> Favorite</button>
               <button type="button" className="fa fa-eye btn btn-danger btn-sm m-1" id="seenIcon" onClick={() => {
                   axios.put('/api/user/seen', { body: { tmdId: movie.id }}).then(() =>
-                    closeMovieModal()).catch(reason => console.log('reason:', reason));
+                    closeMovieModal()).catch(reason => {
+                        if (reason.toString().search('530') !== -1) {
+                            // TODO: Show this to the user in a better way
+                            console.log('Please log in to use this feature');
+                        }
+                    });
                   }}> Seen it!</button>
               <button type="button" className="fa fa-trash btn btn-danger btn-sm" id="rejectIcon" onClick={() => {
                   axios.put('/api/user/reject', { body: { tmdId: movie.id }}).then(() =>
-                    closeMovieModal()).catch(reason => console.log('reason:', reason));
+                    closeMovieModal()).catch(reason => {
+                        if (reason.toString().search('530') !== -1) {
+                            // TODO: Show this to the user in a better way
+                            console.log('Please log in to use this feature');
+                        }
+                    });
                   }}> Reject</button>
               {/* <p>{movieCredits.cast[0].character}</p> */}
             </div>
