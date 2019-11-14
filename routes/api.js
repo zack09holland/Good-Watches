@@ -237,7 +237,7 @@ router.get('/recommendations/:_id', (req, res) => {
                             // Insert those movies into the db with titles and years.
                             Movie.insertMany(missingMovies.map(tmdMovie => ({
                                 title: tmdMovie.title,
-                                year: parseInt(result.release_date.slice(0, 4))
+                                year: parseInt(tmdMovie.release_date.slice(0, 4))
                             })),
                                 (error, docs) => {
                                     if (error) console.log('Insert error:', error);
