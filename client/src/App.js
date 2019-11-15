@@ -14,7 +14,7 @@ import TVLatest from "./pages/TVLatest";
 import TVOnTheAir from "./pages/TVOnTheAir";
 import TVPopular from "./pages/TVPopular";
 import TVTopRated from "./pages/TVTopRated";
-import NotAuthorized from "./pages/NotAuthorized";
+import MoviePage from "./pages/MoviePage";
 
 
 
@@ -42,7 +42,7 @@ class App extends React.Component {
             <Route exact path="/populartv" component={TVPopular} />
             <Route exact path="/topratedtv" component={TVTopRated} />
             {/* <Route component={NoMatch} /> */}
-            <Route exact path="/notauser" component={NotAuthorized} />
+            <Route exact path="/moviepage" component={MoviePage} />
           </Switch>
         </div>
       </Router>
