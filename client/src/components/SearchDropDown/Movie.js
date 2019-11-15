@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-
+import {connect} from 'react-redux';
 import {truncStr} from '../../utils/utils';
 
 import classes from './Movie.module.css';
@@ -17,7 +17,7 @@ const MovieCard = props => {
       }}
       
       onClick={e => {
-        this.showModal();
+        window.location.href = "/moviepage"
    }}>
       <div className={classes.VoteContainer}>
         <span className={classes.Vote}>{vote_average}</span>
@@ -30,3 +30,4 @@ const MovieCard = props => {
 };
 
 export default MovieCard;
+

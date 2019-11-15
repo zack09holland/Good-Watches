@@ -94,8 +94,6 @@ class Home extends Component {
               
             </Row>
             </Jumbotron>
-            <Footer />
-            
           </Container>
         
     );

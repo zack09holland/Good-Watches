@@ -7,6 +7,7 @@ import axios from "axios";
 import * as movieService from './recommendation-service.js';
 import * as movieActions from './recommendation.actions.js';
 import * as movieHelpers from './movie-browser.helpers';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import MovieList from './movie-list/movie-list.component';
 import Movies from "./Movies";
 import "./styles.css";
@@ -128,7 +129,9 @@ class Dropdown extends Component {
       </Downshift>
       
       <Row>
-      <Movies list={this.state.recommendations} />
+            <MuiThemeProvider>
+                <Movies list={this.state.recommendations} />
+            </MuiThemeProvider>
       </Row>
     </Container>
     );
