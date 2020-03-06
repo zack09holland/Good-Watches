@@ -20,7 +20,7 @@ const MovieCard = props => {
       onClick={e => {
         // window.location.href = "/moviepage"
         console.log(props)
-        props.history.push("/moviepage")
+        props.router.push("/moviepage")
    }}>
       <div className={classes.VoteContainer}>
         <span className={classes.Vote}>{vote_average}</span>
