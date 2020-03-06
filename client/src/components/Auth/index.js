@@ -82,9 +82,9 @@ class Auth extends Component {
   render() {
     return (
         <div>
-        {this.state.authenticated ? (<button type="button" className="btn btn-danger btn-lg" onClick={() => {this.logoff()}}>
+        {this.state.authenticated ? (<button type="button" className="btn btn-danger btn-md" onClick={() => {this.logoff()}}>
           Log off
-          </button>) : (<button type="button" className="btn btn-danger btn-sm" onClick={() => {this.showModal()}}>
+          </button>) : (<button type="button" className="btn btn-danger btn-md" onClick={() => {this.showModal()}}>
         Log In
         </button>)
         }
