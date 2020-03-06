@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {truncStr} from '../../utils/utils';
 
 import classes from './Movie.module.css';
+import { Link } from 'react-bootstrap/lib/Navbar';
 
 const MovieCard = props => {
   const { title, poster_path, vote_average } = props.item;
@@ -17,8 +18,9 @@ const MovieCard = props => {
       }}
       
       onClick={e => {
-        // window.location.href = "/moviepage"
-        this.props.history.push('/moviepage')
+        window.location.href = "/moviepage"
+        console.log(props)
+        
    }}>
       <div className={classes.VoteContainer}>
         <span className={classes.Vote}>{vote_average}</span>
