@@ -18,7 +18,7 @@ const MovieCard = props => {
       }}
       
       onClick={e => {
-        window.location.href = "/moviepage"
+        // window.location.href = "/moviepage"
         console.log(props)
    }}>
       <div className={classes.VoteContainer}>
