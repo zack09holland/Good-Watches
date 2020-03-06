@@ -21,7 +21,7 @@ class MoviePage extends Component {
                 <strong>Movie Data</strong>
               </h1>
               <h2 className="text-center">Currently in development!</h2>
-              <p>{title}</p>
+              <p>{this.props.item.title}</p>
               
             </Jumbotron>
           </Col>
